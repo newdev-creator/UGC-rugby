@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserChildRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserChildRepository::class)]
@@ -38,9 +40,13 @@ class UserChild
     #[ORM\Column]
     private ?\DateTimeImmutable $addedAt = null;
 
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'child')]
+    private Collection $events;
+
     public function __construct()
     {
         $this->setAddedAt(new DateTimeImmutable());
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,6 +146,33 @@ class UserChild
     public function setAddedAt(\DateTimeImmutable $addedAt): self
     {
         $this->addedAt = $addedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->addChild($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeChild($this);
+        }
 
         return $this;
     }

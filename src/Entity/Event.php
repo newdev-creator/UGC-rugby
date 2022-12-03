@@ -64,11 +64,15 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Carpool::class)]
     private Collection $carpool;
 
+    #[ORM\ManyToMany(targetEntity: UserChild::class, inversedBy: 'events')]
+    private Collection $child;
+
     public function __construct()
     {
         $this->setAddedAt(new DateTimeImmutable());
         $this->categories = new ArrayCollection();
         $this->carpool = new ArrayCollection();
+        $this->child = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -273,6 +277,30 @@ class Event
                 $carpool->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserChild>
+     */
+    public function getChild(): Collection
+    {
+        return $this->child;
+    }
+
+    public function addChild(UserChild $child): self
+    {
+        if (!$this->child->contains($child)) {
+            $this->child->add($child);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(UserChild $child): self
+    {
+        $this->child->removeElement($child);
 
         return $this;
     }
