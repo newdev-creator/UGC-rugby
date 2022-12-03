@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {
+    const MATCH = 1;
+    const TOURNAMENT = 2;
+    const TRAINING = 3;
+    const OTHER = 4;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
