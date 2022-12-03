@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CarpoolRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -44,7 +45,7 @@ class Carpool
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?int $isActive = null;
+    private ?int $isActive = 1;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'carpool')]
     private Collection $users;
@@ -54,6 +55,7 @@ class Carpool
 
     public function __construct()
     {
+        $this->setAddedAt(new DateTimeImmutable());
         $this->users = new ArrayCollection();
     }
 

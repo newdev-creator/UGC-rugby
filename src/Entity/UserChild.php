@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserChildRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserChildRepository::class)]
@@ -26,13 +27,21 @@ class UserChild
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?int $isActive = null;
+    private ?int $isActive = 1;
 
     #[ORM\ManyToOne(inversedBy: 'child')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'child')]
     private ?Category $category = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $addedAt = null;
+
+    public function __construct()
+    {
+        $this->setAddedAt(new DateTimeImmutable());
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +128,18 @@ class UserChild
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getAddedAt(): ?\DateTimeImmutable
+    {
+        return $this->addedAt;
+    }
+
+    public function setAddedAt(\DateTimeImmutable $addedAt): self
+    {
+        $this->addedAt = $addedAt;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -50,7 +51,7 @@ class Event
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?int $isActive = null;
+    private ?int $isActive = 1;
 
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'event')]
     private Collection $categories;
@@ -60,6 +61,7 @@ class Event
 
     public function __construct()
     {
+        $this->setAddedAt(new DateTimeImmutable());
         $this->categories = new ArrayCollection();
         $this->carpool = new ArrayCollection();
     }
