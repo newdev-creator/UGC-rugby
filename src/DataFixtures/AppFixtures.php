@@ -112,6 +112,14 @@ class AppFixtures extends Fixture
             $eventList[] = $event;
         }
 
+        // EVENTS - USER_CHILD
+        for ($i = 0; $i < 100; $i++) {
+            $event = $eventList[array_rand($eventList)];
+            $child = $childList[array_rand($childList)];
+            $event->addChild($child);
+            $child->addEvent($event);
+        }
+
         // CARPOOLS
         $carpoolList = [];
         for ($i = 0; $i < 100; $i++) {
