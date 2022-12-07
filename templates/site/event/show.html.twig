@@ -2,7 +2,7 @@
 
 <head>
 
-    {{ include('partials/title-meta.html.twig', {title: 'Project Overview'}) }}
+    {{ include('partials/title-meta.html.twig', {title: 'Evénement'}) }}
 
     {{ include('partials/head-css.html.twig') }}
 
@@ -19,7 +19,7 @@
     <!-- Start right Content here -->
     <!-- ============================================================== -->
     <div class="main-content">
-
+        {% dump(event) %}
         <div class="page-content">
             <div class="container-fluid">
 
@@ -40,16 +40,18 @@
                                                 </div>
                                                 <div class="col-md">
                                                     <div>
-                                                        <h4 class="fw-bold">Velzon - Admin & Dashboard</h4>
+                                                        <h4 class="fw-bold">{{ event.title }}</h4>
                                                         <div class="hstack gap-3 flex-wrap">
-                                                            <div><i class="ri-building-line align-bottom me-1"></i> Themesbrand</div>
+                                                            <div><i class="ri-building-line align-bottom me-1"></i> {{ event.address }} {{ event.postalCode }} {{ event.city }}</div>
                                                             <div class="vr"></div>
-                                                            <div>Create Date : <span class="fw-medium">15 Sep, 2021</span></div>
+                                                            <div>Date de l'événement : <span class="fw-medium">{{ event.date|date('d/m/Y') }}</span></div>
                                                             <div class="vr"></div>
-                                                            <div>Due Date : <span class="fw-medium">29 Dec, 2021</span></div>
-                                                            <div class="vr"></div>
-                                                            <div class="badge rounded-pill bg-info fs-12">New</div>
-                                                            <div class="badge rounded-pill bg-danger fs-12">High</div>
+                                                            <div>Catégories :</div>
+                                                            {% for category in event.categories %}
+                                                                <div class="badge rounded-pill bg-danger fs-12">{{ category.name }}</div>
+                                                            {% endfor %}
+                                                            <div>Statut :</div>
+                                                            {% include ('partials/_status.html.twig') %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1796,10 +1798,10 @@
 
 {{ include('partials/vendor-scripts.html.twig') }}
 
-<script src="/js/pages/project-overview.init.js"></script>
+<script src="{{ asset('/js/pages/project-overview.init.js') }}"></script>
 
 <!-- App js -->
-<script src="/js/app.js"></script>
+<script src="{{ asset('/js/app.js') }}"></script>
 
 </body>
 
