@@ -19,7 +19,6 @@
     <!-- Start right Content here -->
     <!-- ============================================================== -->
     <div class="main-content">
-        {% dump(event) %}
         <div class="page-content">
             <div class="container-fluid">
 
@@ -89,8 +88,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link fw-semibold" data-bs-toggle="tab" href="#project-team" role="tab">
-                                                Team
+                                            <a class="nav-link fw-semibold" data-bs-toggle="tab" href="#event-subscribe" role="tab">
+                                                Enfants inscrits
                                             </a>
                                         </li>
                                     </ul>
@@ -112,121 +111,44 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="text-muted">
-                                                    <h6 class="mb-3 fw-semibold text-uppercase">Summary</h6>
-                                                    <p>It will be as simple as occidental in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is. The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>
-
-                                                    <ul class="ps-4 vstack gap-2">
-                                                        <li>Product Design, Figma (Software), Prototype</li>
-                                                        <li>Four Dashboards : Ecommerce, Analytics, Project,etc.</li>
-                                                        <li>Create calendar, chat and email app pages.</li>
-                                                        <li>Add authentication pages.</li>
-                                                        <li>Content listing.</li>
-                                                    </ul>
-
-                                                    <div>
-                                                        <button type="button" class="btn btn-link link-success p-0 shadow-none">Read more</button>
-                                                    </div>
+                                                    <h6 class="mb-3 fw-semibold text-uppercase">Déscription</h6>
+                                                    {{ event.description }}
 
                                                     <div class="pt-3 border-top border-top-dashed mt-4">
                                                         <div class="row">
 
                                                             <div class="col-lg-3 col-sm-6">
                                                                 <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Create Date :</p>
-                                                                    <h5 class="fs-15 mb-0">15 Sep, 2021</h5>
+                                                                    <p class="mb-2 text-uppercase fw-medium">Date de l'événement :</p>
+                                                                    <h5 class="fs-15 mb-0">{{ event.date|date('d F Y') }}</h5>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-sm-6">
                                                                 <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Due Date :</p>
-                                                                    <h5 class="fs-15 mb-0">29 Dec, 2021</h5>
+                                                                    <p class="mb-2 text-uppercase fw-medium">Adresse :</p>
+                                                                    <h5 class="fs-15 mb-0">{{ event.address }} {{ event.postalCode }} {{ event.city }}</h5>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-sm-6">
                                                                 <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Priority :</p>
-                                                                    <div class="badge bg-danger fs-12">High</div>
+                                                                    <p class="mb-2 text-uppercase fw-medium">Catégorie :</p>
+                                                                    {% for category in event.categories %}
+                                                                        <div class="badge bg-danger fs-12">{{ category.name }}</div>
+                                                                    {% endfor %}
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3 col-sm-6">
                                                                 <div>
                                                                     <p class="mb-2 text-uppercase fw-medium">Status :</p>
-                                                                    <div class="badge bg-warning fs-12">Inprogess</div>
+                                                                    <div>
+                                                                        {% include ('partials/_status.html.twig') %}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="pt-3 border-top border-top-dashed mt-4">
-                                                        <h6 class="mb-3 fw-semibold text-uppercase">Resources</h6>
-                                                        <div class="row g-3">
-                                                            <div class="col-xxl-4 col-lg-6">
-                                                                <div class="border rounded border-dashed p-2">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="flex-shrink-0 me-3">
-                                                                            <div class="avatar-sm">
-                                                                                <div class="avatar-title bg-light text-secondary rounded fs-24 shadow">
-                                                                                    <i class="ri-folder-zip-line"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="flex-grow-1 overflow-hidden">
-                                                                            <h5 class="fs-13 mb-1"><a href="#" class="text-body text-truncate d-block">App pages.zip</a></h5>
-                                                                            <div>2.2MB</div>
-                                                                        </div>
-                                                                        <div class="flex-shrink-0 ms-2">
-                                                                            <div class="d-flex gap-1">
-                                                                                <button type="button" class="btn btn-icon text-muted btn-sm fs-18 shadow-none"><i class="ri-download-2-line"></i></button>
-                                                                                <div class="dropdown">
-                                                                                    <button class="btn btn-icon text-muted btn-sm fs-18 dropdown shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                        <i class="ri-more-fill"></i>
-                                                                                    </button>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a class="dropdown-item" href="#"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Rename</a></li>
-                                                                                        <li><a class="dropdown-item" href="#"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end col -->
-                                                            <div class="col-xxl-4 col-lg-6">
-                                                                <div class="border rounded border-dashed p-2">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="flex-shrink-0 me-3">
-                                                                            <div class="avatar-sm">
-                                                                                <div class="avatar-title bg-light text-secondary rounded fs-24 shadow">
-                                                                                    <i class="ri-file-ppt-2-line"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="flex-grow-1 overflow-hidden">
-                                                                            <h5 class="fs-13 mb-1"><a href="#" class="text-body text-truncate d-block">Velzon admin.ppt</a></h5>
-                                                                            <div>2.4MB</div>
-                                                                        </div>
-                                                                        <div class="flex-shrink-0 ms-2">
-                                                                            <div class="d-flex gap-1">
-                                                                                <button type="button" class="btn btn-icon text-muted btn-sm fs-18 shadow-none"><i class="ri-download-2-line"></i></button>
-                                                                                <div class="dropdown">
-                                                                                    <button class="btn btn-icon text-muted btn-sm fs-18 dropdown shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                        <i class="ri-more-fill"></i>
-                                                                                    </button>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a class="dropdown-item" href="#"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Rename</a></li>
-                                                                                        <li><a class="dropdown-item" href="#"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end col -->
-                                                        </div>
-                                                        <!-- end row -->
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <!-- end card body -->
@@ -332,57 +254,35 @@
                                     <!-- ene col -->
                                     <div class="col-xl-3 col-lg-4">
                                         <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title mb-4">Skills</h5>
-                                                <div class="d-flex flex-wrap gap-2 fs-16">
-                                                    <div class="badge fw-medium badge-soft-secondary">UI/UX</div>
-                                                    <div class="badge fw-medium badge-soft-secondary">Figma</div>
-                                                    <div class="badge fw-medium badge-soft-secondary">HTML</div>
-                                                    <div class="badge fw-medium badge-soft-secondary">CSS</div>
-                                                    <div class="badge fw-medium badge-soft-secondary">Javascript</div>
-                                                    <div class="badge fw-medium badge-soft-secondary">C#</div>
-                                                    <div class="badge fw-medium badge-soft-secondary">Nodejs</div>
-                                                </div>
-                                            </div>
-                                            <!-- end card body -->
-                                        </div>
-                                        <!-- end card -->
-
-                                        <div class="card">
                                             <div class="card-header align-items-center d-flex border-bottom-dashed">
-                                                <h4 class="card-title mb-0 flex-grow-1">Members</h4>
+                                                <h4 class="card-title mb-0 flex-grow-1">Covoiturage</h4>
                                                 <div class="flex-shrink-0">
-                                                    <button type="button" class="btn btn-soft-danger btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#inviteMembersModal"><i class="ri-share-line me-1 align-bottom"></i> Invite Member</button>
+                                                    <a href="#" class="btn btn-soft-success btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Accéder</a>
                                                 </div>
                                             </div>
 
                                             <div class="card-body">
                                                 <div data-simplebar style="height: 235px;" class="mx-n3 px-3">
                                                     <div class="vstack gap-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar-xs flex-shrink-0 me-3">
-                                                                <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
-                                                            </div>
-                                                            <div class="flex-grow-1">
-                                                                <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">Nancy Martino</a></h5>
-                                                            </div>
-                                                            <div class="flex-shrink-0">
-                                                                <div class="d-flex align-items-center gap-1">
-                                                                    <button type="button" class="btn btn-light btn-sm">Message</button>
-                                                                    <div class="dropdown">
-                                                                        <button class="btn btn-icon btn-sm fs-16 text-muted dropdown shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                            <i class="ri-more-fill"></i>
-                                                                        </button>
-                                                                        <ul class="dropdown-menu">
-                                                                            <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill text-muted me-2 align-bottom"></i>View</a></li>
-                                                                            <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-star-fill text-muted me-2 align-bottom"></i>Favourite</a></li>
-                                                                            <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete</a></li>
-                                                                        </ul>
+                                                        {% for carpool in event.carpool %}
+                                                            {% for member in carpool.users %}
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="avatar-xs flex-shrink-0 me-3">
+                                                                        <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
+                                                                    </div>
+                                                                    <div class="flex-grow-1">
+                                                                        <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ member.getIdentity }}</a></h5>
+                                                                    </div>
+                                                                    <div class="flex-shrink-0">
+                                                                        <div class="d-flex align-items-center gap-1">
+                                                                            <a href="#" class="btn btn-soft-info btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Voir</a>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
                                                         <!-- end member item -->
+                                                            {% endfor %}
+                                                        {% endfor %}
                                                         <div class="d-flex align-items-center">
                                                             <div class="avatar-xs flex-shrink-0 me-3">
                                                                 <div class="avatar-title bg-soft-danger text-danger rounded-circle shadow">
@@ -1015,7 +915,7 @@
                                 <!--end card-->
                             </div>
                             <!-- end tab pane -->
-                            <div class="tab-pane fade" id="project-team" role="tabpanel">
+                            <div class="tab-pane fade" id="event-subscribe" role="tabpanel">
                                 <div class="row g-4 mb-3">
                                     <div class="col-sm">
                                         <div class="d-flex">
@@ -1034,64 +934,67 @@
                                 <!-- end row -->
 
                                 <div class="team-list list-view-filter">
-                                    <div class="card team-box">
-                                        <div class="card-body px-4">
-                                            <div class="row align-items-center team-row">
-                                                <div class="col team-settings">
-                                                    <div class="row align-items-center">
-                                                        <div class="col">
-                                                            <div class="flex-shrink-0 me-2">
-                                                                <button type="button" class="btn fs-16 p-0 favourite-btn shadow-none">
-                                                                    <i class="ri-star-fill"></i>
-                                                                </button>
+                                    {% dump(event) %}
+                                    {% for child in event.child %}
+                                        <div class="card team-box">
+                                            <div class="card-body px-4">
+                                                <div class="row align-items-center team-row">
+                                                    <div class="col team-settings">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <div class="flex-shrink-0 me-2">
+                                                                    <button type="button" class="btn fs-16 p-0 favourite-btn shadow-none">
+                                                                        <i class="ri-star-fill"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col text-end dropdown">
+                                                                <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="ri-more-fill fs-17"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill text-muted me-2 align-bottom"></i>View</a></li>
+                                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-star-fill text-muted me-2 align-bottom"></i>Favourite</a></li>
+                                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete</a></li>
+                                                                </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="col text-end dropdown">
-                                                            <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <i class="ri-more-fill fs-17"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                                <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill text-muted me-2 align-bottom"></i>View</a></li>
-                                                                <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-star-fill text-muted me-2 align-bottom"></i>Favourite</a></li>
-                                                                <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete</a></li>
-                                                            </ul>
+                                                    </div>
+                                                    <div class="col-lg-4 col">
+                                                        <div class="team-profile-img">
+                                                            <div class="avatar-lg img-thumbnail rounded-circle shadow">
+                                                                <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid d-block rounded-circle" />
+                                                            </div>
+                                                            <div class="team-content">
+                                                                <a href="#" class="d-block">
+                                                                    <h5 class="fs-16 mb-1">{{ child.getIdentity }}</h5>
+                                                                </a>
+                                                                <p class="text-muted mb-0">Team Leader & HR</p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-4 col">
-                                                    <div class="team-profile-img">
-                                                        <div class="avatar-lg img-thumbnail rounded-circle shadow">
-                                                            <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid d-block rounded-circle" />
-                                                        </div>
-                                                        <div class="team-content">
-                                                            <a href="#" class="d-block">
-                                                                <h5 class="fs-16 mb-1">Nancy Martino</h5>
-                                                            </a>
-                                                            <p class="text-muted mb-0">Team Leader & HR</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col">
-                                                    <div class="row text-muted text-center">
-                                                        <div class="col-6 border-end border-end-dashed">
-                                                            <h5 class="mb-1">225</h5>
-                                                            <p class="text-muted mb-0">Projects</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <h5 class="mb-1">197</h5>
-                                                            <p class="text-muted mb-0">Tasks</p>
+                                                    <div class="col-lg-4 col">
+                                                        <div class="row text-muted text-center">
+                                                            <div class="col-6 border-end border-end-dashed">
+                                                                <h5 class="mb-1">225</h5>
+                                                                <p class="text-muted mb-0">Projects</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <h5 class="mb-1">197</h5>
+                                                                <p class="text-muted mb-0">Tasks</p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-2 col">
-                                                    <div class="text-end">
-                                                        <a href="pages-profile" class="btn btn-light view-btn">View Profile</a>
+                                                    <div class="col-lg-2 col">
+                                                        <div class="text-end">
+                                                            <a href="pages-profile" class="btn btn-light view-btn">View Profile</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     <!--end card-->
+                                    {% endfor %}
                                     <div class="card team-box">
                                         <div class="card-body px-4">
                                             <div class="row align-items-center team-row">

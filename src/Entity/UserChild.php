@@ -176,4 +176,9 @@ class UserChild
 
         return $this;
     }
+
+    public function getIdentity(): string
+    {
+        return $this->lastName . ' ' . $this->firstName;
+    }
 }
