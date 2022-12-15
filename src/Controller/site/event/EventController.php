@@ -26,7 +26,7 @@ class EventController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        $formSubscribe = $this->createForm(SubscribeType::class, $event);
+        $formSubscribe = $this->createForm(SubscribeType::class, $user);
         $formSubscribe->handleRequest($request);
         if ( $formSubscribe->isSubmitted() ) {
             if ( !$formSubscribe->isValid() ) {
@@ -34,7 +34,7 @@ class EventController extends AbstractController
             } else {
                 $this->em->flush();
                 $this->addFlash('success', 'Les informations ont été mises à jour.');
-                return $this->redirectToRoute('account_settings');
+                return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
             }
         }
         return $this->render('site/event/show.html.twig', [
