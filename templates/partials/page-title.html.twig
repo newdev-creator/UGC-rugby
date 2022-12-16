@@ -14,4 +14,15 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} shadow" role="alert">
+                    <strong> {{ message }} </strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
 <!-- end page title -->
