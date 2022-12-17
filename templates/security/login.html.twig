@@ -47,6 +47,13 @@
                             <div class="text-center mt-2">
                                 <h5 class="text-primary">Bienvenue !</h5>
                             </div>
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }} shadow" role="alert">
+                                        <strong> {{ message }} </strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
                             {% if error %}
                                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                             {% endif %}
@@ -89,7 +96,7 @@
 
                     <div class="mt-4 text-center">
                         {# TODO: faire la page d'inscription #}
-                        <p class="mb-0">Vous n'avez pas de compte ? <a href="#" class="fw-semibold text-primary text-decoration-underline"> S'enregistrer </a> </p>
+                        <p class="mb-0">Vous n'avez pas de compte ? <a href="{{ path('app_register') }}" class="fw-semibold text-primary text-decoration-underline"> S'enregistrer </a> </p>
                     </div>
 
                 </div>

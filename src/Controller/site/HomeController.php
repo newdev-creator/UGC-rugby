@@ -12,8 +12,12 @@ class HomeController extends AbstractController
     #[Route('/accueil', name: 'app_home')]
     public function index(EventRepository $er): Response
     {
-        return $this->render('site/home/index.html.twig', [
-            'events' => $er->findBy(['isActive' => true], ['date' => 'DESC']),
-        ]);
+        if (!$this->getUser()) {
+            return $this->render('site/security/login.html.twig');
+        } else {
+            return $this->render('site/home/index.html.twig', [
+                'events' => $er->findBy(['isActive' => true], ['date' => 'DESC']),
+            ]);
+        }
     }
 }
