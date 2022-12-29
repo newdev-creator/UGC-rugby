@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -23,30 +24,39 @@ class Event
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $status = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $postalCode = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $city = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['event:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $nbMinus = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $nbRegistrant = null;
 
     #[ORM\Column]
