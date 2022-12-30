@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Carpool;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,13 +14,33 @@ class SubscribeCarpoolType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status')
-            ->add('date')
-            ->add('address')
-            ->add('postalCode')
-            ->add('city')
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date',
+                'required' => true,
+                'attr' => [
+                    'data-provider' => 'flatpickr',
+                    'data-date-format' => 'd.m.y',
+                    'data-enable-time' => 'false',
+                ],
+            ])
+            ->add('address', TextType::class, [
+                'label' => 'Adresse',
+                'required' => true,
+            ])
+            ->add('postalCode', TextType::class, [
+                'label' => 'Code postal',
+                'required' => true,
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'required' => true,
+            ])
             ->add('comment')
-            ->add('nbPlace')
+            ->add('nbPlace', TextType::class, [
+                'label' => 'Nombre de place',
+                'required' => true,
+            ])
         ;
     }
 

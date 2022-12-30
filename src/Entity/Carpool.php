@@ -18,7 +18,7 @@ class Carpool
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $status = null;
+    private ?int $status = 1;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;

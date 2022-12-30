@@ -6,6 +6,7 @@ namespace App\Controller\site\event;
 
 use App\Entity\Event;
 use App\Form\SubscribeCarpoolType;
+use App\Form\SubscribeEventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class EventController extends AbstractController
     ): Response
     {
         // FORM SUBSCRIBE EVENT
-        $formSubscribeEvent = $this->createForm(SubscribeCarpoolType::class);
+        $formSubscribeEvent = $this->createForm(SubscribeEventType::class);
         $formSubscribeEvent->handleRequest($request);
 
         if ($formSubscribeEvent->isSubmitted() && $formSubscribeEvent->isValid()) {
