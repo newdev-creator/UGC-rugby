@@ -4,9 +4,11 @@ namespace App\Controller\site\event;
 
 
 
+use App\Entity\Carpool;
 use App\Entity\Event;
 use App\Form\SubscribeCarpoolType;
 use App\Form\SubscribeEventType;
+use App\Repository\CarpoolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,7 @@ class EventController extends AbstractController
     public function show(
         Event $event,
         Request $request,
+        CarpoolRepository $cr,
     ): Response
     {
         // FORM SUBSCRIBE EVENT
@@ -40,13 +43,15 @@ class EventController extends AbstractController
         }
 
         // FORM NEW CARPOOL
-        $formNewCarpool = $this->createForm(SubscribeCarpoolType::class);
+        $carpool = new Carpool();
+        $formNewCarpool = $this->createForm(SubscribeCarpoolType::class, $carpool);
         $formNewCarpool->handleRequest($request);
 
         if ($formNewCarpool->isSubmitted() && $formNewCarpool->isValid()) {
             $carpool = $formNewCarpool->getData();
             $carpool->setEvent($event);
             $this->em->persist($carpool);
+            $cr->save($carpool);
             $this->em->flush();
             $this->addFlash('success', 'Vous avez créé un covoiturage');
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);

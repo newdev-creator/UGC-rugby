@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Carpool;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,7 +21,7 @@ class SubscribeCarpoolType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'data-provider' => 'flatpickr',
-                    'data-date-format' => 'd.m.y',
+                    'data-date-format' => 'd/m/Y',
                     'data-enable-time' => 'false',
                 ],
             ])
@@ -36,7 +37,10 @@ class SubscribeCarpoolType extends AbstractType
                 'label' => 'Ville',
                 'required' => true,
             ])
-            ->add('comment')
+            ->add('comment', CKEditorType::class, [
+                'label' => 'Commentaire',
+                'required' => false,
+            ])
             ->add('nbPlace', TextType::class, [
                 'label' => 'Nombre de place',
                 'required' => true,
