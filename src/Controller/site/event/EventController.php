@@ -5,7 +5,7 @@ namespace App\Controller\site\event;
 
 
 use App\Entity\Event;
-use App\Form\SubscribeType;
+use App\Form\SubscribeCarpoolType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,11 +24,12 @@ class EventController extends AbstractController
         Request $request,
     ): Response
     {
-        $formSubscribe = $this->createForm(SubscribeType::class);
-        $formSubscribe->handleRequest($request);
+        // FORM SUBSCRIBE EVENT
+        $formSubscribeEvent = $this->createForm(SubscribeCarpoolType::class);
+        $formSubscribeEvent->handleRequest($request);
 
-        if ($formSubscribe->isSubmitted() && $formSubscribe->isValid()) {
-            $children = $formSubscribe->get('child')->getData();
+        if ($formSubscribeEvent->isSubmitted() && $formSubscribeEvent->isValid()) {
+            $children = $formSubscribeEvent->get('child')->getData();
             foreach ( $children as $child ) {
                 $event->addChild($child);
             }
@@ -36,9 +37,24 @@ class EventController extends AbstractController
             $this->addFlash('success', 'Vous êtes inscrit à l\'événement');
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
         }
+
+        // FORM NEW CARPOOL
+        $formNewCarpool = $this->createForm(SubscribeCarpoolType::class);
+        $formNewCarpool->handleRequest($request);
+
+        if ($formNewCarpool->isSubmitted() && $formNewCarpool->isValid()) {
+            $carpool = $formNewCarpool->getData();
+            $carpool->setEvent($event);
+            $this->em->persist($carpool);
+            $this->em->flush();
+            $this->addFlash('success', 'Vous avez créé un covoiturage');
+            return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
+        }
+
         return $this->render('site/event/show.html.twig', [
             'event' => $event,
-            'form_subscribe' => $formSubscribe->createView(),
+            'form_subscribe' => $formSubscribeEvent->createView(),
+            'form_new_carpool' => $formNewCarpool->createView(),
         ]);
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 
-class SubscribeType extends AbstractType
+class SubscribeEventType extends AbstractType
 {
     public function __construct(
         private readonly Security $security,
