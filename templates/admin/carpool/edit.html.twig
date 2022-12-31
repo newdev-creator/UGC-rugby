@@ -1,0 +1,13 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Edit Carpool{% endblock %}
+
+{% block body %}
+    <h1>Edit Carpool</h1>
+
+    {{ include('carpool/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_carpool_index') }}">back to list</a>
+
+    {{ include('carpool/_delete_form.html.twig') }}
+{% endblock %}

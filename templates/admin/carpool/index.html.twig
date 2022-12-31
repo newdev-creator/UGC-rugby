@@ -1,0 +1,53 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}Carpool index{% endblock %}
+
+{% block body %}
+    <h1>Carpool index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Address</th>
+                <th>PostalCode</th>
+                <th>City</th>
+                <th>Comment</th>
+                <th>NbPlace</th>
+                <th>AddedAt</th>
+                <th>UpdatedAt</th>
+                <th>IsActive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for carpool in carpools %}
+            <tr>
+                <td>{{ carpool.id }}</td>
+                <td>{{ carpool.status }}</td>
+                <td>{{ carpool.date ? carpool.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ carpool.address }}</td>
+                <td>{{ carpool.postalCode }}</td>
+                <td>{{ carpool.city }}</td>
+                <td>{{ carpool.comment }}</td>
+                <td>{{ carpool.nbPlace }}</td>
+                <td>{{ carpool.addedAt ? carpool.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ carpool.updatedAt ? carpool.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ carpool.isActive }}</td>
+                <td>
+                    <a href="{{ path('app_carpool_show', {'id': carpool.id}) }}">show</a>
+                    <a href="{{ path('app_carpool_edit', {'id': carpool.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_carpool_new') }}">Create new</a>
+{% endblock %}

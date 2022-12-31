@@ -1,0 +1,45 @@
+{% extends '../../base.html.twig' %}
+
+{% block title %}UserChild index{% endblock %}
+
+{% block body %}
+    <h1>UserChild index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Birthday</th>
+                <th>UpdatedAt</th>
+                <th>IsActive</th>
+                <th>AddedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_child in user_children %}
+            <tr>
+                <td>{{ user_child.id }}</td>
+                <td>{{ user_child.firstName }}</td>
+                <td>{{ user_child.lastName }}</td>
+                <td>{{ user_child.birthday ? user_child.birthday|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user_child.updatedAt ? user_child.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user_child.isActive }}</td>
+                <td>{{ user_child.addedAt ? user_child.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_user_child_show', {'id': user_child.id}) }}">show</a>
+                    <a href="{{ path('app_user_child_edit', {'id': user_child.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_child_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <h1>Event index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Status</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Address</th>
+                <th>PostalCode</th>
+                <th>City</th>
+                <th>Description</th>
+                <th>NbMinus</th>
+                <th>NbRegistrant</th>
+                <th>AddedAt</th>
+                <th>UpdatedAt</th>
+                <th>IsActive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.status }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.address }}</td>
+                <td>{{ event.postalCode }}</td>
+                <td>{{ event.city }}</td>
+                <td>{{ event.description }}</td>
+                <td>{{ event.nbMinus }}</td>
+                <td>{{ event.nbRegistrant }}</td>
+                <td>{{ event.addedAt ? event.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.updatedAt ? event.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.isActive }}</td>
+                <td>
+                    <a href="{{ path('admin_event_show', {'event': event.id}) }}">show</a>
+                    <a href="{{ path('admin_event_edit', {'event': event.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_event_new') }}">Create new</a>
+{% endblock %}
