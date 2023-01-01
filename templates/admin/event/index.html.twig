@@ -59,7 +59,7 @@
 
                                             {% dump(event) %}
                                             <td>{{ event.id }}</td>
-                                            <td>{{ event.status }}</td>
+                                            <td>{% include ('partials/_status.html.twig') %}</td>
                                             <td>{{ event.title }}</td>
                                             <td>{{ event.date|date('d, M Y H:i') }}</td>
                                             <td>{{ event.address }} {{ event.postalCode }} {{ event.city }}</td>
