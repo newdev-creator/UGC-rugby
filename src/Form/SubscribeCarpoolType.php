@@ -18,6 +18,7 @@ class SubscribeCarpoolType extends AbstractType
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date',
+                'input'  => 'datetime_immutable',
                 'required' => true,
                 'attr' => [
                     'data-provider' => 'flatpickr',

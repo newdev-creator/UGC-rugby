@@ -56,7 +56,7 @@ class Event
     #[Groups(['event:read'])]
     private ?int $nbMinus = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Groups(['event:read'])]
     private ?int $nbRegistrant = null;
 
