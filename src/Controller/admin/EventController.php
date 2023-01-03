@@ -54,14 +54,18 @@ class EventController extends AbstractController
     }
 
     #[Route('/edit/{event}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Event $event, EventRepository $eventRepository): Response
+    public function edit(
+        Request $request,
+        Event $event,
+        EventRepository $eventRepository
+    ): Response
     {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $eventRepository->save($event, true);
-            $this->addFlash('success', 'L\'événement a bien été modifié');
+            $this->addFlash('success', "L'événement {$event->getTitle()} a bien été modifié");
             return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -75,13 +79,12 @@ class EventController extends AbstractController
     public function delete(
         Request $request,
         Event $event,
-        EventRepository $eventRepository
     ): Response
     {
         if ($this->isCsrfTokenValid('admin_event_delete_'.$event->getId(), $request->request->get('_token'))) {
             $event->setIsActive(0);
             $this->em->flush();
-            $this->addFlash('success', 'L\'événement a bien été supprimé');
+            $this->addFlash('success', "L'événement {$event->getTitle()} a bien été supprimé");
         }
 
         return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);

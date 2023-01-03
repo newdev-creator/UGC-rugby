@@ -71,7 +71,7 @@
         </div>
         <div class="text-end mb-4">
             <a href="{{ path('admin_event_index') }}" class="btn btn-danger w-sm">Annuler</a>
-            <button type="submit" class="btn btn-success w-sm">Enregistrer</button>
+            <button type="submit" class="btn btn-success w-sm">{{ button_label|default('Enregistrer') }}</button>
         </div>
     </div>
     <!-- end col -->
