@@ -35,11 +35,7 @@ class EventType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
                 'input'  => 'datetime_immutable',
-                'attr' => [
-                    'data-provider' => 'flatpickr',
-                    'data-date-format' => 'd/m/Y',
-                    'data-enable-time' => 'false',
-                ],
+
             ])
             ->add('address', TextType::class)
             ->add('postalCode', TextType::class)
