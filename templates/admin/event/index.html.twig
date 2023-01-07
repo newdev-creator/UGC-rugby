@@ -1,6 +1,6 @@
 {{ include('partials/main.html.twig') }}
 <head>
-    {{ include('partials/title-meta.html.twig', {title: 'Datatables'}) }}
+    {{ include('partials/title-meta.html.twig', {title: 'Administration - Liste des événements'}) }}
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
@@ -37,7 +37,6 @@
                                     <tbody>
                                     {% for event in events %}
                                         <tr>
-                                            {% dump(event) %}
                                             <td>{{ event.id }}</td>
                                             <td>{% include ('partials/_status.html.twig') %}</td>
                                             <td>{{ event.title }}</td>
