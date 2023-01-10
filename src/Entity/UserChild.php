@@ -43,10 +43,14 @@ class UserChild
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'child')]
     private Collection $events;
 
+    #[ORM\ManyToMany(targetEntity: Carpool::class, mappedBy: 'child')]
+    private Collection $carpools;
+
     public function __construct()
     {
         $this->setAddedAt(new DateTimeImmutable());
         $this->events = new ArrayCollection();
+        $this->carpools = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -185,5 +189,32 @@ class UserChild
     public function getIdentity(): string
     {
         return $this->lastName . ' ' . $this->firstName;
+    }
+
+    /**
+     * @return Collection<int, Carpool>
+     */
+    public function getCarpools(): Collection
+    {
+        return $this->carpools;
+    }
+
+    public function addCarpool(Carpool $carpool): self
+    {
+        if (!$this->carpools->contains($carpool)) {
+            $this->carpools->add($carpool);
+            $carpool->addChild($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarpool(Carpool $carpool): self
+    {
+        if ($this->carpools->removeElement($carpool)) {
+            $carpool->removeChild($this);
+        }
+
+        return $this;
     }
 }

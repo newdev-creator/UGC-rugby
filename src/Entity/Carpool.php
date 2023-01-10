@@ -53,10 +53,14 @@ class Carpool
     #[ORM\ManyToOne(inversedBy: 'carpool')]
     private ?Event $event = null;
 
+    #[ORM\ManyToMany(targetEntity: UserChild::class, inversedBy: 'carpools')]
+    private Collection $child;
+
     public function __construct()
     {
         $this->setAddedAt(new DateTimeImmutable());
         $this->users = new ArrayCollection();
+        $this->child = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +223,30 @@ class Carpool
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserChild>
+     */
+    public function getChild(): Collection
+    {
+        return $this->child;
+    }
+
+    public function addChild(UserChild $child): self
+    {
+        if (!$this->child->contains($child)) {
+            $this->child->add($child);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(UserChild $child): self
+    {
+        $this->child->removeElement($child);
 
         return $this;
     }

@@ -27,6 +27,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Statut</th>
+                                        <th>Nom</th>
                                         <th>Date</th>
                                         <th>Adresse</th>
                                         <th>Nombre de places</th>
@@ -39,6 +40,11 @@
                                             {% dump(carpool) %}
                                             <td>{{ carpool.id }}</td>
                                             <td>{{ carpool.status }}</td>
+                                            <td>
+                                                {% for user in carpool.users %}
+                                                    {{ user.getidentity }}
+                                                {% endfor %}
+                                            </td>
                                             <td>{{ carpool.date|date('d, M Y H:i') }}</td>
                                             <td>{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</td>
                                             <td>{{ carpool.nbPlace }}</td>

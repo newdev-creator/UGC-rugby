@@ -146,6 +146,14 @@ class AppFixtures extends Fixture
             $carpool->addUser($user);
         }
 
+        // CHILDREN - CARPOOLS
+        for ($i = 0; $i < 100; $i++) {
+            $child = $childList[array_rand($childList)];
+            $carpool = $carpoolList[array_rand($carpoolList)];
+            $child->addCarpool($carpool);
+            $carpool->addChild($child);
+        }
+
         // CATEGORY - EVENTS
         for ($i = 0; $i < 100; $i++) {
             $category = $categoryList[array_rand($categoryList)];
