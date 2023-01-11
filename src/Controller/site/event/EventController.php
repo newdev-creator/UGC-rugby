@@ -21,6 +21,7 @@ class EventController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $em,
     ) {}
+
     #[Route('/voir/{event}', name: 'show')]
     public function show(
         Event $event,

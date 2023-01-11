@@ -43,7 +43,7 @@
                                                         <div class="hstack gap-3 flex-wrap">
                                                             <div><i class="ri-building-line align-bottom me-1"></i> {{ event.address }} {{ event.postalCode }} {{ event.city }}</div>
                                                             <div class="vr"></div>
-                                                            <div>Date de l'événement : <span class="fw-medium">{{ event.date|date('d/m/Y') }}</span></div>
+                                                            <div>Date de l'événement : <span class="fw-medium">{{ event.date|date('d/m/Y à H:i') }}</span></div>
                                                             <div class="vr"></div>
                                                             <div>Catégories :</div>
                                                             {% for category in event.categories %}
@@ -74,7 +74,7 @@
                                     <ul class="nav nav-tabs-custom border-bottom-0" role="tablist">
                                         <li class="nav-item">
                                             <a class="nav-link active fw-semibold" data-bs-toggle="tab" href="#project-overview" role="tab">
-                                                Overview
+                                                Événement
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -200,7 +200,7 @@
                                                                     </div>
                                                                     <div class="flex-shrink-0">
                                                                         <div class="d-flex align-items-center gap-1">
-                                                                            <a href="#" class="btn btn-soft-info btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Voir</a>
+                                                                            <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-soft-info btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Voir</a>
 
                                                                         </div>
                                                                     </div>

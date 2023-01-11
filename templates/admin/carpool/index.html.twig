@@ -19,7 +19,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-end">
-                                <a href="{{ path('admin_carpool_new') }}" class="btn btn-success">Créer un événement</a>
+                                <a href="{{ path('admin_carpool_new') }}" class="btn btn-success">Créer un covoiturage</a>
                             </div>
                             <div class="card-body">
                                 <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
@@ -39,7 +39,13 @@
                                         <tr>
                                             {% dump(carpool) %}
                                             <td>{{ carpool.id }}</td>
-                                            <td>{{ carpool.status }}</td>
+                                            <td>
+                                                {% if carpool.child|length == carpool.nbPlace %}
+                                                    <span class="badge rounded-pill bg-danger fs-12">Complet</span>
+                                                {% else %}
+                                                    <span class="badge rounded-pill bg-success fs-12">Disponible</span>
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 {% for user in carpool.users %}
                                                     {{ user.getidentity }}
@@ -54,7 +60,7 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a href="#" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
+                                                        <li><a href="{{ path('admin_carpool_show', {'carpool': carpool.id}) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
                                                         <li><a href="{{ path('admin_carpool_edit', {'carpool':carpool.id}) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
                                                         <li>
                                                             {{ include('admin/carpool/_delete_form.html.twig') }}

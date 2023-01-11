@@ -1,0 +1,161 @@
+{{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Covoiturage'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mt-n4 mx-n4">
+                            <div class="bg-soft-warning">
+                                <div class="card-body pb-0 px-4">
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <div class="row align-items-center g-3">
+                                                <div class="col-md-auto">
+                                                    <div class="avatar-md">
+                                                        <div class="avatar-title bg-white rounded-circle">
+                                                            <img src="/images/brands/slack.png" alt="" class="avatar-xs">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div>
+                                                        <h4 class="fw-bold">
+                                                            Covoiturage -
+                                                            {% for user in carpool.users %}
+                                                                {{ user.getIdentity }}
+                                                            {% endfor %}
+                                                        </h4>
+                                                        <div class="hstack gap-3 flex-wrap">
+                                                            <div><i class="ri-building-line align-bottom me-1"></i>Lieu du rendez-vous: <span class="fw-medium">{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</span></div>
+                                                            <div class="vr"></div>
+                                                            <div>Date du rendez-vous : <span class="fw-medium">{{ carpool.date|date('d/m/Y à H:i') }}</span></div>
+                                                            <div class="vr"></div>
+                                                            <div>Nombre de places : <span class="fw-medium">{{ carpool.nbPlace }}</span></div>
+                                                            <div class="vr"></div>
+                                                            <div>Statut :</div>
+                                                            {% if carpool.child|length == carpool.nbPlace %}
+                                                                <span class="badge rounded-pill bg-danger fs-12">Complet</span>
+                                                            {% else %}
+                                                                <span class="badge rounded-pill bg-success fs-12">Disponible</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="tab-content text-muted">
+                            <div class="tab-pane fade show active" id="project-overview" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-xl-9 col-lg-8">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="text-muted">
+                                                    <h6 class="mb-3 fw-semibold text-uppercase">Commentaire</h6>
+                                                    {{ carpool.comment }}
+                                                    <div class="pt-3 border-top border-top-dashed mt-4">
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-sm-6">
+                                                                <div>
+                                                                    <p class="mb-2 text-uppercase fw-medium">Date du rendez-vous :</p>
+                                                                    <h5 class="fs-15 mb-0">{{ carpool.date|date('d/m/Y à H:i') }}</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-sm-6">
+                                                                <div>
+                                                                    <p class="mb-2 text-uppercase fw-medium">Adresse :</p>
+                                                                    <h5 class="fs-15 mb-0">{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3 col-sm-6">
+                                                                <div>
+                                                                    <p class="mb-2 text-uppercase fw-medium">Status :</p>
+                                                                    {% if carpool.child|length == carpool.nbPlace %}
+                                                                        <span class="badge rounded-pill bg-danger fs-12">Complet</span>
+                                                                    {% else %}
+                                                                        <span class="badge rounded-pill bg-success fs-12">Disponible</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="text-muted">
+                                                    <h6 class="mb-3 fw-semibold text-uppercase">Inscription</h6>
+                                                    <p>Incrivez votre ou vos enfants.</p>
+                                                    <div class="pt-3 border-top border-top-dashed mt-4">
+                                                        <div class="row">
+                                                            {{ form_start(form_subscribe_carpool) }}
+                                                            {{ form_widget(form_subscribe_carpool) }}
+                                                            <div class="col-lg-12 mt-3">
+                                                                <div class="hstack gap-2 justify-content-end">
+                                                                    <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-soft-danger w-sm">Annuler</a>
+                                                                    <button type="submit" class="btn btn-success w-sm">Enregistrer</button>
+                                                                </div>
+                                                            </div>
+                                                            {{ form_end(form_subscribe_carpool) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header align-items-center d-flex border-bottom-dashed">
+                                                <h4 class="card-title mb-0 flex-grow-1">Enfants inscrits</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div data-simplebar style="height: 235px;" class="mx-n3 px-3">
+                                                    <div class="vstack gap-3">
+                                                        {% for child in carpool.child %}
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar-xs flex-shrink-0 me-3">
+                                                                    <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
+                                                                </div>
+                                                                <div class="flex-grow-1">
+                                                                    <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ child.getIdentity }}</a></h5>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <script src="{{ asset('/js/pages/project-overview.init.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
+</body>
+</html>
