@@ -75,13 +75,12 @@ class CarpoolController extends AbstractController
     public function archive(
         Request $request,
         Carpool $carpool,
-        CarpoolRepository $carpoolRepository
     ): Response
     {
         if ($this->isCsrfTokenValid('admin_carpool_archive_'.$carpool->getId(), $request->request->get('_token'))) {
             $carpool->setIsActive(0);
             $this->em->flush();
-            $this->addFlash('success', 'Le covoiturage a bien été archivé');
+            $this->addFlash('success', "Le covoiturage de {$carpool->getUsers()} a bien été archivé");
         }
 
         return $this->redirectToRoute('admin_carpool_index', [], Response::HTTP_SEE_OTHER);

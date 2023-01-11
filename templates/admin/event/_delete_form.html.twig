@@ -1,7 +1,7 @@
 <form
     method="post"
     action="{{ path('admin_event_delete', {'event': event.id}) }}"
-    onsubmit="return confirm('Voulez-vous supprimer l\'événement: {{ event.title }}?');"
+    onsubmit="return confirm('Voulez-vous supprimer l\'événement: {{ event.title }}? Il sera impossible de le récupérer par la suite.');"
 >
     <input
         type="hidden"

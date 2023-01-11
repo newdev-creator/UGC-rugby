@@ -75,18 +75,33 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/delete{event}', name: 'delete', methods: ['POST'])]
-    public function delete(
+    #[Route('/archive/{event}', name: 'archive', methods: ['POST'])]
+    public function archive(
         Request $request,
         Event $event,
     ): Response
     {
-        if ($this->isCsrfTokenValid('admin_event_delete_'.$event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('admin_event_archive_'.$event->getId(), $request->request->get('_token'))) {
             $event->setIsActive(0);
             $this->em->flush();
-            $this->addFlash('success', "L'événement {$event->getTitle()} a bien été supprimé");
+            $this->addFlash('success', "L'événement {$event->getTitle()} a bien été archivé");
         }
 
+        return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/delete/{event}', name: 'delete', methods: ['POST'])]
+    public  function delete(
+        Request $request,
+        Event $event,
+        EventRepository $eventRepository
+    ): Response
+    {
+        if ($this->isCsrfTokenValid('admin_event_delete_'.$event->getId(), $request->request->get('_token'))) {
+            $eventRepository->remove($event);
+        }
+        $this->em->flush();
+        $this->addFlash('success', "L'événement {$event->getTitle()} a bien été supprimé");
         return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
     }
 }
