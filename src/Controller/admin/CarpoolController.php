@@ -71,19 +71,35 @@ class CarpoolController extends AbstractController
         ]);
     }
 
+    #[Route('/archive/{carpool}', name: 'archive', methods: ['POST'])]
+    public function archive(
+        Request $request,
+        Carpool $carpool,
+        CarpoolRepository $carpoolRepository
+    ): Response
+    {
+        if ($this->isCsrfTokenValid('admin_carpool_archive_'.$carpool->getId(), $request->request->get('_token'))) {
+            $carpool->setIsActive(0);
+            $this->em->flush();
+            $this->addFlash('success', 'Le covoiturage a bien été archivé');
+        }
+
+        return $this->redirectToRoute('admin_carpool_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/delete/{carpool}', name: 'delete', methods: ['POST'])]
-    public function delete(
+    public  function delete(
         Request $request,
         Carpool $carpool,
         CarpoolRepository $carpoolRepository
     ): Response
     {
         if ($this->isCsrfTokenValid('admin_carpool_delete_'.$carpool->getId(), $request->request->get('_token'))) {
-            $carpool->setIsActive(0);
-            $this->em->flush();
-            $this->addFlash('success', 'Le covoiturage a bien été supprimé');
+            $carpoolRepository->remove($carpool);
         }
-
+        $this->em->flush();
+        $this->addFlash('success', "Le covoiturage a bien été supprimé");
         return $this->redirectToRoute('admin_carpool_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

@@ -63,6 +63,9 @@
                                                         <li><a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
                                                         <li><a href="{{ path('admin_carpool_edit', {'carpool':carpool.id}) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
                                                         <li>
+                                                            {{ include('admin/carpool/_archive_form.html.twig') }}
+                                                        </li>
+                                                        <li>
                                                             {{ include('admin/carpool/_delete_form.html.twig') }}
                                                         </li>
                                                     </ul>
