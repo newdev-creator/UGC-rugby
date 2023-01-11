@@ -75,6 +75,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->carpool = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->getLastName() . ' ' . $this->getFirstName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

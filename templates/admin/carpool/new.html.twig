@@ -1,11 +1,25 @@
-{% extends '../../base.html.twig' %}
-
-{% block title %}New Carpool{% endblock %}
-
-{% block body %}
-    <h1>Create new Carpool</h1>
-
-    {{ include('carpool/_form.html.twig') }}
-
-    <a href="{{ path('app_carpool_index') }}">back to list</a>
+{{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Créer un covoiturage'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                {{ include('partials/page-title.html.twig', {pagetitle: 'Administration', title: 'Créer un covoiturage'}) }}
+                {{ include('admin/carpool/_form.html.twig') }}
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
 {% endblock %}
+</body>
+</html>

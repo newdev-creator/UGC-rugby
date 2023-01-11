@@ -86,6 +86,11 @@ class Event
         $this->child = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

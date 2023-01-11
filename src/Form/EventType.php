@@ -20,6 +20,7 @@ class EventType extends AbstractType
     {
         $builder
             ->add('status', ChoiceType::class, [
+                'label' => 'Statut',
                 'choices' => [
                     'Match' => Event::MATCH,
                     'Tournoi' => Event::TOURNAMENT,
@@ -27,33 +28,70 @@ class EventType extends AbstractType
                     'Autre' => Event::OTHER,
                 ],
                 'attr' => [
+                    'placeholder' => 'Statut',
                     'data-choices' => true,
                 ],
             ])
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'label' => 'Titre',
+                'attr' => [
+                    'placeholder' => 'Titre'
+                ]
+            ])
             ->add('date', DateType::class, [
+                'label' => 'Date de l\'événement',
                 'widget' => 'single_text',
                 'required' => true,
                 'input'  => 'datetime_immutable',
                 'format' => 'dd/MM/yyyy HH:mm',
                 'html5' => false,
                 'attr' => [
+                    'placeholder' => 'Date de l\'événement',
                     'data-provider' => 'flatpickr',
                     'data-date-format' => 'd/m/Y',
                     'data-enable-time' => 'false',
                 ],
 
             ])
-            ->add('address', TextType::class)
-            ->add('postalCode', TextType::class)
-            ->add('city', TextType::class)
-            ->add('description', CKEditorType::class)
-            ->add('nbMinus', IntegerType::class)
+            ->add('address', TextType::class, [
+                'label' => 'Adresse',
+                'attr' => [
+                    'placeholder' => 'Adresse',
+                ]
+            ])
+            ->add('postalCode', TextType::class, [
+                'label' => 'Code postal',
+                'attr' => [
+                    'placeholder' => 'Code postal',
+                ]
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'attr' => [
+                    'placeholder' => 'Ville',
+                ]
+            ])
+            ->add('description', CKEditorType::class, [
+                'label' => 'Description',
+                'attr' => [
+                    'placeholder' => 'Description',
+                ]
+            ])
+            ->add('nbMinus', IntegerType::class, [
+                'label' => 'Nombre d\'enfants minimum',
+                'attr' => [
+                    'placeholder' => 'Nombre d\'enfants minimum',
+                ]
+            ])
             ->add('categories', EntityType::class, [
+                'label' => 'Catégories',
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
+                'attr' => [
+                    'placeholder' => 'Catégories',
+                ]
             ])
         ;
     }
