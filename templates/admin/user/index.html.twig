@@ -28,17 +28,24 @@
                                         <th>Téléphone</th>
                                         <th>Email</th>
                                         <th>Adresse</th>
+                                        <th>Enfants</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for user in users %}
+                                        {% dump(user) %}
                                         <tr>
                                             <td>{{ user.id }}</td>
                                             <td>{{ user.getIdentity }}</td>
                                             <td>{{ user.phone }}</td>
                                             <td>{{ user.email }}</td>
                                             <td>{{ user.address }} {{ user.postalCode }} {{ user.city }}</td>
+                                            <td>
+                                                {% for child in user.child %}
+                                                    {{ child.getIdentity }}<br>
+                                                {% endfor %}
+                                            </td>
                                             <td>
                                                 <div class="dropdown d-inline-block">
                                                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
