@@ -53,7 +53,7 @@ class UserChildController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{child}', name: 'admin_user_child_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{child}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, UserChild $userChild, UserChildRepository $userChildRepository): Response
     {
         $form = $this->createForm(UserChildType::class, $userChild);
