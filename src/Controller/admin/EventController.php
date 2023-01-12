@@ -19,10 +19,20 @@ class EventController extends AbstractController
     ){}
 
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(EventRepository $eventRepository): Response
+    public function index(
+        EventRepository $eventRepository,
+        Request $request
+    ): Response
     {
+        $isDelete = $request->query->get('is_delete');
+        if ($isDelete === "1") {
+            $events = $eventRepository->findBy(['isActive' => false], ['addedAt' => 'DESC']);
+        } else {
+            $events = $eventRepository->findBy(['isActive' => true], ['addedAt' => 'DESC']);
+        }
+
         return $this->render('admin/event/index.html.twig', [
-            'events' => $eventRepository->findBy(['isActive' => true]),
+            'events' => $events,
         ]);
     }
 
