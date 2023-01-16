@@ -6,6 +6,7 @@ namespace App\Controller\site\event;
 
 use App\Entity\Carpool;
 use App\Entity\Event;
+use App\Form\NewParentCarpoolType;
 use App\Form\SubscribeCarpoolType;
 use App\Form\SubscribeEventType;
 use App\Repository\CarpoolRepository;
@@ -45,14 +46,18 @@ class EventController extends AbstractController
 
         // FORM NEW CARPOOL
         $carpool = new Carpool();
-        $formNewCarpool = $this->createForm(SubscribeCarpoolType::class, $carpool);
+        $formNewCarpool = $this->createForm(NewParentCarpoolType::class, $carpool);
         $formNewCarpool->handleRequest($request);
 
         if ($formNewCarpool->isSubmitted() && $formNewCarpool->isValid()) {
             $carpool = $formNewCarpool->getData();
+
             $carpool->setEvent($event);
+            $carpool->addUser($this->getUser());
+            foreach ( $carpool->getUsers() as $user ) {
+                $user->addCarpool($carpool);
+            }
             $this->em->persist($carpool);
-            $cr->save($carpool);
             $this->em->flush();
             $this->addFlash('success', 'Vous avez créé un covoiturage');
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
