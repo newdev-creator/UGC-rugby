@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,10 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class StarterController extends AbstractController
 {
     #[Route('/starter', name: 'app_starter')]
-    public function index(): Response
+    public function index(EventRepository $er): Response
     {
-        return $this->render('starter/index.html.twig', [
-            'controller_name' => 'StarterController',
+        $events = $er->findSearch();
+        return $this->render('site/home/index.html.twig', [
+            'events' => $events,
         ]);
     }
 }

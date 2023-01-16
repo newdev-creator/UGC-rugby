@@ -223,11 +223,13 @@
 
 {{ include('partials/vendor-scripts.html.twig') }}
 
-<!-- project list init -->
-<script src="/js/pages/project-list.init.js"></script>
+{% block javascripts %}
+    <!-- project list init -->
+    <script src="{{ asset('/js/pages/project-list.init.js') }}"></script>
 
-<!-- App js -->
-<script src="/js/app.js"></script>
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
 </body>
 
 </html>
