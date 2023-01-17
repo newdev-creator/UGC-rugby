@@ -26,27 +26,18 @@
                 {{ include('partials/page-title.html.twig', {pagetitle: 'Accueil', title: 'Liste des événements à venir'}) }}
 
                 <div class="row g-4 mb-3">
-                    <div class="col-sm-auto">
-                        <div>
-                            <a href="apps-projects-create" class="btn btn-success"><i class="ri-add-line align-bottom me-1"></i> Add New</a>
-                        </div>
-                    </div>
                     <div class="col-sm">
                         <div class="d-flex justify-content-sm-end gap-2">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                {{ form_start(form) }}
+                                {{ form_widget(form.q) }}
                                 <i class="ri-search-line search-icon"></i>
                             </div>
-
-                            <select class="form-control w-md" data-choices data-choices-search-false>
-                                <option value="All">All</option>
-                                <option value="Today">Today</option>
-                                <option value="Yesterday" selected>Yesterday</option>
-                                <option value="Last 7 Days">Last 7 Days</option>
-                                <option value="Last 30 Days">Last 30 Days</option>
-                                <option value="This Month">This Month</option>
-                                <option value="Last Year">Last Year</option>
-                            </select>
+                            <div>
+                                {{ form_widget(form.categories) }}
+                            </div>
+                            <button type="submit" class="btn btn-light"><i class="ri-filter-3-line align-middle"></i></button>
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>
