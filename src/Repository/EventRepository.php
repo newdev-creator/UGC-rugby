@@ -6,6 +6,8 @@ use App\Data\SearchData;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Event>
@@ -17,9 +19,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Event::class);
+        $this->paginator = $paginator;
     }
 
     public function save(Event $entity, bool $flush = false): void
@@ -41,9 +46,10 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Event[]
+     * @param SearchData $search
+     * @return PaginationInterface
      */
-    public function findSearch(SearchData $search): array
+    public function findSearch(SearchData $search): PaginationInterface
     {
         $query = $this
             ->createQueryBuilder('e')
@@ -65,6 +71,11 @@ class EventRepository extends ServiceEntityRepository
                 ->andWhere('c.id IN (:categories)')
                 ->setParameter('categories', $search->categories);
         }
-        return $query->getQuery()->getResult();
+        $query = $query->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            12,
+        );
     }
 }

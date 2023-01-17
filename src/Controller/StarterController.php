@@ -19,6 +19,7 @@ class StarterController extends AbstractController
     ): Response
     {
         $data = new SearchData();
+        $data->page = $request->get('page', 1);
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
         $events = $er->findSearch($data);

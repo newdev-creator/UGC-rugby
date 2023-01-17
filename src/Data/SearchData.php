@@ -16,4 +16,9 @@ class SearchData
      */
     public array $categories = [];
 
+    /**
+     * @var int
+     */
+    public int $page = 1;
+
 }
