@@ -20,7 +20,7 @@
     <!-- ============================================================== -->
     <div class="main-content">
 
-        <div class="page-content">
+        <div class="page-content home-js-filter">
             <div class="container-fluid">
 
                 {{ include('partials/page-title.html.twig', {pagetitle: 'Accueil', title: 'Liste des événements à venir'}) }}
@@ -29,7 +29,11 @@
                     <div class="col-sm">
                         <div class="d-flex justify-content-sm-end gap-2">
                             <div class="search-box ms-2">
-                                {{ form_start(form) }}
+                                {{ form_start(form, {
+                                    attr: {
+                                        class: 'home-js-filter-form'
+                                    }
+                                }) }}
                                 {{ form_widget(form.q) }}
                                 <i class="ri-search-line search-icon"></i>
                             </div>
@@ -42,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row home-js-filter-content">
                     {% for event in events %}
                         <div class="col-xxl-3 col-sm-6 project-card">
                             <div class="card card-height-100">
@@ -140,7 +144,7 @@
                     </div>
                     <!-- end col -->
                     <div class="col-sm-6">
-                        <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
+                        <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0 home-js-filter-pagination">
                             {{ knp_pagination_render(events) }}
                         </ul>
                     </div><!-- end col -->
