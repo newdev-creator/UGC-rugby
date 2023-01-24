@@ -20,6 +20,12 @@ export default class Filter {
     }
 
     bindEvents() {
+        this.pagination.addEventListener('click', e => {
+            if (e.target.tagName === 'A') {
+                e.preventDefault()
+                this.loadUrl(e.target.getAttribute('href'))
+            }
+        })
         this.form.querySelectorAll('input[type=checkbox]').forEach(input => {
             input.addEventListener('change', this.loadForm.bind(this))
         })
@@ -32,7 +38,25 @@ export default class Filter {
         data.forEach((value, key) => {
             params.append(key, value)
         })
-        return this.loadURL(url.pathname + '?' + params.toString())
+        return this.loadUrl(url.pathname + '?' + params.toString())
 
     }
+
+    async loadUrl (url) {
+        const ajaxUrl = url + '&ajax=1'
+        const response = await fetch(ajaxUrl, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        if (response.status >= 200 && response.status < 300) {
+            const data = await response.json()
+            this.content.innerHTML = data.content
+            this.pagination.innerHTML = data.pagination
+            this.bindEvents()
+        } else {
+            console.error(response)
+        }
+    }
+    
 }

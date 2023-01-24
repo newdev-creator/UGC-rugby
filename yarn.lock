@@ -2333,6 +2333,13 @@ find-up@^4.0.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
+flip-toolkit@^7.0.17:
+  version "7.0.17"
+  resolved "https://registry.yarnpkg.com/flip-toolkit/-/flip-toolkit-7.0.17.tgz#e9bae94f2c4501c0b3e979920ac40205a72b8fc3"
+  integrity sha512-bybUdLNbC80F0+v+t3TBfxEAMVGhvXLi3pZ+qTtr4aCu/Y/5YQimMij0xJKT1qtz4SO31V4zftIgaTJdCCFiHA==
+  dependencies:
+    rematrix "0.2.2"
+
 follow-redirects@^1.0.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
@@ -3578,6 +3585,11 @@ regjsparser@^0.9.1:
   integrity sha512-dQUtn90WanSNl+7mQKcXAgZxvUe7Z0SqXlgzv0za4LwiUhyzBC58yQO3liFoUgu8GiJVInAhJjkj1N0EtQ5nkQ==
   dependencies:
     jsesc "~0.5.0"
+
+rematrix@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/rematrix/-/rematrix-0.2.2.tgz#c96a050260782db9908904885991256e23beda5d"
+  integrity sha512-agFFS3RzrLXJl5LY5xg/xYyXvUuVAnkhgKO7RaO9J1Ssth6yvbO+PIiV67V59MB5NCdAK2flvGvNT4mdKVniFA==
 
 renderkid@^3.0.0:
   version "3.0.0"
