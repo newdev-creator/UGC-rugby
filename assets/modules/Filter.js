@@ -1,3 +1,5 @@
+import {Flipper} from 'flip-toolkit';
+
 /**
  * @property {HTMLElement} pagination
  * @property {HTMLElement} content
@@ -51,12 +53,38 @@ export default class Filter {
         })
         if (response.status >= 200 && response.status < 300) {
             const data = await response.json()
-            this.content.innerHTML = data.content
+            this.flipContent(data.content)
             this.pagination.innerHTML = data.pagination
             this.bindEvents()
         } else {
             console.error(response)
         }
     }
-    
+
+
+    /**
+     * 
+     * @param {string} content 
+     */
+    flipContent(content) {
+        const flipper = new Flipper({
+            element: this.content,
+        })
+        this.content.children.forEach(element => {
+            flipper.addFlipped({
+                element,
+                flipId: element.id
+            })
+        })
+        flipper.recordBeforeUpdate()
+        this.content.innerHTML = content
+        this.content.children.forEach(element => {
+            flipper.addFlipped({
+                element,
+                flipId: element.id
+            })
+        })
+        flipper.update()
+    }
+
 }
