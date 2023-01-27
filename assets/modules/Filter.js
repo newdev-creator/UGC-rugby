@@ -46,8 +46,10 @@ export default class Filter {
 
     async loadUrl (url) {
         this.showLoader()
-        const ajaxUrl = url + '&ajax=1'
-        const response = await fetch(ajaxUrl, {
+        const params = new URLSearchParams(url.split('?')[1] || '')
+
+        params.set('ajax', 1)
+        const response = await fetch(url.split('?')[0] + '?' + params.toString(), {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
@@ -56,6 +58,8 @@ export default class Filter {
             const data = await response.json()
             this.flipContent(data.content)
             this.pagination.innerHTML = data.pagination
+            params.delete('ajax')
+            history.replaceState({}, '', url.split('?')[0] + '?' + params.toString())
             this.bindEvents()
         } else {
             console.error(response)
