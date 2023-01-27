@@ -27,19 +27,7 @@
 
                 <div class="row g-4 mb-3">
                     <div class="col-sm">
-                        {{ form_start(form, {attr: {class: 'home-js-filter-form'}}) }}
-                        <div class="d-flex justify-content-sm-end gap-2">
-                            <div class="search-box ms-2">
-                                
-                                {{ form_widget(form.q) }}
-                                <i class="ri-search-line search-icon"></i>
-                            </div>
-                            <div>
-                                {{ form_widget(form.categories) }}
-                            </div>
-                            <button type="submit" class="btn btn-light"><i class="ri-filter-3-line align-middle"></i></button>
-                        </div>
-                        {{ form_end(form) }}
+                        {% include('starter/_form_filter.html.twig') %}
                     </div>
                 </div>
 

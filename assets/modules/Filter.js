@@ -1,4 +1,4 @@
-import {Flipper} from 'flip-toolkit';
+import {Flipper, spring} from 'flip-toolkit';
 
 /**
  * @property {HTMLElement} pagination
@@ -45,6 +45,7 @@ export default class Filter {
     }
 
     async loadUrl (url) {
+        this.showLoader()
         const ajaxUrl = url + '&ajax=1'
         const response = await fetch(ajaxUrl, {
             headers: {
@@ -59,32 +60,94 @@ export default class Filter {
         } else {
             console.error(response)
         }
+        this.hideLoader()
     }
 
 
     /**
-     * 
+     *
      * @param {string} content 
      */
     flipContent(content) {
+        // Flip spring
+        const exitSpring = function (element, index, onComplete) {
+            spring({
+                config: "wobbly",
+                values: {
+                    translateY: [0, -20],
+                    opacity: [1, 0]
+                },
+                onUpdate: ({ translateY, opacity }) => {
+                    element.style.opacity = opacity;
+                    element.style.transform = `translateY(${translateY}px)`;
+                },
+                onComplete
+            });
+        }
+        const appearSpring = function (element, index) {
+            spring({
+                config: "wobbly",
+                values: {
+                    translateY: [20, 0],
+                    opacity: [0, 1]
+                },
+                onUpdate: ({ translateY, opacity }) => {
+                    element.style.opacity = opacity;
+                    element.style.transform = `translateY(${translateY}px)`;
+                },
+                delay: index * 20
+            });
+        }
+
+        // new Flipper's instance
         const flipper = new Flipper({
             element: this.content,
         })
-        this.content.children.forEach(element => {
+
+        // exit animation
+        Array.from(this.content.children).forEach((element) => {
             flipper.addFlipped({
                 element,
-                flipId: element.id
-            })
-        })
+                flipId: element.id,
+                shouldFlip: false,
+                onExit: exitSpring,
+            });
+        });
+
+        // update the DOM
         flipper.recordBeforeUpdate()
         this.content.innerHTML = content
-        this.content.children.forEach(element => {
+
+        // Appearance animation
+        Array.from(this.content.children).forEach((element) => {
             flipper.addFlipped({
                 element,
-                flipId: element.id
-            })
-        })
+                flipId: element.id,
+                onAppear: appearSpring,
+            });
+        });
+
+        // update the DOM
         flipper.update()
     }
 
+    showLoader() {
+        this.form.classList.add('is-loading')
+        const loader = this.form.querySelector('.home-js-loading')
+        if (loader === null) {
+            return
+        }
+        loader.setAttribute('aria-hidden', 'false')
+        loader.style.display = null
+    }
+
+    hideLoader() {
+        this.form.classList.remove('is-loading')
+        const loader = this.form.querySelector('.home-js-loading')
+        if (loader === null) {
+            return
+        }
+        loader.setAttribute('aria-hidden', 'true')
+        loader.style.display = 'none'
+    }
 }
