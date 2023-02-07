@@ -57,3 +57,6 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+# dotenv environment variables
+.env.local
