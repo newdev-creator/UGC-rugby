@@ -2,14 +2,13 @@
 <div class="spinner-border home-js-loading" role="status" aria-hidden="true" style="display: none">
     <span class="sr-only">Chargement...</span>
 </div>
-<div class="d-flex justify-content-sm-end gap-2">
+<div class="home-search">
     <div class="search-box ms-2">
         {{ form_widget(form.q) }}
         <i class="ri-search-line search-icon"></i>
     </div>
     <div>
-        {{ form_widget(form.categories) }}
+        {{ form_widget(form.categories, {attr: {class: 'home-search-categories'}}) }}
     </div>
-    <button type="submit" class="btn btn-light"><i class="ri-filter-3-line align-middle"></i></button>
 </div>
 {{ form_end(form) }}
