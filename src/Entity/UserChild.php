@@ -34,7 +34,7 @@ class UserChild
     #[ORM\ManyToOne(inversedBy: 'child')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'child')]
+    #[ORM\ManyToOne(inversedBy: 'child', fetch: 'EAGER')]
     private ?Category $category = null;
 
     #[ORM\Column]

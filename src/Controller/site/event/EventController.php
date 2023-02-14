@@ -2,14 +2,10 @@
 
 namespace App\Controller\site\event;
 
-
-
 use App\Entity\Carpool;
 use App\Entity\Event;
 use App\Form\NewParentCarpoolType;
-use App\Form\SubscribeCarpoolType;
 use App\Form\SubscribeEventType;
-use App\Repository\CarpoolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +23,6 @@ class EventController extends AbstractController
     public function show(
         Event $event,
         Request $request,
-        CarpoolRepository $cr,
     ): Response
     {
         // FORM SUBSCRIBE EVENT
