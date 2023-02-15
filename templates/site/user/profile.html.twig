@@ -166,14 +166,6 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title mb-3">Evénements Inscrits</h5>
                                                         <div class="table-responsive">
-<<<<<<< Updated upstream
-=======
-                                                        <pre>
-                                                            {{ dump(app.user) }}
-                                                        </pre>
-                                                        {# TODO: récupérer les enfants de l'utilisateur connécté #}
-                                                         {% set childrenUser = app.user.getChild() %}
->>>>>>> Stashed changes
                                                             {% if events is empty %}
                                                                 <p>Aucun événement à afficher...</p>
                                                             {% else %}
@@ -195,13 +187,6 @@
                                                                                     {{ event.date|date('l j F Y à H:i', 'Europe/Paris') }}
                                                                                 </td>
                                                                                 <td>
-<<<<<<< Updated upstream
-=======
-                                                                                    Trouver les enfants !
-
-                                                                                </td>
-                                                                                <td>
->>>>>>> Stashed changes
                                                                                     {{ event.address }} <br>
                                                                                     {{ event.postalCode }} {{ event.city }}
                                                                                 </td>
