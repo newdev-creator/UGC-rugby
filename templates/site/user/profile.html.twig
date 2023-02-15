@@ -74,7 +74,7 @@
                                         </li>
                                     </ul>
                                     <div class="flex-shrink-0">
-                                        <a href="pages-profile-settings" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
+                                        <a href="{{ path('settings_show', {'user': user.id}) }}" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Paramètres</a>
                                     </div>
                                 </div>
                                 <!-- Tab panes -->
@@ -275,12 +275,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
-
-
-
                                             </div>
                                             <!--end col-->
                                         </div>

@@ -15,8 +15,6 @@ class ProfileController extends AbstractController
     #[Route('/{user}', name: 'show')]
     public function show(
         User $user,
-        UserRepository $ur,
-        UserChild $uc,
     ): Response
     {
         // verify that the logged in user is the owner of the profile
