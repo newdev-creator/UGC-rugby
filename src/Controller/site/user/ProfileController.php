@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/profile', name: 'profile_')]
 class ProfileController extends AbstractController
 {
-    #[Route('/{user}', name: 'show')]
+    #[Route('/{user}', name: 'show', methods: ['GET'])]
     public function show(
         User $user,
     ): Response
