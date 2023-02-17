@@ -60,5 +60,4 @@ yarn-error.log
 
 # dotenv environment variables
 .env.local
-
 *.local

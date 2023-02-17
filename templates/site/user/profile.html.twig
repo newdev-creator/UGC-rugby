@@ -124,8 +124,8 @@
 
                                                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink2">
                                                                         <li><a class="dropdown-item" href="#">View</a></li>
-                                                                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                                        <li><a class="dropdown-item" href="#">Ajouter</a></li>
+                                                                        <li><a class="dropdown-item" href="#">Retirer</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -269,6 +269,57 @@
                                                                                 </td>
                                                                             </tr>
                                                                         {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title mb-3">Vos Covoiturages</h5>
+                                                        <div class="table-responsive">
+                                                            {% if carpools is empty %}
+                                                                <p>Vous n'avez aucun covoiturage...</p>
+                                                            {% else %}
+                                                                <table class="table table-nowrap">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Evénement</th>
+                                                                        <th scope="col">Date</th>
+                                                                        <th scope="col">Adresse</th>
+                                                                        <th scope="col">Enfants</th>
+                                                                        <th scope="col">Action</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for carpool in user_carpools %}
+                                                                        <tr>
+                                                                            <th scope="row"><a href="{{ path('event_show', {'event': carpool.event.id}) }}" class="fw-semibold">{{ carpool.event.title }}</a></th>
+                                                                            <td>
+                                                                                {{ carpool.date|date('l j F Y à H:i', 'Europe/Paris') }}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ carpool.address }} <br>
+                                                                                {{ carpool.postalCode }} {{ carpool.city }}
+                                                                            </td>
+                                                                            <td>
+                                                                                {% for child in carpool.child  %}
+                                                                                        {{ child.getIdentity }} <br>
+                                                                                {% endfor %}
+                                                                            </td>
+                                                                            <td>
+                                                                                <a
+                                                                                    href="{{ path('carpool_show', {'carpool': carpool.id}) }}"
+                                                                                    class="btn btn-success"
+                                                                                >
+                                                                                    Voir
+                                                                                    <i class="ri-arrow-right-line align-middle"></i>
+                                                                                </a>
+                                                                                {{ include('site/user/_delete_carpool.html.twig') }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
                                                                     </tbody>
                                                                 </table>
                                                             {% endif %}
@@ -1039,6 +1090,7 @@
                                                                         <td>Zip File</td>
                                                                         <td>4.57 MB</td>
                                                                         <td>12 Dec 2021</td>
+                                                                        {# TODO: supprimer un enfant #}
                                                                         <td>
                                                                             <div class="dropdown">
                                                                                 <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink15" data-bs-toggle="dropdown" aria-expanded="true">

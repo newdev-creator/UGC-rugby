@@ -4,7 +4,10 @@ namespace App\Controller\site\user;
 
 use App\Entity\User;
 use App\Entity\UserChild;
-use App\Repository\UserRepository;
+use App\Form\User_UserChildType;
+use App\Repository\UserChildRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,9 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/profile', name: 'profile_')]
 class ProfileController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ){}
+
     #[Route('/{user}', name: 'show', methods: ['GET'])]
     public function show(
         User $user,
+        Request $request,
+        UserChildRepository $userChildRepository,
     ): Response
     {
         // verify that the logged in user is the owner of the profile
@@ -47,7 +56,7 @@ class ProfileController extends AbstractController
             }
         }
 
-        // get carpools who user are create
+        // get carpools who user have create
         $userCarpoolsArray = [];
         $userCarpools = $user->getCarpool()->toArray();
         foreach ($userCarpools as $carpool) {
@@ -56,11 +65,49 @@ class ProfileController extends AbstractController
             }
         }
 
+        // create new child
+        $userChild = new UserChild();
+        $form = $this->createForm(User_UserChildType::class, $userChild);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userChildRepository->create($user, $userChild);
+            $this->addFlash('success', 'Le profil de votre enfant a bien été créé');
+            return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('site/user/profile.html.twig', [
             'user' => $user,
             'user_carpools' => $userCarpoolsArray,
             'events' => $events,
             'carpools' => $carpools,
+            'form' => $form,
         ]);
     }
+
+    #[Route('/{user}/child/{child}/deactivate', name: 'deactivate_child', methods: ['POST'])]
+    public function deactivateChild(
+        User $user,
+        UserChild $child,
+        Request $request,
+        UserChildRepository $userChildRepository
+    ): Response {
+        // verify that the logged in user is the owner of the child's profile
+        if ($this->getUser() !== $user) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accès à ce profil');
+        }
+
+        // set the isActive property of the child to false
+        if ($this->isCsrfTokenValid('user_child_deactivate_'.$child->getId(), $request->request->get('_token'))) {
+            $child->setIsActive(0);
+            $this->em->flush();
+            $this->addFlash('success', 'L\'enfant a bien été supprimé');
+        }
+
+        $this->addFlash('success', 'Le profil de votre enfant a bien été supprimé');
+
+        // redirect to the profile page
+        return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
+    }
+
 }
