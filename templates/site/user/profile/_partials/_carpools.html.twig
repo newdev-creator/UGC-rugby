@@ -1,0 +1,62 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Covoiturage Inscrits</h5>
+        <div class="table-responsive">
+            {% if carpools is empty %}
+                <p>Aucun covoiturage à afficher...</p>
+            {% else %}
+                <table class="table table-nowrap">
+                    <thead>
+                    <tr>
+                        <th scope="col">Evénement</th>
+                        <th scope="col">Covoitureur</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Adresse</th>
+                        <th scope="col">Enfants</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for carpool in carpools %}
+                        <tr>
+                            <th scope="row">
+                                <a href="{{ path('event_show', {'event': carpool.event.id}) }}" class="fw-semibold">{{ carpool.event.title }}</a>
+                            </th>
+                            <th scope="row">
+                                <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="fw-semibold">
+                                    {% for user in carpool.users %}
+                                        {{   user.getIdentity }}
+                                    {% endfor %}
+                                </a>
+                            </th>
+                            <td>
+                                {{ carpool.date|date('l j F Y à H:i', 'Europe/Paris') }}
+                            </td>
+                            <td>
+                                {{ carpool.address }}
+                                <br>
+                                {{ carpool.postalCode }}
+                                {{ carpool.city }}
+                            </td>
+                            <td>
+                                {% for child in carpool.child  %}
+                                    {% if child.user == user %}
+                                        {{ child.getIdentity }}
+                                        <br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-success">
+                                    Voir
+                                    <i class="ri-arrow-right-line align-middle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+</div>

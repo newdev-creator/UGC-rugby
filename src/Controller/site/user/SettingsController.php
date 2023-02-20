@@ -20,7 +20,7 @@ class SettingsController extends AbstractController
             throw $this->createAccessDeniedException('Vous n\'avez pas accès à ce profil');
         }
 
-        return $this->render('site/user/settings.html.twig', [
+        return $this->render('site/user/settings/settings.html.twig', [
             'controller_name' => 'SettingsController',
         ]);
     }

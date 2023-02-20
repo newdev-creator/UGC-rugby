@@ -1,0 +1,16 @@
+<div class="modal fade" id="newChildModal" tabindex="-1" aria-labelledby="newChildModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0">
+            <div class="modal-header p-3 ps-4 bg-soft-success">
+                <h5 class="modal-title" id="newChildModalLabel">Ajouter un enfant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                {{ form_start(form_new_child) }}
+                {{ form_widget(form_new_child) }}
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+                {{ form_end(form_new_child) }}
+            </div>
+        </div>
+    </div>
+</div>

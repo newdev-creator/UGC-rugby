@@ -93,7 +93,7 @@ class ProfileController extends AbstractController
             }
         }
 
-        return $this->renderForm('site/user/profile.html.twig', [
+        return $this->renderForm('site/user/profile/profile.html.twig', [
             'user' => $user,
             'active_child' => $activeChildren,
             'user_carpools' => $userCarpoolsArray,
