@@ -19,7 +19,7 @@ class ProfileController extends AbstractController
         private readonly EntityManagerInterface $em,
     ){}
 
-    #[Route('/{user}', name: 'show', methods: ['GET'])]
+    #[Route('/{user}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
         User $user,
         Request $request,
@@ -31,8 +31,15 @@ class ProfileController extends AbstractController
             throw $this->createAccessDeniedException('Vous n\'avez pas accès à ce profil');
         }
 
-        // Retrieve children of the user logged in
+        // Retrieve children isActive of the user logged in
         $children = $user->getChild();
+
+        $activeChildren = [];
+        foreach ($children as $child) {
+            if ($child->getIsActive()) {
+                $activeChildren[] = $child;
+            }
+        }
 
         // Retrieve events in which children participate
         $events = [];
@@ -67,21 +74,31 @@ class ProfileController extends AbstractController
 
         // create new child
         $userChild = new UserChild();
-        $form = $this->createForm(User_UserChildType::class, $userChild);
-        $form->handleRequest($request);
+        $formNewChild = $this->createForm(User_UserChildType::class, $userChild);
+        $formNewChild->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userChildRepository->create($user, $userChild);
-            $this->addFlash('success', 'Le profil de votre enfant a bien été créé');
-            return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
+        if ($formNewChild->isSubmitted() && $formNewChild->isValid()) {
+            $userChild = $formNewChild->getData();
+            $userChild->setUser($user);
+            
+            try {
+                $this->em->persist($userChild);
+                $this->em->flush();
+                
+                $this->addFlash('success', 'Le profil de votre enfant a bien été créé');
+                return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de la création du profil de votre enfant : ' . $e->getMessage());
+            }
         }
 
-        return $this->render('site/user/profile.html.twig', [
+        return $this->renderForm('site/user/profile.html.twig', [
             'user' => $user,
+            'active_child' => $activeChildren,
             'user_carpools' => $userCarpoolsArray,
             'events' => $events,
             'carpools' => $carpools,
-            'form' => $form,
+            'form_new_child' => $formNewChild,
         ]);
     }
 
@@ -90,7 +107,6 @@ class ProfileController extends AbstractController
         User $user,
         UserChild $child,
         Request $request,
-        UserChildRepository $userChildRepository
     ): Response {
         // verify that the logged in user is the owner of the child's profile
         if ($this->getUser() !== $user) {
@@ -103,8 +119,6 @@ class ProfileController extends AbstractController
             $this->em->flush();
             $this->addFlash('success', 'L\'enfant a bien été supprimé');
         }
-
-        $this->addFlash('success', 'Le profil de votre enfant a bien été supprimé');
 
         // redirect to the profile page
         return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
