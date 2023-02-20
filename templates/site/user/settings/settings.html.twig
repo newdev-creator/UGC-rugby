@@ -1,28 +1,14 @@
 {{ include('partials/main.html.twig') }}
-
 <head>
-
     {{ include('partials/title-meta.html.twig', {title: 'Profile Settings'}) }}
-
     {{ include('partials/head-css.html.twig') }}
-
 </head>
-
 <body>
-
-<!-- Begin page -->
 <div id="layout-wrapper">
-
     {{ include('partials/menu.html.twig') }}
-
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
     <div class="main-content">
-
         <div class="page-content">
             <div class="container-fluid">
-
                 <div class="position-relative mx-n4 mt-n4">
                     <div class="profile-wid-bg profile-setting-img">
                         <img src="/images/profile-bg.jpg" class="profile-wid-img" alt="">
@@ -38,7 +24,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     {% include "site/user/settings/_partials/_picture.html.twig" %}
                     <!--end col-->
@@ -71,43 +56,25 @@
                             <div class="card-body p-4">
                                 <div class="tab-content">
                                     {% include "site/user/settings/_partials/_personnalDetails.html.twig" %}
-                                    <!--end tab-pane-->
                                     {% include "site/user/settings/_partials/_changePassword.html.twig" %}
-                                    <!--end tab-pane-->
                                     {% include "site/user/settings/_partials/_children.html.twig" %}
-                                    <!--end tab-pane-->
                                     {# {% include "site/user/settings/_partials/_privacy.html.twig" %} #}
-                                    <!--end tab-pane-->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--end col-->
                 </div>
-                <!--end row-->
-
             </div>
-            <!-- container-fluid -->
-        </div><!-- End Page-content -->
-
+        </div>
         {{ include('partials/footer.html.twig') }}
     </div>
-    <!-- end main content-->
-
 </div>
-<!-- END layout-wrapper -->
-
-
-
 {{ include('partials/vendor-scripts.html.twig') }}
-
 {% block javascripts %}
     <!-- profile-setting init js -->
     <script src="{{ asset('/js/pages/profile-setting.init.js') }}"></script>
-
     <!-- App js -->
     <script src="{{ asset('/js/app.js') }}"></script>
 {% endblock %}
 </body>
-
 </html>
