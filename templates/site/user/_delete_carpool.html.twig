@@ -1,12 +1,12 @@
 <form
         method="post"
-        action="{{ path('profile_deactivate_child', {'user': user.id}, {'child': child.id}) }}"
-        onsubmit="return confirm('Voulez-vous supprimer l\'enfant: {{ child.getIdentity }}?');"
+        action="{{ path('profile_deactivate_carpool', {'user': user.id, 'carpool': carpool.id}) }}"
+        onsubmit="return confirm('Voulez-vous supprimer ce covoiturage?');"
 >
     <input
             type="hidden"
             name="_token"
-            value="{{ csrf_token('user_child_deactivate_' ~ child.id) }}"
+            value="{{ csrf_token('carpool_deactivate_' ~ carpool.id) }}"
     >
-    <button class="dropdown-item remove-item-btn"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer</button>
+    <button class="btn btn-danger"><i class="ri-delete-bin-line align-bottom"></i></button>
 </form>

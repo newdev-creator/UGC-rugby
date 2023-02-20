@@ -3,6 +3,7 @@
 namespace App\Controller\site\user;
 
 use App\Entity\User;
+use App\Entity\Carpool;
 use App\Entity\UserChild;
 use App\Form\User_UserChildType;
 use App\Repository\UserChildRepository;
@@ -102,6 +103,8 @@ class ProfileController extends AbstractController
         ]);
     }
 
+
+    // DELETE CHILD
     #[Route('/{user}/child/{child}/deactivate', name: 'deactivate_child', methods: ['POST'])]
     public function deactivateChild(
         User $user,
@@ -123,5 +126,29 @@ class ProfileController extends AbstractController
         // redirect to the profile page
         return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
     }
+
+    // DELETE CARPOOL
+    #[Route('/{user}/carpool/{carpool}/deactivate', name: 'deactivate_carpool', methods: ['POST'])]
+    public function deactivateCarpool(
+        User $user,
+        Carpool $carpool,
+        Request $request,
+    ): Response {
+        // verify that the logged in user is the owner of the carpool
+        if ($this->getUser() !== $user) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas accès à ce profil');
+        }
+
+        // set the isActive property of the carpool to false
+        if ($this->isCsrfTokenValid('carpool_deactivate_'.$carpool->getId(), $request->request->get('_token'))) {
+            $carpool->setIsActive(0);
+            $this->em->flush();
+            $this->addFlash('success', 'Le covoiturage a bien été supprimé');
+        }
+
+        // redirect to the profile page
+        return $this->redirectToRoute('profile_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
+    }
+
 
 }

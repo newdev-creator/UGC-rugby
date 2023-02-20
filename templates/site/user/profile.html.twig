@@ -297,15 +297,15 @@
                                                                                         {{ child.getIdentity }} <br>
                                                                                 {% endfor %}
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="d-flex">
                                                                                 <a
                                                                                     href="{{ path('carpool_show', {'carpool': carpool.id}) }}"
-                                                                                    class="btn btn-success"
+                                                                                    class="btn btn-success me-2"
                                                                                 >
                                                                                     Voir
                                                                                     <i class="ri-arrow-right-line align-middle"></i>
                                                                                 </a>
-                                                                                {# {{ include('site/user/_delete_carpool.html.twig') }} #}
+                                                                                {{ include('site/user/_delete_carpool.html.twig') }}
                                                                             </td>
                                                                         </tr>
                                                                     {% endfor %}
