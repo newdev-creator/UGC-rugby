@@ -1,5 +1,5 @@
 <div class="tab-pane active" id="personalDetails" role="tabpanel">
-    {{ form_start(settings_user_form) }}
+    {{ form_start(settings_user_form, {'attr': {'class': 'settings_user_form'}}) }}
         <div class="row">
             <div class="col-lg-6">
                 <div class="mb-3">
@@ -39,7 +39,7 @@
             <div class="col-lg-12">
                 <div class="hstack gap-2 justify-content-end">
                     <button type="submit" class="btn btn-success">Enregistrer</button>
-                    <button type="button" class="btn btn-soft-danger">Annuler</button>
+                    <button type="button" class="btn btn-soft-danger" onclick="resetForm('settings_user_form')">Réinitialiser</button>
                 </div>
             </div>
             <!--end col-->

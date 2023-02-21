@@ -48,11 +48,11 @@
                                             <i class="fas fa-home"></i> Infos personnel
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    {# <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
                                             <i class="far fa-user"></i> Changer son mot de passe
                                         </a>
-                                    </li>
+                                    </li> #}
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#children" role="tab">
                                             <i class="far fa-envelope"></i> Vos enfants
@@ -68,7 +68,7 @@
                             <div class="card-body p-4">
                                 <div class="tab-content">
                                     {% include "site/user/settings/_partials/_personnalDetails.html.twig" %}
-                                    {% include "site/user/settings/_partials/_changePassword.html.twig" %}
+                                    {# {% include "site/user/settings/_partials/_changePassword.html.twig" %} #}
                                     {% include "site/user/settings/_partials/_children.html.twig" %}
                                     {# {% include "site/user/settings/_partials/_privacy.html.twig" %} #}
                                 </div>
@@ -83,6 +83,12 @@
 </div>
 {{ include('partials/vendor-scripts.html.twig') }}
 {% block javascripts %}
+    <!-- resetForm js -->
+    <script>
+        function resetForm() {
+            document.querySelector('.settings_user_form').reset();
+        }
+    </script>
     <!-- profile-setting init js -->
     <script src="{{ asset('/js/pages/profile-setting.init.js') }}"></script>
     <!-- App js -->
