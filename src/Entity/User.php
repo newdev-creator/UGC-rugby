@@ -10,9 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec ces iformations.')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec ces informations.')]
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -49,6 +52,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $city = null;
+
+    #[Vich\UploadableField(mapping: 'user_pictures', fileNameProperty: 'userPictureName')]
+    private ?File $userPictureFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $userPictureName = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $addedAt = null;
@@ -347,4 +356,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function setUserPictureFile(?File $userPictureFile = null): void
+    {
+        $this->userPictureFile = $userPictureFile;
+
+        if (null !== $userPictureFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getUserPictureFile(): ?File
+    {
+        return $this->userPictureFile;
+    }
+
+    public function setUserPictureName(?string $userPictureName): void
+    {
+        $this->userPictureName = $userPictureName;
+    }
+
+    public function getUserPictureName(): ?string
+    {
+        return $this->userPictureName;
+    }
+    
 }

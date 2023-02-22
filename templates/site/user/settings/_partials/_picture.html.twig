@@ -5,6 +5,9 @@
                 <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
                     <img src="/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image  shadow" alt="user-profile-image">
                     <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                        {{ form_start(settings_user_picture_form) }}
+                        {{ form_widget(settings_user_picture_form) }}
+                        {{ form_end(settings_user_picture_form) }}
                         <input id="profile-img-file-input" type="file" class="profile-img-file-input">
                         <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                             <span class="avatar-title rounded-circle bg-light text-body shadow">
