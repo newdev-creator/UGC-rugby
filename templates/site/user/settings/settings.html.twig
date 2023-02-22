@@ -12,16 +12,6 @@
                 <div class="position-relative mx-n4 mt-n4">
                     <div class="profile-wid-bg profile-setting-img">
                         <img src="/images/profile-bg.jpg" class="profile-wid-img" alt="">
-                        <div class="overlay-content">
-                            <div class="text-end p-3">
-                                <div class="p-0 ms-auto rounded-circle profile-photo-edit">
-                                    <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-                                    <label for="profile-foreground-img-file-input" class="profile-photo-edit btn btn-light">
-                                        <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -52,13 +42,13 @@
                                         <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
                                             <i class="far fa-user"></i> Changer son mot de passe
                                         </a>
-                                    </li> #}
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#children" role="tab">
                                             <i class="far fa-envelope"></i> Vos enfants
                                         </a>
                                     </li>
-                                    {# <li class="nav-item">
+                                    <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
                                             <i class="far fa-envelope"></i> Privacy Policy
                                         </a>
@@ -68,9 +58,10 @@
                             <div class="card-body p-4">
                                 <div class="tab-content">
                                     {% include "site/user/settings/_partials/_personnalDetails.html.twig" %}
-                                    {# {% include "site/user/settings/_partials/_changePassword.html.twig" %} #}
+                                    {# {% include "site/user/settings/_partials/_changePassword.html.twig" %}
                                     {% include "site/user/settings/_partials/_children.html.twig" %}
-                                    {# {% include "site/user/settings/_partials/_privacy.html.twig" %} #}
+                                    
+                                    {% include "site/user/settings/_partials/_privacy.html.twig" %} #}
                                 </div>
                             </div>
                         </div>

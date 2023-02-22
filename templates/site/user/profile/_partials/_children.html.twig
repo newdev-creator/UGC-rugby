@@ -22,7 +22,10 @@
                             <div>
                                 <h5 class="fs-14 mb-1">{{ child.getIdentity }}</h5>
                                 <p class="fs-13 text-muted mb-0">
-                                <div class="badge rounded-pill bg-danger fs-12">{{ child.category.name }}</div>
+                                    {{ child.birthday|age }} ans
+                                </p>
+                                <p class="fs-13 text-muted mb-0">
+                                    <div class="badge rounded-pill bg-danger fs-12">{{ child.category.name }}</div>
                                 </p>
                             </div>
                         </div>
