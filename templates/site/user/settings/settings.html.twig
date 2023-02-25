@@ -1,4 +1,4 @@
-{{ include('partials/main.html.twig') }}
+    {{ include('partials/main.html.twig') }}
 <head>
     {{ include('partials/title-meta.html.twig', {title: 'Profile Settings'}) }}
     {{ include('partials/head-css.html.twig') }}
@@ -74,6 +74,11 @@
 </div>
 {{ include('partials/vendor-scripts.html.twig') }}
 {% block javascripts %}
+    <script>
+        document.getElementById('{{ settings_user_picture_form.userPictureName.vars.id }}').addEventListener('change', function() {
+            document.getElementById('submit-btn').click();
+        });
+    </script>
     <!-- resetForm js -->
     <script>
         function resetForm() {
