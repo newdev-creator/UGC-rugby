@@ -13,7 +13,7 @@ class Settings_userPictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('userPictureName', VichImageType::class)
+            ->add('userPictureFile', VichImageType::class)
         ;
     }
 

@@ -3,7 +3,7 @@
         <div class="card-body p-4">
             <div class="text-center">
                 <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                    <img src="/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image  shadow" alt="user-profile-image">
+                    <img src="/uploads/images/user_pictures/{{ user.userPictureName }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image  shadow" alt="user-profile-image">
                     <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                         <input id="profile-img-file-input" type="file" class="profile-img-file-input">
                         <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 {{ form_start(settings_user_picture_form) }}
-                {{ form_widget(settings_user_picture_form.userPictureName) }}
+                {{ form_widget(settings_user_picture_form.userPictureFile) }}
                 <button type="submit" id="submit-btn">Valider</button>
                 {{ form_end(settings_user_picture_form) }}
                 <h5 class="fs-16 mb-1">{{ user.getIdentity }}</h5>
