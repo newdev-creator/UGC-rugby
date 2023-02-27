@@ -193,7 +193,11 @@
                                                             {% for member in carpool.users %}
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="avatar-xs flex-shrink-0 me-3">
-                                                                        <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
+                                                                        {% if member.userPictureName %}
+                                                                            <img src="/uploads/images/user_pictures/{{ member.userPictureName }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
+                                                                        {% else %}
+                                                                            <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
+                                                                        {% endif %}
                                                                     </div>
                                                                     <div class="flex-grow-1">
                                                                         <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ member.getIdentity }}</a></h5>

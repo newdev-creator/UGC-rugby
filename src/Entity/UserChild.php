@@ -7,8 +7,11 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserChildRepository::class)]
+#[Vich\Uploadable]
 class UserChild
 {
     #[ORM\Id]
@@ -22,6 +25,12 @@ class UserChild
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Vich\UploadableField(mapping: 'child_pictures', fileNameProperty: 'childPictureName')]
+    private ?File $childPictureFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $childPictureName = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $birthday = null;
 
@@ -34,7 +43,7 @@ class UserChild
     #[ORM\ManyToOne(inversedBy: 'child')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'child', fetch: 'EAGER')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'child')]
     private ?Category $category = null;
 
     #[ORM\Column]
@@ -216,5 +225,29 @@ class UserChild
         }
 
         return $this;
+    }
+
+    public function setChildPictureFile(?File $childPictureFile = null): void
+    {
+        $this->childPictureFile = $childPictureFile;
+
+        if (null !== $childPictureFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getChildPictureFile(): ?File
+    {
+        return $this->childPictureFile;
+    }
+
+    public function setChildPictureName(?string $childPictureName): void
+    {
+        $this->childPictureName = $childPictureName;
+    }
+
+    public function getChildPictureName(): ?string
+    {
+        return $this->childPictureName;
     }
 }

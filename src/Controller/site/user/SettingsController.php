@@ -40,20 +40,9 @@ class SettingsController extends AbstractController
             return $this->redirectToRoute('settings_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        // USER PICTURE
-        $settingsUserPictureForm = $this->createForm(Settings_userPictureType::class, $user);
-        $settingsUserPictureForm->handleRequest($request);
-
-        if ($settingsUserPictureForm->isSubmitted() && $settingsUserPictureForm->isValid()) {
-            $userRepository->save($user, true);
-            $this->addFlash('success', 'L\'utilisateur a bien été modifié');
-            return $this->redirectToRoute('settings_show', ['user' => $user->getId()], Response::HTTP_SEE_OTHER);
-        }
-
         return $this->render('site/user/settings/settings.html.twig', [
             'user' => $user,
             'settings_user_form' => $settingsUserForm->createView(),
-            'settings_user_picture_form' => $settingsUserPictureForm->createView(),
         ]);
     }
 }
