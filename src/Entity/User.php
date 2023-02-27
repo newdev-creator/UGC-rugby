@@ -380,5 +380,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->userPictureName;
     }
+
+    public function __serialize(): array
+    {
+        return [
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->password,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        if (count($data) === 5) {
+            [
+                $this->id,
+                $this->firstName,
+                $this->lastName,
+                $this->email,
+                $this->password,
+            ] = $data;
+        }
+    }
     
 }
