@@ -1,0 +1,42 @@
+<div class="tab-pane fade" id="event-subscribe" role="tabpanel">
+    <div class="team-list list-view-filter">
+        {% for child in event.child %}
+            <div class="card team-box">
+                <div class="card-body px-4">
+                    <div class="row align-items-center team-row">
+
+                        <div class="col-lg-4 col">
+                            <div class="team-profile-img">
+                                <div class="avatar-lg img-thumbnail rounded-circle shadow">
+                                    <img src="/uploads/images/child_pictures/{{ child.childPictureName }}" alt="Photo enfant" class="img-fluid d-block rounded-circle" />
+                                </div>
+                                <div class="team-content">
+                                    <a href="#" class="d-block">
+                                        <h5 class="fs-16 mb-1">{{ child.getIdentity }}</h5>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col">
+                            <div class="row text-muted text-center">
+                                <div class="col-6 border-end border-end-dashed">
+                                    <h5 class="mb-1">225</h5>
+                                    <p class="text-muted mb-0">Projects</p>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="mb-1">197</h5>
+                                    <p class="text-muted mb-0">Tasks</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col">
+                            <div class="text-end">
+                                <a href="pages-profile" class="btn btn-light view-btn">View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

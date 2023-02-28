@@ -56,19 +56,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-auto">
-                                            <div class="hstack gap-1 flex-wrap">
-                                                <button type="button" class="btn py-0 fs-16 favourite-btn active shadow-none">
-                                                    <i class="ri-star-fill"></i>
-                                                </button>
-                                                <button type="button" class="btn py-0 fs-16 text-body shadow-none">
-                                                    <i class="ri-share-line"></i>
-                                                </button>
-                                                <button type="button" class="btn py-0 fs-16 text-body shadow-none">
-                                                    <i class="ri-flag-line"></i>
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <ul class="nav nav-tabs-custom border-bottom-0" role="tablist">
@@ -89,325 +76,40 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <!-- end card body -->
                             </div>
                         </div>
-                        <!-- end card -->
                     </div>
-                    <!-- end col -->
                 </div>
-                <!-- end row -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="tab-content text-muted">
                             <div class="tab-pane fade show active" id="project-overview" role="tabpanel">
                                 <div class="row">
                                     <div class="col-xl-9 col-lg-8">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="text-muted">
-                                                    <h6 class="mb-3 fw-semibold text-uppercase">Déscription</h6>
-                                                    {{ event.description|raw }}
-                                                    <div class="pt-3 border-top border-top-dashed mt-4">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Date de l'événement :</p>
-                                                                    <h5 class="fs-15 mb-0">{{ event.date|date('d/m/Y à H:i') }}</h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Adresse :</p>
-                                                                    <h5 class="fs-15 mb-0">{{ event.address }} {{ event.postalCode }} {{ event.city }}</h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Catégorie :</p>
-                                                                    {% for category in event.categories %}
-                                                                        <div class="badge bg-danger fs-12">{{ category.name }}</div>
-                                                                    {% endfor %}
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Status :</p>
-                                                                    <div>
-                                                                        {% include ('partials/_status.html.twig') %}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- end card body -->
-                                        </div>
-
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="text-muted">
-                                                    <h6 class="mb-3 fw-semibold text-uppercase">Inscription</h6>
-                                                    <p>Incrivez votre ou vos enfants.</p>
-                                                    <!-- Warning Alert -->
-                                                    <div class="alert alert-warning shadow" role="alert">
-                                                        <b>N'oubliez pas !</b> Si vous avez besoin qu'on amène votre enfant, inscrivez-le sur notre service de <a href="#" class="alert-link">Covoiturage</a>.
-                                                    </div>
-                                                    <div class="pt-3 border-top border-top-dashed mt-4">
-                                                        <div class="row">
-                                                            {{ form_start(form_subscribe) }}
-                                                            {{ form_widget(form_subscribe) }}
-                                                            <div class="col-lg-12 mt-3">
-                                                                <div class="hstack gap-2 justify-content-end">
-                                                                    <a href="{{ path('event_show', {'event': event.id}) }}" class="btn btn-soft-danger w-sm">Annuler</a>
-                                                                    <button type="submit" class="btn btn-success w-sm">Enregistrer</button>
-                                                                </div>
-                                                            </div>
-                                                            {{ form_end(form_subscribe) }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- end card -->
+                                        {% include ('/site/event/_partials/_description.html.twig') %}
+                                        {% include ('/site/event/_partials/_registration.html.twig') %}
                                     </div>
-
-
-
-
-                                    <!-- ene col -->
                                     <div class="col-xl-3 col-lg-4">
-                                        <div class="card">
-                                            <div class="card-header align-items-center d-flex border-bottom-dashed">
-                                                <h4 class="card-title mb-0 flex-grow-1">Covoiturage</h4>
-                                                <div class="flex-shrink-0">
-                                                    <a href="#" class="btn btn-soft-success btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Accéder</a>
-                                                </div>
-                                            </div>
-
-                                            <div class="card-body">
-                                                <div data-simplebar style="height: 235px;" class="mx-n3 px-3">
-                                                    <div class="vstack gap-3">
-                                                        {% for carpool in event.carpool %}
-                                                            {% for member in carpool.users %}
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="avatar-xs flex-shrink-0 me-3">
-                                                                        {% if member.userPictureName %}
-                                                                            <img src="/uploads/images/user_pictures/{{ member.userPictureName }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
-                                                                        {% else %}
-                                                                            <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
-                                                                        {% endif %}
-                                                                    </div>
-                                                                    <div class="flex-grow-1">
-                                                                        <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ member.getIdentity }}</a></h5>
-                                                                    </div>
-                                                                    <div class="flex-shrink-0">
-                                                                        <div class="d-flex align-items-center gap-1">
-                                                                            <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-soft-info btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Voir</a>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                        <!-- end member item -->
-                                                            {% endfor %}
-                                                        {% endfor %}
-                                                    </div>
-                                                    <!-- end list -->
-                                                </div>
-                                            </div>
-                                            <!-- end card body -->
-                                        </div>
-                                        <!-- end card -->
-
-
-                                        <!-- end card -->
-                                    </div>
-                                    <!-- end col -->
-                                </div>
-                                <!-- end row -->
-                            </div>
-                            <!-- end tab pane -->
-
-                            <div class="tab-pane fade" id="event-subscribe" role="tabpanel">
-                                <div class="team-list list-view-filter">
-                                    {% for child in event.child %}
-                                        <div class="card team-box">
-                                            <div class="card-body px-4">
-                                                <div class="row align-items-center team-row">
-                                                    <div class="col team-settings">
-                                                        <div class="row align-items-center">
-                                                            <div class="col">
-                                                                <div class="flex-shrink-0 me-2">
-                                                                    <button type="button" class="btn fs-16 p-0 favourite-btn shadow-none">
-                                                                        <i class="ri-star-fill"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col text-end dropdown">
-                                                                <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i class="ri-more-fill fs-17"></i>
-                                                                </a>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill text-muted me-2 align-bottom"></i>View</a></li>
-                                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-star-fill text-muted me-2 align-bottom"></i>Favourite</a></li>
-                                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-fill text-muted me-2 align-bottom"></i>Delete</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col">
-                                                        <div class="team-profile-img">
-                                                            <div class="avatar-lg img-thumbnail rounded-circle shadow">
-                                                                <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid d-block rounded-circle" />
-                                                            </div>
-                                                            <div class="team-content">
-                                                                <a href="#" class="d-block">
-                                                                    <h5 class="fs-16 mb-1">{{ child.getIdentity }}</h5>
-                                                                </a>
-                                                                <p class="text-muted mb-0">Team Leader & HR</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col">
-                                                        <div class="row text-muted text-center">
-                                                            <div class="col-6 border-end border-end-dashed">
-                                                                <h5 class="mb-1">225</h5>
-                                                                <p class="text-muted mb-0">Projects</p>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <h5 class="mb-1">197</h5>
-                                                                <p class="text-muted mb-0">Tasks</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2 col">
-                                                        <div class="text-end">
-                                                            <a href="pages-profile" class="btn btn-light view-btn">View Profile</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <!--end card-->
-                                    {% endfor %}
-                                </div>
-                                <!-- end team list -->
-                            </div>
-                            <!-- end tab pane -->
-
-                            <div class="tab-pane fade" id="event-carpool" role="tabpanel">
-                                <div class="row g-4 mb-3 d-flex justify-content-end">
-                                    <div class="col-sm-auto">
-                                        <div>
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inviteMembersModal"><i class="ri-share-line me-1 align-bottom"></i> Etre covoitureur</button>
-                                        </div>
+                                        {% include ('/site/event/_partials/_carpools.html.twig') %}
                                     </div>
                                 </div>
-                                <!-- end row -->
-
-                                <div class="team-list list-view-filter">
-                                    {% for carpool in event.carpool %}
-                                        <div class="card team-box">
-                                            <div class="card-body px-4">
-                                                <div class="row align-items-center team-row">
-                                                    <div class="col-lg-3 col">
-                                                        <div class="team-profile-img">
-                                                            <div class="avatar-lg img-thumbnail rounded-circle shadow">
-                                                                <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid d-block rounded-circle" />
-                                                            </div>
-                                                            <div class="team-content">
-                                                                <a href="#" class="d-block">
-                                                                    {% for user in carpool.users %}
-                                                                        <h5 class="fs-16 mb-1">{{ user.getIdentity }}</h5>
-                                                                    {% endfor %}
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3 col mb-3">
-                                                        <div class="row text-muted text-center">
-                                                            <h5 class="mb-1">{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2 col mb-3">
-                                                        <div class="row text-muted text-center">
-                                                            <h5 class="mb-1">{{ carpool.date|date('d, M Y') }}</h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2 col mb-3">
-                                                        <div class="row text-muted text-center">
-                                                            <h5 class="mb-1">Places: {{ carpool.nbPlace }}</h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2 col">
-                                                        <div class="text-end">
-                                                            <a href="pages-profile" class="btn btn-light view-btn">View Profile</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--end card-->
-                                    {% endfor %}
-                                </div>
-                                <!-- end team list -->
                             </div>
+                            {% include ('/site/event/_partials/_event_subscribe.html.twig') %}
+                            {% include ('/site/event/_partials/_event_carpool.html.twig') %}
                         </div>
                     </div>
-                    <!-- end col -->
                 </div>
-                <!-- end row -->
             </div>
-            <!-- container-fluid -->
         </div>
-        <!-- End Page-content -->
-
         {{ include('partials/footer.html.twig') }}
     </div>
-    <!-- end main content-->
-
 </div>
-<!-- END layout-wrapper -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="inviteMembersModal" tabindex="-1" aria-labelledby="inviteMembersModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0">
-            <div class="modal-header p-3 ps-4 bg-soft-success">
-                <h5 class="modal-title" id="inviteMembersModalLabel">Etre covoitureur</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <div class="mb-4 d-flex align-items-center">
-                    <div class="me-2">
-                        <div class="alert alert-info shadow" role="alert">
-                            <strong>Don't forget' it !</strong> A simple <b>info alert</b> —check it out!
-                        </div>
-                    </div>
-                </div>
-                {{ form_start(form_new_carpool) }}
-                    {{ form_widget(form_new_carpool) }}
-                    <button type="submit" class="btn btn-success">Etre covoitureur</button>
-                {{ form_end(form_new_carpool) }}
-            </div>
-        </div>
-        <!-- end modal-content -->
-    </div>
-    <!-- modal-dialog -->
-</div>
-<!-- end modal -->
-
-
-
+{% include ('/site/event/_partials/_modal.html.twig') %}
 {{ include('partials/vendor-scripts.html.twig') }}
-
-<script src="{{ asset('/js/pages/project-overview.init.js') }}"></script>
-
-<!-- App js -->
-<script src="{{ asset('/js/app.js') }}"></script>
-
+{% block javascripts %}
+    <script src="{{ asset('/js/pages/project-overview.init.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
 </body>
-
 </html>

@@ -62,7 +62,11 @@
                             {% for child in event.child %}
                                 <div class="avatar-group-item shadow" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="{{ child.getIdentity }}">
                                     <div class="avatar-xxs">
-                                        <img src="/images/users/avatar-2.jpg" alt="" class="rounded-circle img-fluid">
+                                        {% if child.childPictureName %}
+                                            <img src="/uploads/images/child_pictures/{{ child.childPictureName }}" alt="Photo enfant" class="rounded-circle img-fluid">
+                                        {% else %}
+                                            <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo enfant" class="rounded-circle img-fluid">
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}

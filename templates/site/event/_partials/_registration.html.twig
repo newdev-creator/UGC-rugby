@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-body">
+        <div class="text-muted">
+            <h6 class="mb-3 fw-semibold text-uppercase">Inscription</h6>
+            <p>Incrivez votre ou vos enfants.</p>
+            <!-- Warning Alert -->
+            <div class="alert alert-warning shadow" role="alert">
+                <b>N'oubliez pas !</b> Si vous avez besoin qu'on amène votre enfant, inscrivez-le sur notre service de <a href="#" class="alert-link">Covoiturage</a>.
+            </div>
+            <div class="pt-3 border-top border-top-dashed mt-4">
+                <div class="row">
+                    {{ form_start(form_subscribe) }}
+                    {{ form_widget(form_subscribe) }}
+                    <div class="col-lg-12 mt-3">
+                        <div class="hstack gap-2 justify-content-end">
+                            <a href="{{ path('event_show', {'event': event.id}) }}" class="btn btn-soft-danger w-sm">Annuler</a>
+                            <button type="submit" class="btn btn-success w-sm">Enregistrer</button>
+                        </div>
+                    </div>
+                    {{ form_end(form_subscribe) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

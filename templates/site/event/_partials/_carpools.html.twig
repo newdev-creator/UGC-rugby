@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-header align-items-center d-flex border-bottom-dashed">
+        <h4 class="card-title mb-0 flex-grow-1">Covoiturage</h4>
+        <div class="flex-shrink-0">
+            <a href="#" class="btn btn-soft-success btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Accéder</a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div data-simplebar style="height: 235px;" class="mx-n3 px-3">
+            <div class="vstack gap-3">
+                {% for carpool in event.carpool %}
+                    {% for member in carpool.users %}
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-xs flex-shrink-0 me-3">
+                                {% if member.userPictureName %}
+                                    <img src="/uploads/images/user_pictures/{{ member.userPictureName }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
+                                {% else %}
+                                    <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ member.getIdentity }}</a></h5>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="d-flex align-items-center gap-1">
+                                    <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-soft-info btn-sm shadow-none"><i class="mdi mdi-arrow-right-bold-outline"></i> Voir</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end member item -->
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <!-- end list -->
+        </div>
+    </div>
+    <!-- end card body -->
+</div>
