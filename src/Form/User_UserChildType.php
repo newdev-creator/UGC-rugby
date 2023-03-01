@@ -35,8 +35,6 @@ class User_UserChildType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
                 'input'  => 'datetime_immutable',
-                'format' => 'dd/MM/yyyy',
-                'html5' => false,
                 'attr' => [
                     'placeholder' => 'Date d\'anniversaire',
                     'data-provider' => 'flatpickr',
@@ -54,7 +52,7 @@ class User_UserChildType extends AbstractType
                 ]
             ])
             ->add('childPictureFile', VichImageType::class, [
-                'help' => 'Formats acceptés : jpg, jpeg, png. Taille maximale : 1Mo',
+                'help' => 'Formats acceptés : jpg, jpeg, png. Taille maximale : 5Mo',
                 'label' => 'Photo',
                 'required' => false,
                 'allow_delete' => false,
@@ -68,7 +66,7 @@ class User_UserChildType extends AbstractType
                 
                 'constraints' => [
                     new Image([
-                        'maxSize' => '1024k',
+                        'maxSize' => '5000k',
                         'mimeTypes' => [
                             'image/jpeg', 'image/png', 'image/jpg'
                         ],
