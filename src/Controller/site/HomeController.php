@@ -27,12 +27,12 @@ class HomeController extends AbstractController
 
         if ($request->get('ajax')) {
             return new JsonResponse([
-                'content' => $this->renderView('starter/_events.html.twig', ['events' => $events]),
-                'pagination' => $this->renderView('starter/_pagination.html.twig', ['events' => $events]),
+                'content' => $this->renderView('site/home/_partials/_events.html.twig', ['events' => $events]),
+                'pagination' => $this->renderView('site/home/_partials/_pagination.html.twig', ['events' => $events]),
             ]);
         }
 
-        return $this->render('starter/index.html.twig', [
+        return $this->render('site/home/index.html.twig', [
             'events' => $events,
             'form' => $form->createView()
         ]);

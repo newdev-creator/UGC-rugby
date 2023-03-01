@@ -12,18 +12,18 @@
                 {{ include('partials/page-title.html.twig', {pagetitle: 'Accueil', title: 'Liste des événements à venir'}) }}
                 <div class="row g-4 mb-3">
                     <div class="col-sm">
-                        {% include('home/_form_filter.html.twig') %}
+                        {% include('site/home/_partials/_form_filter.html.twig') %}
                     </div>
                 </div>
                 <div class="row home-js-filter-content">
-                    {% include "home/_events.html.twig" %}
+                    {% include "site/home/_partials/_events.html.twig" %}
                 </div>
                 <div class="row g-0 text-center text-sm-start align-items-center mb-4">
                     <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6">
                         <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0 home-js-filter-pagination">
-                            {% include "home/_pagination.html.twig" %}
+                            {% include "site/home/_partials/_pagination.html.twig" %}
                         </ul>
                     </div>
                 </div>

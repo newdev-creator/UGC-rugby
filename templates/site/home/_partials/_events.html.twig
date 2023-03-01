@@ -5,12 +5,13 @@
                 <div class="d-flex flex-column h-100">
                     <div>
                         <a href="{{ path('event_show', {'event': event.id}) }}">
-                            <img
+                            {% include ('site/home/_partials/_img.html.twig') %}
+                            {# <img
                                 src="{{ asset('images/galaxy/img-2.png') }}"
                                 alt=""
                                 width="100%"
                                 class="rounded mb-3"
-                            >
+                            > #}
                         </a>
                     </div>
                     <div class="d-flex">
