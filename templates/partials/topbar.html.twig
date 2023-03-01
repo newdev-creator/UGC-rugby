@@ -425,7 +425,7 @@
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             {% if app.user.userPictureName %}
-                                <img class="rounded-circle header-profile-user" src="/uploads/images/user_pictures/{{ app.user.userPictureName }}" alt="Photo Utilisateur">
+                                <img class="rounded-circle header-profile-user" src="{{ asset('/uploads/images/user_pictures/' ~ app.user.userPictureName) }}" alt="Photo Utilisateur">
                             {% else %}
                                 <img class="rounded-circle header-profile-user" src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo Utilisateur">
                             {% endif %}

@@ -34,7 +34,7 @@
 							<div class="col-auto">
 								<div class="avatar-lg">
 									{% if user.userPictureName %}
-										<img src="/uploads/images/user_pictures/{{ user.userPictureName }}" alt="user-img" class="img-thumbnail rounded-circle"/>
+										<img src="{{ asset('/uploads/images/user_pictures/' ~ user.userPictureName) }}" alt="user-img" class="img-thumbnail rounded-circle"/>
 									{% else %}
 										<img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="user-img" class="img-thumbnail rounded-circle"/>
 									{% endif %}

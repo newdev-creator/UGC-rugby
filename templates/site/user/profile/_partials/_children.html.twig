@@ -18,7 +18,7 @@
                     <div class="d-flex align-items-center py-3">
                         <div class="avatar-xs flex-shrink-0 me-3">
                             {% if child.childPictureName %}
-                                <img src="/uploads/images/child_pictures/{{ child.childPictureName }}" alt="Photo enfant" class="img-fluid rounded-circle shadow"/>
+                                <img src="{{ asset('/uploads/images/child_pictures/' ~ child.childPictureName) }}" alt="Photo enfant" class="img-fluid rounded-circle shadow"/>
                             {% else %}
                                 <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo enfant" class="img-fluid rounded-circle shadow"/>
                             {% endif %}
