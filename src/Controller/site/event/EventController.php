@@ -33,6 +33,7 @@ class EventController extends AbstractController
             $children = $formSubscribeEvent->get('child')->getData();
             foreach ( $children as $child ) {
                 $event->addChild($child);
+                $event->setNbRegistrant($event->getNbRegistrant() + 1);
             }
             $this->em->flush();
             $this->addFlash('success', 'Vous êtes inscrit à l\'événement');
