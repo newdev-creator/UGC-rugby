@@ -14,7 +14,7 @@
                         <div class="d-flex align-items-center">
                             <div class="avatar-xs flex-shrink-0 me-3">
                                 {% if member.userPictureName %}
-                                    <img src="/uploads/images/user_pictures/{{ member.userPictureName }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
+                                    <img src="{{ asset('/uploads/images/user_pictures/' ~ member.userPictureName) }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
                                 {% else %}
                                     <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo du covoitureur" class="img-fluid rounded-circle">
                                 {% endif %}
