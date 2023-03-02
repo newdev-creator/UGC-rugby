@@ -6,6 +6,7 @@ use App\Entity\Carpool;
 use App\Entity\Event;
 use App\Form\NewParentCarpoolType;
 use App\Form\SubscribeEventType;
+use App\Repository\UserChildRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ class EventController extends AbstractController
     public function show(
         Event $event,
         Request $request,
+        UserChildRepository $ucr,
     ): Response
     {
         // FORM SUBSCRIBE EVENT
@@ -39,6 +41,17 @@ class EventController extends AbstractController
             $this->addFlash('success', 'Vous êtes inscrit à l\'événement');
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
         }
+
+        // FORM DELETE CHILD FROM EVENT
+        if ( $request->request->get('delete_child') ) {
+            $child = $ucr->find($request->request->get('delete_child'));
+            $event->removeChild($child);
+            $event->setNbRegistrant($event->getNbRegistrant() - 1);
+            $this->em->flush();
+            $this->addFlash('success', 'Vous avez été désinscrit de l\'événement');
+            return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
+        }
+
 
         // FORM NEW CARPOOL
         $carpool = new Carpool();

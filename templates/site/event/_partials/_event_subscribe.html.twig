@@ -12,7 +12,16 @@
                             {% endif %}
                         </div>
                         <div class="flex-grow-1 ms-2">
-                            <h5 class="card-title mb-1">{{ child.getIdentity }}</h5>
+                            <div class="d-flex justify-content-evenly">
+                                <h5 class="card-title mb-1">{{ child.getIdentity }}</h5>
+                                {# Si l'enfant appartient à l'utilisateur connecté #}
+                                {% if child.user == app.user %}
+                                    <form method="post" action="{{ path('event_show', {'event': event.id}) }}">
+                                        <input type="hidden" name="delete_child" value="{{ child.id }}">
+                                        <button class="btn btn-ghost-warning" type="submit">Retirer {{ child.firstname }}</button>
+                                    </form>
+                                {% endif %}
+                            </div>
                             <p class="badge rounded-pill bg-danger fs-12">{{ child.category.name }}</p>
                         </div>
                     </div>
