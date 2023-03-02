@@ -47,6 +47,10 @@ class EventController extends AbstractController
             $child = $ucr->find($request->request->get('delete_child'));
             $event->removeChild($child);
             $event->setNbRegistrant($event->getNbRegistrant() - 1);
+            // and we remove the child from all the carpools of the event
+            foreach ( $event->getCarpool() as $carpool ) {
+                $carpool->removeChild($child);
+            }
             $this->em->flush();
             $this->addFlash('success', 'Vous avez été désinscrit de l\'événement');
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);

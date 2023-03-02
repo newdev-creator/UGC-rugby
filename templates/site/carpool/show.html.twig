@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card mt-n4 mx-n4">
-                            <div class="bg-soft-warning">
+                            <div class="bg-soft-primary">
                                 <div class="card-body pb-0 px-4">
                                     <div class="row mb-3">
                                         <div class="col-md">
@@ -68,84 +68,11 @@
                             <div class="tab-pane fade show active" id="project-overview" role="tabpanel">
                                 <div class="row">
                                     <div class="col-xl-9 col-lg-8">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="text-muted">
-                                                    <h6 class="mb-3 fw-semibold text-uppercase">Commentaire</h6>
-                                                    {{ carpool.comment|raw }}
-                                                    <div class="pt-3 border-top border-top-dashed mt-4">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Date du rendez-vous :</p>
-                                                                    <h5 class="fs-15 mb-0">{{ carpool.date|date('d/m/Y à H:i') }}</h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Adresse :</p>
-                                                                    <h5 class="fs-15 mb-0">{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-sm-6">
-                                                                <div>
-                                                                    <p class="mb-2 text-uppercase fw-medium">Status :</p>
-                                                                    {% if carpool.child|length == carpool.nbPlace %}
-                                                                        <span class="badge rounded-pill bg-danger fs-12">Complet</span>
-                                                                    {% else %}
-                                                                        <span class="badge rounded-pill bg-success fs-12">Disponible</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="text-muted">
-                                                    <h6 class="mb-3 fw-semibold text-uppercase">Inscription</h6>
-                                                    <p>Incrivez votre ou vos enfants.</p>
-                                                    <div class="pt-3 border-top border-top-dashed mt-4">
-                                                        <div class="row">
-                                                            {{ form_start(form_subscribe_carpool) }}
-                                                            {{ form_widget(form_subscribe_carpool) }}
-                                                            <div class="col-lg-12 mt-3">
-                                                                <div class="hstack gap-2 justify-content-end">
-                                                                    <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-soft-danger w-sm">Annuler</a>
-                                                                    <button type="submit" class="btn btn-success w-sm">Enregistrer</button>
-                                                                </div>
-                                                            </div>
-                                                            {{ form_end(form_subscribe_carpool) }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% include ('site/carpool/_partials/_comment.html.twig') %}
+                                        {% include ('site/carpool/_partials/_registration.html.twig') %}
                                     </div>
                                     <div class="col-xl-3 col-lg-4">
-                                        <div class="card">
-                                            <div class="card-header align-items-center d-flex border-bottom-dashed">
-                                                <h4 class="card-title mb-0 flex-grow-1">Enfants inscrits</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <div data-simplebar style="height: 235px;" class="mx-n3 px-3">
-                                                    <div class="vstack gap-3">
-                                                        {% for child in carpool.child %}
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar-xs flex-shrink-0 me-3">
-                                                                    <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
-                                                                </div>
-                                                                <div class="flex-grow-1">
-                                                                    <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ child.getIdentity }}</a></h5>
-                                                                </div>
-                                                            </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% include ('site/carpool/_partials/_registered_children.html.twig') %}
                                     </div>
                                 </div>
                             </div>

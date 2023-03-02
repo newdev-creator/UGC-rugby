@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header align-items-center d-flex border-bottom-dashed">
+        <h4 class="card-title mb-0 flex-grow-1">Enfants inscrits</h4>
+    </div>
+    <div class="card-body">
+        <div data-simplebar style="height: 235px;" class="mx-n3 px-3">
+            <div class="vstack gap-3">
+                {% for child in carpool.child %}
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-xs flex-shrink-0 me-3">
+                            <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ child.getIdentity }}</a></h5>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,9 @@ class CarpoolController extends AbstractController
         Request $request,
     ): Response
     {
+        // CHECK IF CARPOOL IS FULL
+        // TODO: check if carpool is full
+        
         // FORM SUBSCRIBE CARPOOL
         $formSubscribeCarpool = $this->createForm(SubscribeCarpoolType::class);
         $formSubscribeCarpool->handleRequest($request);

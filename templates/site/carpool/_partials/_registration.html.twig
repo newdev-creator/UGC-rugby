@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-body">
+        <div class="text-muted">
+            <h6 class="mb-3 fw-semibold text-uppercase">Inscription</h6>
+            <p>Incrivez votre ou vos enfants.</p>
+            <div class="pt-3 border-top border-top-dashed mt-4">
+                <div class="row">
+                    {{ form_start(form_subscribe_carpool) }}
+                    {{ form_widget(form_subscribe_carpool) }}
+                    <div class="col-lg-12 mt-3">
+                        <div class="hstack gap-2 justify-content-end">
+                            <a href="{{ path('carpool_show', {'carpool': carpool.id}) }}" class="btn btn-soft-danger w-sm">Annuler</a>
+                            <button type="submit" class="btn btn-success w-sm">Enregistrer</button>
+                        </div>
+                    </div>
+                    {{ form_end(form_subscribe_carpool) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
