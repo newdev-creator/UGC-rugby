@@ -32,22 +32,27 @@ class CarpoolController extends AbstractController
         Request $request,
     ): Response
     {
-        // CHECK IF CARPOOL IS FULL
         // TODO: check if carpool is full
-        
-        // FORM SUBSCRIBE CARPOOL
-        $formSubscribeCarpool = $this->createForm(SubscribeCarpoolType::class);
-        $formSubscribeCarpool->handleRequest($request);
+        // CHECK IF CARPOOL IS FULL
+        // check if nbPlace is equal at number child in relation carpool
+        if ( $carpool->getNbPlace() == $carpool->getChild()->count() ) {
+            dd('Covoiturage complet');
+        } else {
+            // FORM SUBSCRIBE CARPOOL
+            $formSubscribeCarpool = $this->createForm(SubscribeCarpoolType::class);
+            $formSubscribeCarpool->handleRequest($request);
 
-        if ($formSubscribeCarpool->isSubmitted() && $formSubscribeCarpool->isValid()) {
-            $children = $formSubscribeCarpool->get('child')->getData();
-            foreach ( $children as $child ) {
-                $carpool->addChild($child);
+            if ($formSubscribeCarpool->isSubmitted() && $formSubscribeCarpool->isValid()) {
+                $children = $formSubscribeCarpool->get('child')->getData();
+                foreach ( $children as $child ) {
+                    $carpool->addChild($child);
+                }
+                $this->em->flush();
+                $this->addFlash('success', 'Vous êtes inscrit au covoiturage');
+                return $this->redirectToRoute('carpool_show', ['carpool' => $carpool->getId()]);
             }
-            $this->em->flush();
-            $this->addFlash('success', 'Vous êtes inscrit au covoiturage');
-            return $this->redirectToRoute('carpool_show', ['carpool' => $carpool->getId()]);
         }
+
         return $this->render('site/carpool/show.html.twig', [
             'carpool' => $carpool,
             'form_subscribe_carpool' => $formSubscribeCarpool->createView(),
