@@ -3,11 +3,13 @@
     <span class="sr-only">Chargement...</span>
 </div>
 <div class="home-search">
-    <div class="search-box ms-2">
+    {# <div class="search-box ms-2">
         {{ form_widget(form.q) }}
         <i class="ri-search-line search-icon"></i>
-    </div>
+    </div> #}
     <div>
+        {# ajouter un titre "Filtrer par catégorie" #}
+        <h5 class="home-search-title mt-3">Filtrer par catégorie</h5>
         {{ form_widget(form.categories, {attr: {class: 'home-search-categories'}}) }}
     </div>
 </div>
