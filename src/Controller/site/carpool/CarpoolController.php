@@ -5,6 +5,7 @@ namespace App\Controller\site\carpool;
 use App\Entity\Carpool;
 use App\Form\SubscribeCarpoolType;
 use App\Repository\CarpoolRepository;
+use App\Repository\UserChildRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,27 +31,30 @@ class CarpoolController extends AbstractController
     public function show(
         Carpool $carpool,
         Request $request,
+        UserChildRepository $ucr,
     ): Response
     {
-        // TODO: check if carpool is full
-        // CHECK IF CARPOOL IS FULL
-        // check if nbPlace is equal at number child in relation carpool
-        if ( $carpool->getNbPlace() == $carpool->getChild()->count() ) {
-            dd('Covoiturage complet');
-        } else {
-            // FORM SUBSCRIBE CARPOOL
-            $formSubscribeCarpool = $this->createForm(SubscribeCarpoolType::class);
-            $formSubscribeCarpool->handleRequest($request);
+        // FORM SUBSCRIBE CARPOOL
+        $formSubscribeCarpool = $this->createForm(SubscribeCarpoolType::class);
+        $formSubscribeCarpool->handleRequest($request);
 
-            if ($formSubscribeCarpool->isSubmitted() && $formSubscribeCarpool->isValid()) {
-                $children = $formSubscribeCarpool->get('child')->getData();
-                foreach ( $children as $child ) {
-                    $carpool->addChild($child);
-                }
-                $this->em->flush();
-                $this->addFlash('success', 'Vous êtes inscrit au covoiturage');
-                return $this->redirectToRoute('carpool_show', ['carpool' => $carpool->getId()]);
+        if ($formSubscribeCarpool->isSubmitted() && $formSubscribeCarpool->isValid()) {
+            $children = $formSubscribeCarpool->get('child')->getData();
+            foreach ( $children as $child ) {
+                $carpool->addChild($child);
             }
+            $this->em->flush();
+            $this->addFlash('success', 'Vous êtes inscrit au covoiturage');
+            return $this->redirectToRoute('carpool_show', ['carpool' => $carpool->getId()]);
+        }
+
+        // FORM DELETE CHILD FROM CARPOOL
+        if ( $request->request->get('delete_child_carpool') ) {
+            $child = $ucr->find($request->request->get('delete_child_carpool'));
+            $carpool->removeChild($child);
+            $this->em->flush();
+            $this->addFlash('success', 'Vous avez été désinscrit du covoiturage');
+            return $this->redirectToRoute('carpool_show', ['carpool' => $carpool->getId()]);
         }
 
         return $this->render('site/carpool/show.html.twig', [

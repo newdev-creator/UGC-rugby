@@ -8,12 +8,23 @@
                 {% for child in carpool.child %}
                     <div class="d-flex align-items-center">
                         <div class="avatar-xs flex-shrink-0 me-3">
-                            <img src="/images/users/avatar-2.jpg" alt="" class="img-fluid rounded-circle">
+                            {% if child.childPictureName %}
+                                <img src="{{ asset('/uploads/images/user_pictures/' ~ child.childPictureName) }}" alt="" class="img-fluid rounded-circle">
+                            {% else %}
+                                <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="" class="img-fluid rounded-circle">
+                            {% endif %}
                         </div>
                         <div class="flex-grow-1">
                             <h5 class="fs-13 mb-0"><a href="#" class="text-body d-block">{{ child.getIdentity }}</a></h5>
                         </div>
+                        {% if child.user == app.user %}
+                            <form method="post" action="{{ path('carpool_show', {'carpool': carpool.id}) }}">
+                                <input type="hidden" name="delete_child_carpool" value="{{ child.id }}">
+                                <button class="btn btn-ghost-warning" type="submit">Retirer</button>
+                            </form>
+                        {% endif %}
                     </div>
+
                 {% endfor %}
             </div>
         </div>

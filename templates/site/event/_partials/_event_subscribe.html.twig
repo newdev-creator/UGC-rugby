@@ -18,7 +18,7 @@
                                 {% if child.user == app.user %}
                                     <form method="post" action="{{ path('event_show', {'event': event.id}) }}">
                                         <input type="hidden" name="delete_child" value="{{ child.id }}">
-                                        <button class="btn btn-ghost-warning" type="submit">Retirer {{ child.firstname }}</button>
+                                        <button class="btn btn-ghost-warning" type="submit">Retirer</button>
                                     </form>
                                 {% endif %}
                             </div>

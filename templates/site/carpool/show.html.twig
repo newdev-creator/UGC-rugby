@@ -22,7 +22,7 @@
                                                         <div class="avatar-title bg-white rounded-circle">
                                                             {% for user in carpool.users %}
                                                                 {% if user.userPictureName %}
-                                                                    <img src="{{ asset('/uploads/images/user_pictures/' ~ user.userPictureName) }}" alt="" class="avatar-xs">
+                                                                    <img src="{{ asset('/uploads/images/user_pictures/' ~ user.userPictureName) }}" alt="Photo {{ user.getIdentity }}" class="avatar-xs">
                                                                 {% else %}
                                                                     <img src="{{ asset('/images/users/user-dummy-img.jpg') }}}" alt="" class="avatar-xs">
                                                                 {% endif %}
