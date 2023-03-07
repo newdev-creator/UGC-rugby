@@ -21,8 +21,11 @@ class CarpoolController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(CarpoolRepository $carpoolRepository): Response
     {
+        // $carpoolIsActive = $carpoolRepository->getCarpools();
+        // $carpoolIsNotActive = $carpoolRepository->getCarpools(false);
+
         return $this->render('admin/carpool/index.html.twig', [
-            'carpools' => $carpoolRepository->getActiveCarpool(),
+            'carpools' => $carpoolRepository->getCarpools(),
         ]);
     }
 

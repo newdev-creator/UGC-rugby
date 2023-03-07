@@ -41,9 +41,9 @@ class CarpoolRepository extends ServiceEntityRepository
     }
 
     // GET CARPOOL
-    public function getActiveCarpool(): array
+    public function getCarpools(bool $isActive = true): array
     {
-        return $this->createQueryBuilder('c')
+        $qb = $this->createQueryBuilder('c')
             ->select(
                 'c.id',
                 'c.status',
@@ -58,17 +58,48 @@ class CarpoolRepository extends ServiceEntityRepository
             )
             ->leftJoin('c.users', 'u')
             ->leftJoin('c.child', 'uc')
-            ->andWhere('c.isActive = :val')
-            ->setParameter('val', true)
-            ->groupBy(
-                'c.id',
-                'u.firstName',
-                'u.lastName',
-            )
-            ->getQuery()
-            ->getResult()
-        ;
+            ->groupBy('c.id', 'u.firstName', 'u.lastName');
+
+        if ($isActive) {
+            $qb->where('c.isActive = :val')
+                ->setParameter('val', true);
+        } else {
+            $qb->where('c.isActive = :val')
+                ->setParameter('val', false);
+        }
+
+        return $qb->getQuery()->getResult();
     }
+
+
+    // public function getActiveCarpool(): array
+    // {
+    //     return $this->createQueryBuilder('c')
+    //         ->select(
+    //             'c.id',
+    //             'c.status',
+    //             'c.date',
+    //             'c.address',
+    //             'c.postalCode',
+    //             'c.city',
+    //             'c.nbPlace',
+    //             'u.firstName',
+    //             'u.lastName',
+    //             'COUNT(uc.id) AS nbChildren'
+    //         )
+    //         ->leftJoin('c.users', 'u')
+    //         ->leftJoin('c.child', 'uc')
+    //         ->where('c.isActive = :val')
+    //         ->setParameter('val', true)
+    //         ->groupBy(
+    //             'c.id',
+    //             'u.firstName',
+    //             'u.lastName'
+    //         )
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
 
 
 //    /**
