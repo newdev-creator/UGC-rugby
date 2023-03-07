@@ -22,7 +22,7 @@ class CarpoolController extends AbstractController
     public function index(CarpoolRepository $carpoolRepository): Response
     {
         return $this->render('admin/carpool/index.html.twig', [
-            'carpools' => $carpoolRepository->findBy(['isActive' => true]),
+            'carpools' => $carpoolRepository->getActiveCarpool(),
         ]);
     }
 

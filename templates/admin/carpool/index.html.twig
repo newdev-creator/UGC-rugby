@@ -40,16 +40,14 @@
                                             {% dump(carpool) %}
                                             <td>{{ carpool.id }}</td>
                                             <td>
-                                                {% if carpool.child|length == carpool.nbPlace %}
+                                                {% if carpool.nbChildren == carpool.nbPlace %}
                                                     <span class="badge rounded-pill bg-danger fs-12">Complet</span>
                                                 {% else %}
                                                     <span class="badge rounded-pill bg-success fs-12">Disponible</span>
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                {% for user in carpool.users %}
-                                                    {{ user.getidentity }}
-                                                {% endfor %}
+                                                {{ carpool.firstName }} {{ carpool.lastName }}
                                             </td>
                                             <td>{{ carpool.date|date('d, M Y H:i') }}</td>
                                             <td>{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</td>

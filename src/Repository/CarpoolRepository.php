@@ -40,6 +40,37 @@ class CarpoolRepository extends ServiceEntityRepository
         }
     }
 
+    // GET CARPOOL
+    public function getActiveCarpool(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select(
+                'c.id',
+                'c.status',
+                'c.date',
+                'c.address',
+                'c.postalCode',
+                'c.city',
+                'c.nbPlace',
+                'u.firstName',
+                'u.lastName',
+                'COUNT(uc.id) AS nbChildren'
+            )
+            ->leftJoin('c.users', 'u')
+            ->leftJoin('c.child', 'uc')
+            ->andWhere('c.isActive = :val')
+            ->setParameter('val', true)
+            ->groupBy(
+                'c.id',
+                'u.firstName',
+                'u.lastName',
+            )
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 //    /**
 //     * @return Carpool[] Returns an array of Carpool objects
 //     */
