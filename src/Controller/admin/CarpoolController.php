@@ -19,13 +19,22 @@ class CarpoolController extends AbstractController
     ){}
 
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(CarpoolRepository $carpoolRepository): Response
+    public function index(
+        CarpoolRepository $carpoolRepository,
+        Request $request
+    ): Response
     {
         $carpoolIsActive = $carpoolRepository->getCarpools();
-        // $carpoolIsNotActive = $carpoolRepository->getCarpools(false);
+        $carpoolIsNotActive = $carpoolRepository->getCarpools(false);
+        $isDelete = $request->query->get('is_delete');
+        if ($isDelete === "1") {
+            $carpools = $carpoolIsNotActive;
+        } else {
+            $carpools = $carpoolIsActive;
+        }
 
         return $this->render('admin/carpool/index.html.twig', [
-            'carpools' => $carpoolIsActive,
+            'carpools' => $carpools,
         ]);
     }
 
@@ -83,7 +92,7 @@ class CarpoolController extends AbstractController
         if ($this->isCsrfTokenValid('admin_carpool_archive_'.$carpool->getId(), $request->request->get('_token'))) {
             $carpool->setIsActive(0);
             $this->em->flush();
-            $this->addFlash('success', "Le covoiturage de {$carpool->getUsers()} a bien été archivé");
+            $this->addFlash('success', "Le covoiturage a bien été archivé");
         }
 
         return $this->redirectToRoute('admin_carpool_index', [], Response::HTTP_SEE_OTHER);
