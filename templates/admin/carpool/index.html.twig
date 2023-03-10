@@ -37,7 +37,6 @@
                                     <tbody>
                                     {% for carpool in carpools %}
                                         <tr>
-                                            {% dump(carpool) %}
                                             <td>{{ carpool.id }}</td>
                                             <td>
                                                 {% if carpool.nbChildren == carpool.nbPlace %}

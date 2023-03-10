@@ -56,6 +56,71 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    // GET USER
+    public function getUsers(bool $isActive = true): array
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->select(
+                'u.id',
+                'u.email',
+                'u.roles',
+                'u.lastName',
+                'u.firstName',
+                'u.phone',
+                'u.address',
+                'u.postalCode',
+                'u.city',
+                'uc.firstName AS childFirstName',
+                'uc.lastName AS childLastName',
+            )
+            ->leftJoin('u.child', 'uc')
+        ;
+
+        if ($isActive) {
+            $qb->where('u.isActive = :val')
+                ->setParameter('val', true);
+        } else {
+            $qb->where('u.isActive = :val')
+                ->setParameter('val', false);
+        }
+
+        $results = $qb->getQuery()->getResult();
+
+        $usersWithChildren = [];
+
+        foreach ($results as $result) {
+            $userId = $result['id'];
+            $user = [
+                'id' => $userId,
+                'email' => $result['email'],
+                'roles' => $result['roles'],
+                'lastName' => $result['lastName'],
+                'firstName' => $result['firstName'],
+                'phone' => $result['phone'],
+                'address' => $result['address'],
+                'postalCode' => $result['postalCode'],
+                'city' => $result['city'],
+                'children' => []
+            ];
+
+            if (!empty($result['childFirstName']) && !empty($result['childLastName'])) {
+                $user['children'][] = [
+                    'firstName' => $result['childFirstName'],
+                    'lastName' => $result['childLastName']
+                ];
+            }
+
+            if (isset($usersWithChildren[$userId])) {
+                $usersWithChildren[$userId]['children'] = array_merge($usersWithChildren[$userId]['children'], $user['children']);
+            } else {
+                $usersWithChildren[$userId] = $user;
+            }
+        }
+
+        return array_values($usersWithChildren);
+    }
+
+
 
 //    /**
 //     * @return User[] Returns an array of User objects

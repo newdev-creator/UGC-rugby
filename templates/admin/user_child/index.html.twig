@@ -32,13 +32,12 @@
                                     </thead>
                                     <tbody>
                                     {% for child in user_children %}
-                                        {% dump(child) %}
                                         <tr>
                                             <td>{{ child.id }}</td>
-                                            <td>{{ child.getIdentity }}</td>
+                                            <td>{{ child.firstName }} {{ child.lastName }}</td>
                                             <td>{{ child.birthday|date('d, M Y') }}</td>
-                                            <td>{{ child.category }}</td>
-                                            <td>{{ child.user }}</td>
+                                            <td>{{ child.categoryName }}</td>
+                                            <td>{{ child.userFirstName }} {{ child.userLastName }}</td>
                                             <td>
                                                 <div class="dropdown d-inline-block">
                                                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">

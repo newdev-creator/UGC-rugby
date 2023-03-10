@@ -45,6 +45,35 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
+    // GET EVENTS
+    public function getEvents(bool $isActive = true): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->select(
+                'e.id',
+                'e.status',
+                'e.title',
+                'e.date',
+                'e.address',
+                'e.postalCode',
+                'e.city',
+                'e.nbMinus',
+                'e.nbRegistrant',
+                'e.isActive'
+            )
+        ;
+
+        if ($isActive) {
+            $qb->where('e.isActive = :val')
+                ->setParameter('val', true);
+        } else {
+            $qb->where('e.isActive = :val')
+                ->setParameter('val', false);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * @param SearchData $search
      * @return PaginationInterface

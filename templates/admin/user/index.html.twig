@@ -34,16 +34,15 @@
                                     </thead>
                                     <tbody>
                                     {% for user in users %}
-                                        {% dump(user) %}
                                         <tr>
                                             <td>{{ user.id }}</td>
-                                            <td>{{ user.getIdentity }}</td>
+                                            <td>{{ user.firstName }} {{ user.lastName }}</td>
                                             <td>{{ user.phone }}</td>
                                             <td>{{ user.email }}</td>
                                             <td>{{ user.address }} {{ user.postalCode }} {{ user.city }}</td>
                                             <td>
-                                                {% for child in user.child %}
-                                                    {{ child.getIdentity }}<br>
+                                                {% for child in user.children %}
+                                                    {{ child.firstName }} {{ child.lastName }}<br>
                                                 {% endfor %}
                                             </td>
                                             <td>

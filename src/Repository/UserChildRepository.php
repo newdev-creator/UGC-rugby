@@ -39,6 +39,35 @@ class UserChildRepository extends ServiceEntityRepository
         }
     }
 
+    // GET CHILDREN
+    public function getChildren(bool $isActive = true): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select(
+                'c.id',
+                'c.firstName',
+                'c.lastName',
+                'c.birthday',
+                'cat.name AS categoryName',
+                'u.firstName AS userFirstName',
+                'u.lastName AS userLastName'
+            )
+            ->leftJoin('c.category', 'cat')
+            ->leftJoin('c.user', 'u')
+        ;
+
+        if ($isActive) {
+            $qb->where('c.isActive = :val')
+                ->setParameter('val', true);
+        } else {
+            $qb->where('c.isActive = :val')
+                ->setParameter('val', false);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
 //    /**
 //     * @return UserChild[] Returns an array of UserChild objects
 //     */

@@ -1,7 +1,7 @@
 <form
     method="post"
     action="{{ path('admin_user_delete', {'user': user.id}) }}"
-    onsubmit="return confirm('Voulez-vous supprimer le parent: {{ user.getIdentity }}?');"
+    onsubmit="return confirm('Voulez-vous supprimer le parent: {{ user.firstName }} {{ user.lastName }}?');"
 >
     <input
         type="hidden"

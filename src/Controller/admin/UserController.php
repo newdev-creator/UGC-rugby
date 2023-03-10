@@ -21,8 +21,10 @@ class UserController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+        $userIsActive = $userRepository->getUsers();
+        // $userIsNotActive = $userRepository->getUsers(false);
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findBy(['isActive' => true]),
+            'users' => $userIsActive,
         ]);
     }
 

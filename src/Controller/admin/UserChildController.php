@@ -21,8 +21,10 @@ class UserChildController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(UserChildRepository $userChildRepository): Response
     {
+        $childrenIsActive = $userChildRepository->getChildren();
+        // $userIsNotActive = $userRepository->getUsers(false);
         return $this->render('admin/user_child/index.html.twig', [
-            'user_children' => $userChildRepository->findBy(['isActive' => true]),
+            'user_children' => $childrenIsActive,
         ]);
     }
 

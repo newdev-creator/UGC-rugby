@@ -58,7 +58,8 @@ class CarpoolRepository extends ServiceEntityRepository
             )
             ->leftJoin('c.users', 'u')
             ->leftJoin('c.child', 'uc')
-            ->groupBy('c.id', 'u.firstName', 'u.lastName');
+            ->groupBy('c.id', 'u.firstName', 'u.lastName')
+        ;
 
         if ($isActive) {
             $qb->where('c.isActive = :val')

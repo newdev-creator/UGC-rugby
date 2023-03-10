@@ -24,11 +24,13 @@ class EventController extends AbstractController
         Request $request
     ): Response
     {
+        $eventsIsActive = $eventRepository->getEvents();
+        $eventsIsNotActive = $eventRepository->getEvents(false);
         $isDelete = $request->query->get('is_delete');
         if ($isDelete === "1") {
-            $events = $eventRepository->findBy(['isActive' => false], ['addedAt' => 'DESC']);
+            $events = $eventsIsNotActive;
         } else {
-            $events = $eventRepository->findBy(['isActive' => true], ['addedAt' => 'DESC']);
+            $events = $eventsIsActive;
         }
 
         return $this->render('admin/event/index.html.twig', [
