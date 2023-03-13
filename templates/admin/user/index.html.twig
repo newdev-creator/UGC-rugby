@@ -38,15 +38,7 @@
                                         <tr>
                                             <td>{{ user.id }}</td>
                                             <td>
-                                                {% for role in user.roles %}
-                                                    {% if role == 'ROLE_ADMIN' %}
-                                                        <span class="badge rounded-pill bg-danger fs-12">Admin</span>
-                                                    {% elseif role == 'ROLE_USER' %}
-                                                        <span class="badge rounded-pill bg-info fs-12">Parent</span>
-                                                    {% else %}
-                                                        <span class="badge rounded-pill bg-warning fs-12">{{ role }}</span>
-                                                    {% endif %}
-                                                {% endfor %}
+                                                {% include ('admin/user/_roles.html.twig') %}
                                             </td>
                                             <td>{{ user.firstName }} {{ user.lastName }}</td>
                                             <td>{{ user.phone }}</td>

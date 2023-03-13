@@ -18,6 +18,12 @@ class UserType extends AbstractType
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
+                    'Secrétaire Baby' => 'ROLE_SECRETARY_BABY',
+                    'Secrétaire U6' => 'ROLE_SECRETARY_U6',
+                    'Secrétaire U8' => 'ROLE_SECRETARY_U8',
+                    'Secrétaire U10' => 'ROLE_SECRETARY_U10',
+                    'Secrétaire U12' => 'ROLE_SECRETARY_U12',
+                    'Secrétaire U14' => 'ROLE_SECRETARY_U14',
                 ],
                 'multiple' => true,
                 'expanded' => true,

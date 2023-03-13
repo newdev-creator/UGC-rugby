@@ -18,6 +18,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_SECRETARY_BABY = 'ROLE_SECRETARY_BABY';
+    const ROLE_SECRETARY_U6 = 'ROLE_SECRETARY_U6';
+    const ROLE_SECRETARY_U8 = 'ROLE_SECRETARY_U8';
+    const ROLE_SECRETARY_U10 = 'ROLE_SECRETARY_U10';
+    const ROLE_SECRETARY_U12 = 'ROLE_SECRETARY_U12';
+    const ROLE_SECRETARY_U14 = 'ROLE_SECRETARY_U14';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
