@@ -1,4 +1,18 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Choisir les nouveau roles pour <strong>{{ user.getIdentity }}</strong></h5>
+            </div>
+            <div class="card-body">
+                {{ form_widget(form.roles) }}
+            </div>
+        </div>
+        <div class="text-end mb-4">
+            <a href="{{ path('admin_user_index') }}" class="btn btn-danger w-sm">Annuler</a>
+            <button type="submit" class="btn btn-success w-sm">{{ button_label|default('Enregistrer') }}</button>
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}

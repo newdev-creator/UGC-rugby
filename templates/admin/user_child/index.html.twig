@@ -44,7 +44,6 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a href="{{ path('admin_user_child_show', {'child':child.id}) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
                                                         <li><a href="{{ path('admin_user_child_edit', {'child':child.id}) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
                                                         <li>
                                                             {{ include('admin/user_child/_delete_form.html.twig') }}

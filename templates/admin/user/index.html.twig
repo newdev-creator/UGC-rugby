@@ -24,6 +24,7 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Role</th>
                                         <th>Nom</th>
                                         <th>Téléphone</th>
                                         <th>Email</th>
@@ -36,6 +37,17 @@
                                     {% for user in users %}
                                         <tr>
                                             <td>{{ user.id }}</td>
+                                            <td>
+                                                {% for role in user.roles %}
+                                                    {% if role == 'ROLE_ADMIN' %}
+                                                        <span class="badge rounded-pill bg-danger fs-12">Admin</span>
+                                                    {% elseif role == 'ROLE_USER' %}
+                                                        <span class="badge rounded-pill bg-info fs-12">Parent</span>
+                                                    {% else %}
+                                                        <span class="badge rounded-pill bg-warning fs-12">{{ role }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
                                             <td>{{ user.firstName }} {{ user.lastName }}</td>
                                             <td>{{ user.phone }}</td>
                                             <td>{{ user.email }}</td>
@@ -51,7 +63,7 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a href="{{ path('admin_user_show', {'user':user.id}) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
+                                                        <li><a href="{{ path('admin_user_edit', {'user':user.id}) }}" class="dropdown-item"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
                                                         <li>
                                                             {{ include('admin/user/_delete_form.html.twig') }}
                                                         </li>

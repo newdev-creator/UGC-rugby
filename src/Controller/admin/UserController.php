@@ -68,7 +68,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
             $this->addFlash('success', 'L\'utilisateur a bien été modifié');
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/user/edit.html.twig', [
