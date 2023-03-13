@@ -24,6 +24,7 @@ class UserType extends AbstractType
                     'Secrétaire U10' => 'ROLE_SECRETARY_U10',
                     'Secrétaire U12' => 'ROLE_SECRETARY_U12',
                     'Secrétaire U14' => 'ROLE_SECRETARY_U14',
+                    'Entraineur' => 'ROLE_COACH',
                 ],
                 'multiple' => true,
                 'expanded' => true,

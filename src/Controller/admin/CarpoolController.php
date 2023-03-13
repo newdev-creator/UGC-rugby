@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/carpool', name: 'admin_carpool_')]
+#[Route('/admin/covoiturage', name: 'admin_carpool_')]
 class CarpoolController extends AbstractController
 {
     public function __construct(

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/user/child', name: 'admin_user_child_')]
+#[Route('/admin/parents/enfants', name: 'admin_user_child_')]
 class UserChildController extends AbstractController
 {
     public function __construct(

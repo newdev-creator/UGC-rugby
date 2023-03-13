@@ -15,6 +15,8 @@
         <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U12</span>
     {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_U14')) %}
         <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U14</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_COACH')) %}
+        <span class="badge rounded-pill bg-success fs-12">Entraineur</span>
     {% else %}
         <span class="badge rounded-pill bg-warning fs-12">{{ role }}</span>
     {% endif %}

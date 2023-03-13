@@ -27,6 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ROLE_SECRETARY_U10 = 'ROLE_SECRETARY_U10';
     const ROLE_SECRETARY_U12 = 'ROLE_SECRETARY_U12';
     const ROLE_SECRETARY_U14 = 'ROLE_SECRETARY_U14';
+    const ROLE_COACH = 'ROLE_COACH';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -414,5 +415,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             ] = $data;
         }
     }
-    
 }

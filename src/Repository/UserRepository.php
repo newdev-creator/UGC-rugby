@@ -56,9 +56,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    const BABY_CATEGORY = 'Baby';
+    const U6_CATEGORY = 'U6';
+    const U8_CATEGORY = 'U8';
+    const U10_CATEGORY = 'U10';
+    const U12_CATEGORY = 'U12';
+    const U14_CATEGORY = 'U14';
+
     // GET USER
-    public function getUsers(bool $isActive = true): array
+    public function getUsers(string $role, bool $isActive = true): array
     {
+        $isActiveValue = (bool)$isActive;
+
         $qb = $this->createQueryBuilder('u')
             ->select(
                 'u.id',
@@ -76,13 +85,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->leftJoin('u.child', 'uc')
         ;
 
-        if ($isActive) {
-            $qb->where('u.isActive = :val')
-                ->setParameter('val', true);
-        } else {
-            $qb->where('u.isActive = :val')
-                ->setParameter('val', false);
+        switch ($role) {
+            case User::ROLE_SECRETARY_BABY:
+                $qb->where('uc.category = :category')
+                    ->setParameter('category', self::BABY_CATEGORY);
+                break;
+            case User::ROLE_SECRETARY_U6:
+                $qb->where('uc.category = :category')
+                    ->setParameter('category', self::U6_CATEGORY);
+                break;
+            case User::ROLE_SECRETARY_U8:
+                $qb->where('uc.category = :category')
+                    ->setParameter('category', self::U8_CATEGORY);
+                break;
+            case User::ROLE_SECRETARY_U10:
+                $qb->where('uc.category = :category')
+                    ->setParameter('category', self::U10_CATEGORY);
+                break;
+            case User::ROLE_SECRETARY_U12:
+                $qb->where('uc.category = :category')
+                    ->setParameter('category', self::U12_CATEGORY);
+                break;
+            case User::ROLE_SECRETARY_U14:
+                $qb->where('uc.category = :category')
+                    ->setParameter('category', self::U14_CATEGORY);
+                break;
+            default:
+                // Do nothing, retrieve all users
+                break;
         }
+
+        $qb->andWhere('u.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
 
         $results = $qb->getQuery()->getResult();
 

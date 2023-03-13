@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/user', name: 'admin_user_')]
+#[Route('/admin/parents', name: 'admin_user_')]
 class UserController extends AbstractController
 {
     public function __construct(
@@ -21,7 +21,9 @@ class UserController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        $userIsActive = $userRepository->getUsers();
+        // récupérer le rôle de l'utilisateur connecté au format string
+        $role = $this->getUser()->getRoles()[0];
+        $userIsActive = $userRepository->getUsers($role, $isActive = true);
         // $userIsNotActive = $userRepository->getUsers(false);
         return $this->render('admin/user/index.html.twig', [
             'users' => $userIsActive,
