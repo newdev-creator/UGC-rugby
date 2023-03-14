@@ -40,9 +40,13 @@ class CarpoolRepository extends ServiceEntityRepository
         }
     }
 
+    // TODO: Add method to get carpool by id
     // GET CARPOOL
-    public function getCarpools(bool $isActive = true): array
+    public function getCarpools(array $rolesUser, bool $isActive = true): array
     {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
+
         $qb = $this->createQueryBuilder('c')
             ->select(
                 'c.id',
@@ -61,70 +65,10 @@ class CarpoolRepository extends ServiceEntityRepository
             ->groupBy('c.id', 'u.firstName', 'u.lastName')
         ;
 
-        if ($isActive) {
-            $qb->where('c.isActive = :val')
-                ->setParameter('val', true);
-        } else {
-            $qb->where('c.isActive = :val')
-                ->setParameter('val', false);
-        }
+        // Filter by active users
+        $qb->andWhere('c.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
 
         return $qb->getQuery()->getResult();
     }
-
-
-    // public function getActiveCarpool(): array
-    // {
-    //     return $this->createQueryBuilder('c')
-    //         ->select(
-    //             'c.id',
-    //             'c.status',
-    //             'c.date',
-    //             'c.address',
-    //             'c.postalCode',
-    //             'c.city',
-    //             'c.nbPlace',
-    //             'u.firstName',
-    //             'u.lastName',
-    //             'COUNT(uc.id) AS nbChildren'
-    //         )
-    //         ->leftJoin('c.users', 'u')
-    //         ->leftJoin('c.child', 'uc')
-    //         ->where('c.isActive = :val')
-    //         ->setParameter('val', true)
-    //         ->groupBy(
-    //             'c.id',
-    //             'u.firstName',
-    //             'u.lastName'
-    //         )
-    //         ->getQuery()
-    //         ->getResult()
-    //     ;
-    // }
-
-
-//    /**
-//     * @return Carpool[] Returns an array of Carpool objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Carpool
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

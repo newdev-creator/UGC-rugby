@@ -4,6 +4,7 @@ namespace App\Controller\admin;
 
 use App\Entity\Carpool;
 use App\Form\CarpoolType;
+use App\Helpers\ConnectedUserByRoles;
 use App\Repository\CarpoolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +22,14 @@ class CarpoolController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(
         CarpoolRepository $carpoolRepository,
+        ConnectedUserByRoles $connectedUserByRoles,
         Request $request
     ): Response
     {
-        $carpoolIsActive = $carpoolRepository->getCarpools();
-        $carpoolIsNotActive = $carpoolRepository->getCarpools(false);
+        $rolesUser = $connectedUserByRoles->connectedUser();
+
+        $carpoolIsActive = $carpoolRepository->getCarpools($rolesUser, $isActive = true);
+        $carpoolIsNotActive = $carpoolRepository->getCarpools($rolesUser, $isActive = false);
         $isDelete = $request->query->get('is_delete');
         if ($isDelete === "1") {
             $carpools = $carpoolIsNotActive;
