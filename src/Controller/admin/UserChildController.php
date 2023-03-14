@@ -4,6 +4,7 @@ namespace App\Controller\admin;
 
 use App\Entity\UserChild;
 use App\Form\UserChildType;
+use App\Helpers\ConnectedUserByRoles;
 use App\Repository\UserChildRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +20,14 @@ class UserChildController extends AbstractController
     ){}
 
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(UserChildRepository $userChildRepository): Response
+    public function index(
+        UserChildRepository $userChildRepository,
+        ConnectedUserByRoles $connectedUserByRoles,
+    ): Response
     {
-        $childrenIsActive = $userChildRepository->getChildren();
+        $rolesUser = $connectedUserByRoles->connectedUser();
+
+        $childrenIsActive = $userChildRepository->getChildren($rolesUser, $isActive = true);
         // $userIsNotActive = $userRepository->getUsers(false);
         return $this->render('admin/user_child/index.html.twig', [
             'user_children' => $childrenIsActive,

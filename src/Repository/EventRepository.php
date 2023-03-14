@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Data\SearchData;
 use App\Entity\Event;
+use App\Helpers\CategoryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -46,8 +47,11 @@ class EventRepository extends ServiceEntityRepository
     }
 
     // GET EVENTS
-    public function getEvents(bool $isActive = true): array
+    public function getEvents(array $rolesUser, bool $isActive = true): array
     {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
+
         $qb = $this->createQueryBuilder('e')
             ->select(
                 'e.id',
@@ -59,16 +63,22 @@ class EventRepository extends ServiceEntityRepository
                 'e.city',
                 'e.nbMinus',
                 'e.nbRegistrant',
-                'e.isActive'
+                'e.isActive',
+                'c.name AS categoryName',
             )
+            ->leftJoin('e.categories', 'c')
         ;
 
-        if ($isActive) {
-            $qb->where('e.isActive = :val')
-                ->setParameter('val', true);
-        } else {
-            $qb->where('e.isActive = :val')
-                ->setParameter('val', false);
+        // Filter by active users
+        $qb->andWhere('e.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
+
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('c.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
         }
 
         return $qb->getQuery()->getResult();

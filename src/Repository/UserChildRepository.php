@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserChild;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Helpers\CategoryHelper;
 
 /**
  * @extends ServiceEntityRepository<UserChild>
@@ -40,8 +42,11 @@ class UserChildRepository extends ServiceEntityRepository
     }
 
     // GET CHILDREN
-    public function getChildren(bool $isActive = true): array
+    public function getChildren(array $rolesUser, bool $isActive = true): array
     {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
+
         $qb = $this->createQueryBuilder('c')
             ->select(
                 'c.id',
@@ -50,46 +55,24 @@ class UserChildRepository extends ServiceEntityRepository
                 'c.birthday',
                 'cat.name AS categoryName',
                 'u.firstName AS userFirstName',
-                'u.lastName AS userLastName'
+                'u.lastName AS userLastName',
             )
             ->leftJoin('c.category', 'cat')
             ->leftJoin('c.user', 'u')
         ;
 
-        if ($isActive) {
-            $qb->where('c.isActive = :val')
-                ->setParameter('val', true);
-        } else {
-            $qb->where('c.isActive = :val')
-                ->setParameter('val', false);
+        // Filter by active users
+        $qb->andWhere('c.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
+
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('cat.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
         }
 
         return $qb->getQuery()->getResult();
     }
-
-
-//    /**
-//     * @return UserChild[] Returns an array of UserChild objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?UserChild
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -4,6 +4,7 @@ namespace App\Controller\admin;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Helpers\ConnectedUserByRoles;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,11 +22,14 @@ class EventController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(
         EventRepository $eventRepository,
+        ConnectedUserByRoles $connectedUserByRoles,
         Request $request
     ): Response
     {
-        $eventsIsActive = $eventRepository->getEvents();
-        $eventsIsNotActive = $eventRepository->getEvents(false);
+        $rolesUser = $connectedUserByRoles->connectedUser();
+
+        $eventsIsActive = $eventRepository->getEvents($rolesUser, $isActive = true);
+        $eventsIsNotActive = $eventRepository->getEvents($rolesUser, $isActive = false);
         $isDelete = $request->query->get('is_delete');
         if ($isDelete === "1") {
             $events = $eventsIsNotActive;

@@ -4,6 +4,7 @@ namespace App\Controller\admin;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Helpers\ConnectedUserByRoles;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,15 +20,13 @@ class UserController extends AbstractController
     ){}
 
     #[Route('', name: 'index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(
+        UserRepository $userRepository,
+        ConnectedUserByRoles $connectedUserByRoles,
+    ): Response
     {
-        // Array for store roles of connected user
-        $rolesUser = [];
-        $connectedUser = $this->getUser();
-        // for each role of connected user, add it to the array
-        foreach ($connectedUser->getRoles() as $role) {
-            $rolesUser[] = $role;
-        }
+        $rolesUser = $connectedUserByRoles->connectedUser();
+
         $userIsActive = $userRepository->getUsers($rolesUser, $isActive = true);
         // $userIsNotActive = $userRepository->getUsers(false);
         return $this->render('admin/user/index.html.twig', [

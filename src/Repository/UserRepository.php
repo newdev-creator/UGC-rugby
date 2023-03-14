@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Helpers\CategoryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -56,13 +57,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-    const BABY_CATEGORY = 'BABY';
-    const U6_CATEGORY = 'U6';
-    const U8_CATEGORY = 'U8';
-    const U10_CATEGORY = 'U10';
-    const U12_CATEGORY = 'U12';
-    const U14_CATEGORY = 'U14';
-
     // Filter users by child's category and by role of connected user
     public function getUsers(array $rolesUser, bool $isActive = true): array
     {
@@ -94,32 +88,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('isActive', $isActiveValue);
 
         // Filter by child's category
-        $categoryValues = [];
-        foreach ($rolesUser as $role) {
-            switch ($role) {
-                case User::ROLE_SECRETARY_BABY:
-                    $categoryValues[] = self::BABY_CATEGORY;
-                    break;
-                case User::ROLE_SECRETARY_U6:
-                    $categoryValues[] = self::U6_CATEGORY;
-                    break;
-                case User::ROLE_SECRETARY_U8:
-                    $categoryValues[] = self::U8_CATEGORY;
-                    break;
-                case User::ROLE_SECRETARY_U10:
-                    $categoryValues[] = self::U10_CATEGORY;
-                    break;
-                case User::ROLE_SECRETARY_U12:
-                    $categoryValues[] = self::U12_CATEGORY;
-                    break;
-                case User::ROLE_SECRETARY_U14:
-                    $categoryValues[] = self::U14_CATEGORY;
-                    break;
-                default:
-                    // Do nothing, retrieve all users
-                    break;
-            }
-        }
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
 
         if (!empty($categoryValues)) {
             $qb->andWhere('ucc.name IN (:categoryValues)')
