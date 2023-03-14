@@ -56,18 +56,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-    const BABY_CATEGORY = 'Baby';
+    const BABY_CATEGORY = 'BABY';
     const U6_CATEGORY = 'U6';
     const U8_CATEGORY = 'U8';
     const U10_CATEGORY = 'U10';
     const U12_CATEGORY = 'U12';
     const U14_CATEGORY = 'U14';
 
-    // GET USER
-    public function getUsers(string $role, bool $isActive = true): array
+    // Filter users by child's category and by role of connected user
+    public function getUsers(array $rolesUser, bool $isActive = true): array
     {
+        // Convert boolean to integer
         $isActiveValue = (bool)$isActive;
 
+        // Create query builder
         $qb = $this->createQueryBuilder('u')
             ->select(
                 'u.id',
@@ -81,45 +83,53 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 'u.city',
                 'uc.firstName AS childFirstName',
                 'uc.lastName AS childLastName',
+                'ucc.name AS childCategory',
             )
             ->leftJoin('u.child', 'uc')
+            ->leftJoin('uc.category', 'ucc')
         ;
 
-        switch ($role) {
-            case User::ROLE_SECRETARY_BABY:
-                $qb->where('uc.category = :category')
-                    ->setParameter('category', self::BABY_CATEGORY);
-                break;
-            case User::ROLE_SECRETARY_U6:
-                $qb->where('uc.category = :category')
-                    ->setParameter('category', self::U6_CATEGORY);
-                break;
-            case User::ROLE_SECRETARY_U8:
-                $qb->where('uc.category = :category')
-                    ->setParameter('category', self::U8_CATEGORY);
-                break;
-            case User::ROLE_SECRETARY_U10:
-                $qb->where('uc.category = :category')
-                    ->setParameter('category', self::U10_CATEGORY);
-                break;
-            case User::ROLE_SECRETARY_U12:
-                $qb->where('uc.category = :category')
-                    ->setParameter('category', self::U12_CATEGORY);
-                break;
-            case User::ROLE_SECRETARY_U14:
-                $qb->where('uc.category = :category')
-                    ->setParameter('category', self::U14_CATEGORY);
-                break;
-            default:
-                // Do nothing, retrieve all users
-                break;
-        }
-
+        // Filter by active users
         $qb->andWhere('u.isActive = :isActive')
             ->setParameter('isActive', $isActiveValue);
 
+        // Filter by child's category
+        $categoryValues = [];
+        foreach ($rolesUser as $role) {
+            switch ($role) {
+                case User::ROLE_SECRETARY_BABY:
+                    $categoryValues[] = self::BABY_CATEGORY;
+                    break;
+                case User::ROLE_SECRETARY_U6:
+                    $categoryValues[] = self::U6_CATEGORY;
+                    break;
+                case User::ROLE_SECRETARY_U8:
+                    $categoryValues[] = self::U8_CATEGORY;
+                    break;
+                case User::ROLE_SECRETARY_U10:
+                    $categoryValues[] = self::U10_CATEGORY;
+                    break;
+                case User::ROLE_SECRETARY_U12:
+                    $categoryValues[] = self::U12_CATEGORY;
+                    break;
+                case User::ROLE_SECRETARY_U14:
+                    $categoryValues[] = self::U14_CATEGORY;
+                    break;
+                default:
+                    // Do nothing, retrieve all users
+                    break;
+            }
+        }
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('ucc.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
+        }
+
+        // Retrieve results
         $results = $qb->getQuery()->getResult();
 
+        // Group users by id
         $usersWithChildren = [];
 
         foreach ($results as $result) {
@@ -134,9 +144,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 'address' => $result['address'],
                 'postalCode' => $result['postalCode'],
                 'city' => $result['city'],
-                'children' => []
+                'children' => [],
+                'childCategory' => $result['childCategory']
             ];
 
+            // Add child to user
             if (!empty($result['childFirstName']) && !empty($result['childLastName'])) {
                 $user['children'][] = [
                     'firstName' => $result['childFirstName'],
@@ -144,6 +156,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 ];
             }
 
+            // Add user to array
             if (isset($usersWithChildren[$userId])) {
                 $usersWithChildren[$userId]['children'] = array_merge($usersWithChildren[$userId]['children'], $user['children']);
             } else {
@@ -153,31 +166,4 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return array_values($usersWithChildren);
     }
-
-
-
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

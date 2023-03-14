@@ -21,9 +21,14 @@ class UserController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        // récupérer le rôle de l'utilisateur connecté au format string
-        $role = $this->getUser()->getRoles()[0];
-        $userIsActive = $userRepository->getUsers($role, $isActive = true);
+        // Array for store roles of connected user
+        $rolesUser = [];
+        $connectedUser = $this->getUser();
+        // for each role of connected user, add it to the array
+        foreach ($connectedUser->getRoles() as $role) {
+            $rolesUser[] = $role;
+        }
+        $userIsActive = $userRepository->getUsers($rolesUser, $isActive = true);
         // $userIsNotActive = $userRepository->getUsers(false);
         return $this->render('admin/user/index.html.twig', [
             'users' => $userIsActive,
