@@ -10,6 +10,14 @@
         <div class="page-content home-js-filter">
             <div class="container-fluid">
                 {{ include('partials/page-title.html.twig', {pagetitle: 'Accueil', title: 'Liste des événements à venir'}) }}
+
+
+                {% include ('site/home/_partials/_messages.html.twig') %}
+
+
+
+
+
                 <div class="row g-4 mb-3">
                     <div class="col-sm">
                         {% include('site/home/_partials/_form_filter.html.twig') %}
