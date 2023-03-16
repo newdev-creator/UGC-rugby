@@ -8,5 +8,5 @@
         name="_token"
         value="{{ csrf_token('admin_message_delete_' ~ message.id) }}"
     >
-    <button class="btn">Delete</button>
+    <button class="dropdown-item remove-item-btn"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer</button>
 </form>

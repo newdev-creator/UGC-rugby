@@ -64,7 +64,7 @@ class CarpoolRepository extends ServiceEntityRepository
             ->leftJoin('c.users', 'u')
             ->leftJoin('c.child', 'uc')
             ->leftJoin('uc.category', 'cc')
-            ->groupBy('c.id', 'u.firstName', 'u.lastName')
+            ->groupBy('c.id', 'u.firstName', 'u.lastName', 'cc.name')
         ;
 
         // Filter by active users
