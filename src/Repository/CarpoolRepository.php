@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Carpool;
+use App\Helpers\CategoryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -58,16 +59,26 @@ class CarpoolRepository extends ServiceEntityRepository
                 'c.nbPlace',
                 'u.firstName',
                 'u.lastName',
-                'COUNT(uc.id) AS nbChildren'
+                'COUNT(uc.id) AS nbChildren',
+                'cc.name AS category'
             )
             ->leftJoin('c.users', 'u')
             ->leftJoin('c.child', 'uc')
+            ->leftJoin('uc.category', 'cc')
             ->groupBy('c.id', 'u.firstName', 'u.lastName')
         ;
 
         // Filter by active users
         $qb->andWhere('c.isActive = :isActive')
             ->setParameter('isActive', $isActiveValue);
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('cc.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
+        }
+
 
         return $qb->getQuery()->getResult();
     }
