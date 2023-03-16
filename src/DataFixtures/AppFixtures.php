@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Carpool;
 use App\Entity\Category;
+use App\Entity\Message;
 use App\Entity\UserChild;
 use App\Entity\Event;
 use App\Entity\User;
@@ -162,6 +163,18 @@ class AppFixtures extends Fixture
             $event->addCategory($category);
         }
 
+        // MESSAGES
+        for ($i = 0; $i < 3; $i++) {
+            $message = new Message();
+            $manager->persist($message);
+
+            $message->setTitle($faker->word());
+            $message->setDescription($faker->text(200));
+            $message->setColor($faker->randomElement(['info', 'warning', 'danger', 'success']));
+            $message->setStartAt(new DateTimeImmutable('now'));
+            $message->setEndAt(new DateTimeImmutable('now'));
+            $message->setAddedAt(new DateTimeImmutable('now'));
+        }
 
         $manager->flush();
     }

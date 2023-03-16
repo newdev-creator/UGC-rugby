@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message{% endblock %}
+
+{% block body %}
+    <h1>Message</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ message.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ message.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ message.description }}</td>
+            </tr>
+            <tr>
+                <th>Color</th>
+                <td>{{ message.color }}</td>
+            </tr>
+            <tr>
+                <th>StartAt</th>
+                <td>{{ message.startAt ? message.startAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndAt</th>
+                <td>{{ message.endAt ? message.endAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>AddedAt</th>
+                <td>{{ message.addedAt ? message.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ message.updatedAt ? message.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsActive</th>
+                <td>{{ message.isActive }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_message_index') }}">back to list</a>
+
+    <a href="{{ path('admin_message_edit', {'message': message.id}) }}">edit</a>
+
+    {{ include('admin/message/_delete_form.html.twig') }}
+{% endblock %}

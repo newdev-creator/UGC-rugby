@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message index{% endblock %}
+
+{% block body %}
+    <h1>Message index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Color</th>
+                <th>StartAt</th>
+                <th>EndAt</th>
+                <th>AddedAt</th>
+                <th>UpdatedAt</th>
+                <th>IsActive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                <td>{{ message.id }}</td>
+                <td>{{ message.title }}</td>
+                <td>{{ message.description }}</td>
+                <td>{{ message.color }}</td>
+                <td>{{ message.startAt ? message.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ message.endAt ? message.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ message.addedAt ? message.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ message.updatedAt ? message.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ message.isActive }}</td>
+                <td>
+                    <a href="{{ path('admin_message_show', {'message': message.id}) }}">show</a>
+                    <a href="{{ path('admin_message_edit', {'message': message.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_message_new') }}">Create new</a>
+{% endblock %}
