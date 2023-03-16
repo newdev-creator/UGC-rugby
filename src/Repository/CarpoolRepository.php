@@ -41,7 +41,6 @@ class CarpoolRepository extends ServiceEntityRepository
         }
     }
 
-    // TODO: Add method to get carpool by id
     // GET CARPOOL
     public function getCarpools(array $rolesUser, bool $isActive = true): array
     {
