@@ -38,12 +38,25 @@
                                         <tr>
                                             <td>{{ message.id }}</td>
                                             <td>{{ message.title }}</td>
-                                            {# TODO: réduire la déscription sur la vue #}
-                                            <td>{{ message.description }}</td>
-                                            {# TODO: mettre des badges #}
-                                            <td>{{ message.color }}</td>
-                                            <td>{{ message.startAt|date('d/m') }}</td>
-                                            <td>{{ message.endAt|date('d/m') }}</td>
+                                            <td>
+                                                {% if message.description|length >= 50 %}
+                                                    {{ message.description|slice(0,50) ~ '...' }}
+                                                {% else %}
+                                                    {{ message.description }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if message.color == 'info'%}
+                                                    <span class="badge rounded-pill bg-info fs-12">Info</span>
+                                                {% elseif message.color == 'warning'%}
+                                                    <span class="badge rounded-pill bg-warning fs-12">Attention</span>
+                                                {% elseif message.color == 'danger'%}
+                                                    <span class="badge rounded-pill bg-danger fs-12">Important</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ message.startAt|date('d/m/Y') }}</td>
+                                            <td>{{ message.endAt|date('d/m/Y') }}</td>
+                                            <td>{{ message.addedAt|date('d/m/Y') }}</td>
                                             <td>
                                                 <div class="dropdown d-inline-block">
                                                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
