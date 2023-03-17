@@ -18,7 +18,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-
+                            <div class="card-header d-flex justify-content-end">
+                                <a href="{{ path('admin_message_new') }}" class="btn btn-success">Créer un message</a>
+                            </div>
                             <div class="card-body">
                                 <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                     <thead>
@@ -34,45 +36,45 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for message in messages %}
-                                        <tr>
-                                            <td>{{ message.id }}</td>
-                                            <td>{{ message.title }}</td>
-                                            <td>
-                                                {% if message.description|length >= 50 %}
-                                                    {{ message.description|slice(0,50) ~ '...' }}
-                                                {% else %}
-                                                    {{ message.description }}
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if message.color == 'info'%}
-                                                    <span class="badge rounded-pill bg-info fs-12">Info</span>
-                                                {% elseif message.color == 'warning'%}
-                                                    <span class="badge rounded-pill bg-warning fs-12">Attention</span>
-                                                {% elseif message.color == 'danger'%}
-                                                    <span class="badge rounded-pill bg-danger fs-12">Important</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ message.startAt|date('d/m/Y') }}</td>
-                                            <td>{{ message.endAt|date('d/m/Y') }}</td>
-                                            <td>{{ message.addedAt|date('d/m/Y') }}</td>
-                                            <td>
-                                                <div class="dropdown d-inline-block">
-                                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ri-more-fill align-middle"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a href="{{ path('admin_message_show', {'message':message.id}) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
-                                                        <li><a href="{{ path('admin_message_edit', {'message':message.id}) }}" class="dropdown-item"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
-                                                        <li>
-                                                            {{ include('admin/message/_delete_form.html.twig') }}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                        {% for message in messages %}
+                                            <tr>
+                                                <td>{{ message.id }}</td>
+                                                <td>{{ message.title }}</td>
+                                                <td>
+                                                    {% if message.description|length >= 50 %}
+                                                        {{ message.description|slice(0,50) ~ '...' }}
+                                                    {% else %}
+                                                        {{ message.description }}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if message.color == 'info'%}
+                                                        <span class="badge rounded-pill bg-info fs-12">Info</span>
+                                                    {% elseif message.color == 'warning'%}
+                                                        <span class="badge rounded-pill bg-warning fs-12">Attention</span>
+                                                    {% elseif message.color == 'danger'%}
+                                                        <span class="badge rounded-pill bg-danger fs-12">Important</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ message.startAt|date('d/m/Y') }}</td>
+                                                <td>{{ message.endAt|date('d/m/Y') }}</td>
+                                                <td>{{ message.addedAt|date('d/m/Y') }}</td>
+                                                <td>
+                                                    <div class="dropdown d-inline-block">
+                                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="ri-more-fill align-middle"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li><a href="{{ path('admin_message_show', {'message':message.id}) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir</a></li>
+                                                            <li><a href="{{ path('admin_message_edit', {'message':message.id}) }}" class="dropdown-item"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Modifier</a></li>
+                                                            <li>
+                                                                {{ include('admin/message/_delete_form.html.twig') }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
