@@ -12,15 +12,7 @@ class UserChildType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('birthday')
-            ->add('updatedAt')
-            ->add('isActive')
-            ->add('addedAt')
-            ->add('user')
             ->add('category')
-            ->add('events')
         ;
     }
 

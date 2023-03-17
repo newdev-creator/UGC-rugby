@@ -7,6 +7,7 @@ use App\Form\UserChildType;
 use App\Helpers\ConnectedUserByRoles;
 use App\Repository\UserChildRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,7 +63,12 @@ class UserChildController extends AbstractController
     }
 
     #[Route('/edit/{child}', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, UserChild $userChild, UserChildRepository $userChildRepository): Response
+    #[ParamConverter('userChild', options: ['id' => 'child'])]
+    public function edit(
+        Request $request,
+        UserChild $userChild,
+        UserChildRepository $userChildRepository
+    ): Response
     {
         $form = $this->createForm(UserChildType::class, $userChild);
         $form->handleRequest($request);
@@ -80,7 +86,10 @@ class UserChildController extends AbstractController
     }
 
     #[Route('/delete/{child}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, UserChild $userChild, UserChildRepository $userChildRepository): Response
+    public function delete(
+        Request $request,
+        UserChild $userChild,
+    ): Response
     {
         if ($this->isCsrfTokenValid('admin_user_child_delete_'.$userChild->getId(), $request->request->get('_token'))) {
             $userChild->setIsActive(0);
