@@ -1,0 +1,44 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="d-flex justify-content-end">
+        <a href="{{ path('admin_message_index') }}" class="btn btn-success">Retour</a>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            {{ form_row(form.title) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            {{ form_row(form.color) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="mb-3 mb-lg-0">
+                            {{ form_row(form.startAt) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="mb-3 mb-lg-0">
+                            {{ form_row(form.endAt) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+        </div>
+        <div class="text-end mb-4">
+            <a href="{{ path('admin_message_index') }}" class="btn btn-danger w-sm">Annuler</a>
+            <button type="submit" class="btn btn-success w-sm">{{ button_label|default('Enregistrer') }}</button>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

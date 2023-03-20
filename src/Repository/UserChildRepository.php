@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserChild;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Helpers\CategoryHelper;
 
 /**
  * @extends ServiceEntityRepository<UserChild>
@@ -39,28 +41,38 @@ class UserChildRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return UserChild[] Returns an array of UserChild objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // GET CHILDREN
+    public function getChildren(array $rolesUser, bool $isActive = true): array
+    {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
 
-//    public function findOneBySomeField($value): ?UserChild
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb = $this->createQueryBuilder('c')
+            ->select(
+                'c.id',
+                'c.firstName',
+                'c.lastName',
+                'c.birthday',
+                'cat.name AS categoryName',
+                'u.firstName AS userFirstName',
+                'u.lastName AS userLastName',
+            )
+            ->leftJoin('c.category', 'cat')
+            ->leftJoin('c.user', 'u')
+        ;
+
+        // Filter by active users
+        $qb->andWhere('c.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
+
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('cat.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -1,0 +1,12 @@
+<form
+        method="post"
+        action="{{ path('profile_deactivate_child', {'user': user.id, 'child': child.id}) }}"
+        onsubmit="return confirm('Voulez-vous supprimer l\'enfant: {{ child.getIdentity }}?');"
+>
+    <input
+            type="hidden"
+            name="_token"
+            value="{{ csrf_token('user_child_deactivate_' ~ child.id) }}"
+    >
+    <button class="btn btn-danger btn-sm"><i class="ri-delete-bin-line align-bottom"></i> Supprimer</button>
+</form>

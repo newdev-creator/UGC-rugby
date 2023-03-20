@@ -1,0 +1,49 @@
+<div class="tab-pane active" id="personalDetails" role="tabpanel">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.firstName) }}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.lastName) }}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.phone) }}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.email) }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.address) }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.postalCode) }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    {{ form_row(settings_user_form.city) }}
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="hstack gap-2 justify-content-end">
+                    <button type="submit" class="btn btn-success">Enregistrer</button>
+                    <button type="button" class="btn btn-soft-danger" onclick="resetForm('settings_user_form')">Réinitialiser</button>
+                </div>
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+    {{ form_end(settings_user_form) }}
+</div>

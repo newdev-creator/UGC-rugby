@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Helpers\CategoryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -56,28 +57,82 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // Filter users by child's category and by role of connected user
+    public function getUsers(array $rolesUser, bool $isActive = true): array
+    {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        // Create query builder
+        $qb = $this->createQueryBuilder('u')
+            ->select(
+                'u.id',
+                'u.email',
+                'u.roles',
+                'u.lastName',
+                'u.firstName',
+                'u.phone',
+                'u.address',
+                'u.postalCode',
+                'u.city',
+                'uc.firstName AS childFirstName',
+                'uc.lastName AS childLastName',
+                'ucc.name AS childCategory',
+            )
+            ->leftJoin('u.child', 'uc')
+            ->leftJoin('uc.category', 'ucc')
+        ;
+
+        // Filter by active users
+        $qb->andWhere('u.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
+
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('ucc.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
+        }
+
+        // Retrieve results
+        $results = $qb->getQuery()->getResult();
+
+        // Group users by id
+        $usersWithChildren = [];
+
+        foreach ($results as $result) {
+            $userId = $result['id'];
+            $user = [
+                'id' => $userId,
+                'email' => $result['email'],
+                'roles' => $result['roles'],
+                'lastName' => $result['lastName'],
+                'firstName' => $result['firstName'],
+                'phone' => $result['phone'],
+                'address' => $result['address'],
+                'postalCode' => $result['postalCode'],
+                'city' => $result['city'],
+                'children' => [],
+                'childCategory' => $result['childCategory']
+            ];
+
+            // Add child to user
+            if (!empty($result['childFirstName']) && !empty($result['childLastName'])) {
+                $user['children'][] = [
+                    'firstName' => $result['childFirstName'],
+                    'lastName' => $result['childLastName']
+                ];
+            }
+
+            // Add user to array
+            if (isset($usersWithChildren[$userId])) {
+                $usersWithChildren[$userId]['children'] = array_merge($usersWithChildren[$userId]['children'], $user['children']);
+            } else {
+                $usersWithChildren[$userId] = $user;
+            }
+        }
+
+        return array_values($usersWithChildren);
+    }
 }

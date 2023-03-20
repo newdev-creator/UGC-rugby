@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Carpool;
+use App\Helpers\CategoryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +41,44 @@ class CarpoolRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Carpool[] Returns an array of Carpool objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // GET CARPOOL
+    public function getCarpools(array $rolesUser, bool $isActive = true): array
+    {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
 
-//    public function findOneBySomeField($value): ?Carpool
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb = $this->createQueryBuilder('c')
+            ->select(
+                'c.id',
+                'c.status',
+                'c.date',
+                'c.address',
+                'c.postalCode',
+                'c.city',
+                'c.nbPlace',
+                'u.firstName',
+                'u.lastName',
+                'COUNT(uc.id) AS nbChildren',
+                'cc.name AS category'
+            )
+            ->leftJoin('c.users', 'u')
+            ->leftJoin('c.child', 'uc')
+            ->leftJoin('uc.category', 'cc')
+            ->groupBy('c.id', 'u.firstName', 'u.lastName', 'cc.name')
+        ;
+
+        // Filter by active users
+        $qb->andWhere('c.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('cc.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
+        }
+
+
+        return $qb->getQuery()->getResult();
+    }
 }

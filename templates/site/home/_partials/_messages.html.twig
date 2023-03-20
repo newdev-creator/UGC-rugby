@@ -1,0 +1,50 @@
+<div class="d-none d-md-block">
+    <div class="row g-4 mb-3">
+
+        {% for message in messages %}
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body p-0">
+                        {% if message.color == 'danger' %}
+                            <div class="alert alert-danger alert-dismissible alert-solid alert-label-icon shadow fade show" role="alert">
+                                <i class="ri-error-warning-line label-icon"></i><strong>{{ message.title }}</strong>
+                            </div>
+                        {% elseif message.color == 'warning' %}
+                            <div class="alert alert-warning alert-dismissible alert-solid alert-label-icon shadow fade show" role="alert">
+                                <i class="ri-alert-line label-icon"></i><strong>{{ message.title }}</strong>
+                            </div>
+                        {% elseif message.color == 'info' %}
+                            <div class="alert alert-info alert-dismissible alert-solid alert-label-icon shadow fade show" role="alert">
+                                <i class="ri-airplay-line label-icon"></i><strong>{{ message.title }}</strong>
+                            </div>
+                        {% endif %}
+                        <div class="row align-items-end">
+                            <div class="col-sm-8">
+                                <div class="p-3">
+                                    {{ message.description|raw }}
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                {% if message.color == 'danger' %}
+                                    <div class="px-3">
+                                        <img src="{{ asset('/images/widget-img.png') }}" class="img-fluid" alt="">
+                                    </div>
+                                {% elseif message.color == 'warning' %}
+                                    <div class="px-3">
+                                        <img src="{{ asset('/images/user-illustarator-2.png') }}" class="img-fluid" alt="">
+                                    </div>
+                                {% elseif message.color == 'info' %}
+                                    <div class="px-3">
+                                        <img src="{{ asset('/images/verification-img.png') }}" class="img-fluid" alt="">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include ('site/home/_partials/_messages_carousel.html.twig') %}

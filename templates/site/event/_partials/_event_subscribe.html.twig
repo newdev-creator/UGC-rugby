@@ -1,0 +1,35 @@
+<div class="tab-pane fade" id="event-subscribe" role="tabpanel">
+    <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-1">
+        {% for child in event.child %}
+            <div class="col">
+                <div class="card card-body">
+                    <div class="d-flex mb-4 align-items-center">
+                        <div class="flex-shrink-0">
+                            {% if child.childPictureName %}
+                                <img src="/uploads/images/child_pictures/{{ child.childPictureName }}" alt="Photo enfant" class="avatar-sm rounded-circle" />
+                            {% else %}
+                                <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo enfant" class="avatar-sm rounded-circle" />
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1 ms-2">
+                            <div class="d-flex justify-content-evenly">
+                                <h5 class="card-title mb-1">{{ child.getIdentity }}</h5>
+                                {# Si l'enfant appartient à l'utilisateur connecté #}
+                                {% if child.user == app.user %}
+                                    <form method="post" action="{{ path('event_show', {'event': event.id}) }}">
+                                        <input type="hidden" name="delete_child" value="{{ child.id }}">
+                                        <button class="btn btn-ghost-warning" type="submit">Retirer</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <p class="badge rounded-pill bg-danger fs-12">{{ child.category.name }}</p>
+                        </div>
+                    </div>
+                    {# <h6 class="mb-1">$15,548</h6>
+                    <p class="card-text text-muted">Expense Account</p>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm">See Details</a> #}
+                </div>
+            </div><!-- end col -->
+        {% endfor %}
+    </div><!-- end row -->
+</div>

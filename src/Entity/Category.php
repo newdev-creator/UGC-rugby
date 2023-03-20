@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +26,7 @@ class Category
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?int $isActive = null;
+    private ?int $isActive = 1;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: UserChild::class)]
     private Collection $child;
@@ -35,8 +36,14 @@ class Category
 
     public function __construct()
     {
+        $this->setAddedAt(new DateTimeImmutable());
         $this->child = new ArrayCollection();
         $this->event = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getId(): ?int

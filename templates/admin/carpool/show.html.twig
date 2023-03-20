@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carpool{% endblock %}
+
+{% block body %}
+    <h1>Carpool</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ carpool.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ carpool.status }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ carpool.date ? carpool.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ carpool.address }}</td>
+            </tr>
+            <tr>
+                <th>PostalCode</th>
+                <td>{{ carpool.postalCode }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ carpool.city }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ carpool.comment }}</td>
+            </tr>
+            <tr>
+                <th>NbPlace</th>
+                <td>{{ carpool.nbPlace }}</td>
+            </tr>
+            <tr>
+                <th>AddedAt</th>
+                <td>{{ carpool.addedAt ? carpool.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ carpool.updatedAt ? carpool.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsActive</th>
+                <td>{{ carpool.isActive }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_carpool_index') }}">back to list</a>
+
+    <a href="{{ path('admin_carpool_edit', {'carpool': carpool.id}) }}">edit</a>
+
+    {{ include('admin/carpool/_delete_form.html.twig') }}
+{% endblock %}

@@ -18,7 +18,7 @@ Veuillez passer sur la branche `Filter_category_module` pour voir le projet en c
 5. Run `php -S localhost:8000 -t public` or `symfony serve` to start the server
 6. Create a database and run `php bin/console doctrine:migrations:migrate` to create the tables
 7. Run `php bin/console doctrine:fixtures:load` to load the fixtures
-8. Open `http://localhost:8000` in your browser
+8. Open `http://localhost:8000/login` in your browser
 9. You can create a new user or use any user from the fixtures. 
     * The password for all users is `user`
     * The password for all admins is `admin`

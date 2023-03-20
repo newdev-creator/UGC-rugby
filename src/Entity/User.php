@@ -3,15 +3,32 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec ces informations.')]
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_SECRETARY_BABY = 'ROLE_SECRETARY_BABY';
+    const ROLE_SECRETARY_U6 = 'ROLE_SECRETARY_U6';
+    const ROLE_SECRETARY_U8 = 'ROLE_SECRETARY_U8';
+    const ROLE_SECRETARY_U10 = 'ROLE_SECRETARY_U10';
+    const ROLE_SECRETARY_U12 = 'ROLE_SECRETARY_U12';
+    const ROLE_SECRETARY_U14 = 'ROLE_SECRETARY_U14';
+    const ROLE_COACH = 'ROLE_COACH';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -47,6 +64,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
+    #[Vich\UploadableField(mapping: 'user_pictures', fileNameProperty: 'userPictureName')]
+    private ?File $userPictureFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $userPictureName = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $addedAt = null;
 
@@ -54,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?int $isActive = null;
+    private ?int $isActive = 1;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserChild::class)]
     private Collection $child;
@@ -62,10 +85,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Carpool::class, inversedBy: 'users')]
     private Collection $carpool;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
     public function __construct()
     {
+        $this->setAddedAt(new DateTimeImmutable());
         $this->child = new ArrayCollection();
         $this->carpool = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getLastName() . ' ' . $this->getFirstName();
     }
 
     public function getId(): ?int
@@ -317,5 +349,70 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->carpool->removeElement($carpool);
 
         return $this;
+    }
+
+    public function getIdentity(): string
+    {
+        return $this->lastName . ' ' . $this->firstName;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function setUserPictureFile(?File $userPictureFile = null): void
+    {
+        $this->userPictureFile = $userPictureFile;
+
+        if (null !== $userPictureFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getUserPictureFile(): ?File
+    {
+        return $this->userPictureFile;
+    }
+
+    public function setUserPictureName(?string $userPictureName): void
+    {
+        $this->userPictureName = $userPictureName;
+    }
+
+    public function getUserPictureName(): ?string
+    {
+        return $this->userPictureName;
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->password,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        if (count($data) === 5) {
+            [
+                $this->id,
+                $this->firstName,
+                $this->lastName,
+                $this->email,
+                $this->password,
+            ] = $data;
+        }
     }
 }

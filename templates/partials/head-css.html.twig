@@ -1,0 +1,16 @@
+<!-- Layout config Js -->
+<script src="{{ asset('/js/layout.js') }}"></script>
+<!-- Bootstrap Css -->
+<link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Icons Css -->
+<link href="{{ asset('/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="{{ asset('/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- custom Css-->
+<link href="{{ asset('/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}

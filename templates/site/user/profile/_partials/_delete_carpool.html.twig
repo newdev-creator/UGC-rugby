@@ -1,0 +1,12 @@
+<form
+        method="post"
+        action="{{ path('profile_deactivate_carpool', {'user': user.id, 'carpool': carpool.id}) }}"
+        onsubmit="return confirm('Voulez-vous supprimer ce covoiturage?');"
+>
+    <input
+            type="hidden"
+            name="_token"
+            value="{{ csrf_token('carpool_deactivate_' ~ carpool.id) }}"
+    >
+    <button class="btn btn-danger"><i class="ri-delete-bin-line align-bottom"></i></button>
+</form>

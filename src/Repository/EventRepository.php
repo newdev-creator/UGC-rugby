@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Event;
+use App\Helpers\CategoryHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Event>
@@ -16,9 +20,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Event::class);
+        $this->paginator = $paginator;
     }
 
     public function save(Event $entity, bool $flush = false): void
@@ -39,28 +46,75 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // GET EVENTS
+    public function getEvents(array $rolesUser, bool $isActive = true): array
+    {
+        // Convert boolean to integer
+        $isActiveValue = (bool)$isActive;
 
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb = $this->createQueryBuilder('e')
+            ->select(
+                'e.id',
+                'e.status',
+                'e.title',
+                'e.date',
+                'e.address',
+                'e.postalCode',
+                'e.city',
+                'e.nbMinus',
+                'e.nbRegistrant',
+                'e.isActive',
+                'c.name AS categoryName',
+            )
+            ->leftJoin('e.categories', 'c')
+        ;
+
+        // Filter by active users
+        $qb->andWhere('e.isActive = :isActive')
+            ->setParameter('isActive', $isActiveValue);
+
+        // Filter by child's category
+        $categoryValues = CategoryHelper::getCategoriesFromRoles($rolesUser);
+
+        if (!empty($categoryValues)) {
+            $qb->andWhere('c.name IN (:categoryValues)')
+                ->setParameter('categoryValues', $categoryValues);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param SearchData $search
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchData $search): PaginationInterface
+    {
+        $query = $this
+            ->createQueryBuilder('e')
+            ->select('c', 'e')
+            ->join('e.categories', 'c')
+            ->andWhere('e.isActive = :isActive')
+            ->setParameter('isActive', 1);
+
+        // Search by title
+        if (!empty($search->q)) {
+            $query = $query
+                ->andWhere('e.title LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        // Filter Categories
+        if (!empty($search->categories)) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }
+        $query = $query->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            12,
+        );
+    }
 }

@@ -1,0 +1,13 @@
+<form
+        method="post"
+        action="{{ path('admin_event_archive', {'event': event.id}) }}"
+        onsubmit="return confirm('Voulez-vous archiver l\'événement: {{ event.title }}?');"
+>
+
+    <input
+            type="hidden"
+            name="_token"
+            value="{{ csrf_token('admin_event_archive_' ~ event.id) }}"
+    >
+    <button class="dropdown-item remove-item-btn"><i class="ri-archive-fill align-bottom me-2 text-muted"></i> Archiver</button>
+</form>

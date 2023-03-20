@@ -1,0 +1,89 @@
+    {{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Profile Settings'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="position-relative mx-n4 mt-n4">
+                    <div class="profile-wid-bg profile-setting-img">
+                        <img src="/images/profile-bg.jpg" class="profile-wid-img" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    {% include "site/user/settings/_partials/_picture.html.twig" %}
+                    <!--end col-->
+                    <div class="col-xxl-9">
+                        <div class="col-12">
+                            {% for label, messages in app.flashes %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }} shadow d-flex justify-content-between mb-2 z-99" role="alert">
+                                        <strong>
+                                            {{ message }}
+                                        </strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div class="card mt-xxl-n5">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                                            <i class="fas fa-home"></i> Infos personnel
+                                        </a>
+                                    </li>
+                                    {# <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
+                                            <i class="far fa-user"></i> Changer son mot de passe
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#children" role="tab">
+                                            <i class="far fa-envelope"></i> Vos enfants
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
+                                            <i class="far fa-envelope"></i> Privacy Policy
+                                        </a>
+                                    </li> #}
+                                </ul>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="tab-content">
+                                    {% include "site/user/settings/_partials/_personnalDetails.html.twig" %}
+                                    {# {% include "site/user/settings/_partials/_changePassword.html.twig" %}
+                                    {% include "site/user/settings/_partials/_children.html.twig" %}
+                                    
+                                    {% include "site/user/settings/_partials/_privacy.html.twig" %} #}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <!-- resetForm js -->
+    <script>
+        function resetForm() {
+            document.querySelector('.settings_user_form').reset();
+        }
+    </script>
+    <!-- profile-setting init js -->
+    <script src="{{ asset('/js/pages/profile-setting.init.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% for role in user.roles %}
+    {% if (role == constant('App\\Entity\\User::ROLE_ADMIN')) %}
+        <span class="badge rounded-pill bg-danger fs-12">Admin</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_USER')) %}
+        <span class="badge rounded-pill bg-info fs-12">Parent</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_BABY')) %}
+        <span class="badge rounded-pill bg-secondary fs-12">Secrétaire baby</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_U6')) %}
+        <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U6</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_U8')) %}
+        <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U8</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_U10')) %}
+        <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U10</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_U12')) %}
+        <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U12</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_SECRETARY_U14')) %}
+        <span class="badge rounded-pill bg-secondary fs-12">Secrétaire U14</span>
+    {% elseif (role == constant('App\\Entity\\User::ROLE_COACH')) %}
+        <span class="badge rounded-pill bg-success fs-12">Entraineur</span>
+    {% else %}
+        <span class="badge rounded-pill bg-warning fs-12">{{ role }}</span>
+    {% endif %}
+{% endfor %}

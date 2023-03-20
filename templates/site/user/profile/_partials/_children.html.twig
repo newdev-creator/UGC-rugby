@@ -1,0 +1,53 @@
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-4">
+            <div class="flex-grow-1">
+                <h5 class="card-title mb-0">Vos enfants</h5>
+            </div>
+            <div class="flex-shrink-0">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newChildModal">
+                    <i class="ri-add-box-line align-bottom"></i>
+                    Ajouter
+                </button>
+            </div>
+        </div>
+        <div>
+            {% for child in active_child %}
+                {% if child %}
+
+                    <div class="d-flex align-items-center py-3">
+                        <div class="avatar-xs flex-shrink-0 me-3">
+                            {% if child.childPictureName %}
+                                <img src="{{ asset('/uploads/images/child_pictures/' ~ child.childPictureName) }}" alt="Photo enfant" class="img-fluid rounded-circle shadow"/>
+                            {% else %}
+                                <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" alt="Photo enfant" class="img-fluid rounded-circle shadow"/>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div>
+                                <h5 class="fs-14 mb-1">{{ child.getIdentity }}</h5>
+                                <p class="fs-13 text-muted mb-0">
+                                    {{ child.birthday|age }} ans
+                                </p>
+                                <p class="fs-13 text-muted mb-0">
+                                    <div class="badge rounded-pill bg-danger fs-12">{{ child.category.name }}</div>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            {% include "site/user/profile/_partials/_delete_child.html.twig" %}
+                        </div>
+                    </div>
+
+                {% endif %}
+            {% else %}
+                <div class="d-flex align-items-center py-3">
+                    <p>Aucun enfants renseigné...</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    <!-- end card body -->
+</div>
+<!--end card-->

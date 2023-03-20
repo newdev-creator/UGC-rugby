@@ -1,0 +1,31 @@
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title mb-3">Info</h5>
+		<div class="table-responsive">
+			<table class="table table-borderless mb-0">
+				<tbody>
+					<tr>
+						<th class="ps-0" scope="row">Téléphone :</th>
+						<td class="text-muted">{{ user.phone }}</td>
+					</tr>
+					<tr>
+						<th class="ps-0" scope="row">E-mail :</th>
+						<td class="text-muted">{{ user.email }}</td>
+					</tr>
+					<tr>
+						<th class="ps-0" scope="row">Adresse :</th>
+						<td class="text-muted">{{ user.address }}
+							{{ user.postalCode }}
+							{{ user.city }}</td>
+					</tr>
+					<tr>
+						<th class="ps-0" scope="row">Date d'inscription</th>
+						<td class="text-muted">{{ user.addedAt|date ('d M, Y') }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- end card body -->
+</div>
+<!-- end card -->

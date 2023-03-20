@@ -3,44 +3,61 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {
+    const MATCH = 1;
+    const TOURNAMENT = 2;
+    const TRAINING = 3;
+    const OTHER = 4;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $status = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $postalCode = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $city = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['event:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $nbMinus = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Groups(['event:read'])]
     private ?int $nbRegistrant = null;
 
     #[ORM\Column]
@@ -50,7 +67,7 @@ class Event
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?int $isActive = null;
+    private ?int $isActive = 1;
 
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'event')]
     private Collection $categories;
@@ -58,10 +75,20 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Carpool::class)]
     private Collection $carpool;
 
+    #[ORM\ManyToMany(targetEntity: UserChild::class, inversedBy: 'events')]
+    private Collection $child;
+
     public function __construct()
     {
+        $this->setAddedAt(new DateTimeImmutable());
         $this->categories = new ArrayCollection();
         $this->carpool = new ArrayCollection();
+        $this->child = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
     public function getId(): ?int
@@ -266,6 +293,30 @@ class Event
                 $carpool->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserChild>
+     */
+    public function getChild(): Collection
+    {
+        return $this->child;
+    }
+
+    public function addChild(UserChild $child): self
+    {
+        if (!$this->child->contains($child)) {
+            $this->child->add($child);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(UserChild $child): self
+    {
+        $this->child->removeElement($child);
 
         return $this;
     }

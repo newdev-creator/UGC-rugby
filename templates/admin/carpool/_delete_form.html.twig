@@ -1,0 +1,13 @@
+<form 
+    method="post" 
+    action="{{ path('admin_carpool_delete', {'carpool': carpool.id}) }}"
+    onsubmit="return confirm('Voulez-vous supprimer ce covoiturage? Il sera impossible de le récupérer par la suite.');"
+>
+
+    <input 
+        type="hidden" 
+        name="_token" 
+        value="{{ csrf_token('admin_carpool_delete_' ~ carpool.id) }}"
+    >
+    <button class="dropdown-item remove-item-btn"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer</button>
+</form>

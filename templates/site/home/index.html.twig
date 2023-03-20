@@ -1,0 +1,44 @@
+{{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Accueil'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content home-js-filter">
+            <div class="container-fluid">
+                {{ include('partials/page-title.html.twig', {pagetitle: 'Accueil', title: 'Liste des événements à venir'}) }}
+                {% include ('site/home/_partials/_messages.html.twig') %}
+                <div class="row g-4 mb-3">
+                    <div class="col-sm">
+                        {% include('site/home/_partials/_form_filter.html.twig') %}
+                    </div>
+                </div>
+                <div class="row home-js-filter-content">
+                    {% include "site/home/_partials/_events.html.twig" %}
+                </div>
+                <div class="row g-0 text-center text-sm-start align-items-center mb-4">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0 home-js-filter-pagination">
+                            {% include "site/home/_partials/_pagination.html.twig" %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <!-- project list init -->
+    <script src="{{ asset('/js/pages/project-list.init.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
+</body>
+</html>

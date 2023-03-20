@@ -1,0 +1,9 @@
+{% if (event.status == constant('App\\Entity\\Event::MATCH')) %}
+    <span class="badge rounded-pill bg-warning fs-12">Match</span>
+{% elseif (event.status == constant('App\\Entity\\Event::TOURNAMENT')) %}
+    <span class="badge rounded-pill bg-danger fs-12">Tournois</span>
+{% elseif (event.status == constant('App\\Entity\\Event::TRAINING')) %}
+    <span class="badge rounded-pill bg-info fs-12">Entrainement</span>
+{% elseif (event.status == constant('App\\Entity\\Event::OTHER')) %}
+    <span class="badge rounded-pill bg-success fs-12">Autre</span>
+{% endif %}

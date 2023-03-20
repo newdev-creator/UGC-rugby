@@ -1,0 +1,74 @@
+{{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Voir un message'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                {{ include('partials/page-title.html.twig', {pagetitle: 'Administration', title: 'Voir un message'}) }}
+                <div class="row">
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ path('admin_message_index') }}" class="btn btn-success">Retour</a>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                {% if message.color == 'danger' %}
+                                    <div class="alert alert-danger alert-dismissible alert-solid alert-label-icon shadow fade show" role="alert">
+                                        <i class="ri-error-warning-line label-icon"></i><strong>{{ message.title }}</strong>
+                                    </div>
+                                {% elseif message.color == 'warning' %}
+                                    <div class="alert alert-warning alert-dismissible alert-solid alert-label-icon shadow fade show" role="alert">
+                                        <i class="ri-alert-line label-icon"></i><strong>{{ message.title }}</strong>
+                                    </div>
+                                {% elseif message.color == 'info' %}
+                                    <div class="alert alert-info alert-dismissible alert-solid alert-label-icon shadow fade show" role="alert">
+                                        <i class="ri-airplay-line label-icon"></i><strong>{{ message.title }}</strong>
+                                    </div>
+                                {% endif %}
+                                <div class="row align-items-end">
+                                    <div class="col-sm-8">
+                                        <div class="p-3">
+                                            {{ message.description|raw }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {% if message.color == 'danger' %}
+                                            <div class="px-3">
+                                                <img src="{{ asset('/images/widget-img.png') }}" class="img-fluid" alt="">
+                                            </div>
+                                        {% elseif message.color == 'warning' %}
+                                            <div class="px-3">
+                                                <img src="{{ asset('/images/user-illustarator-2.png') }}" class="img-fluid" alt="">
+                                            </div>
+                                        {% elseif message.color == 'info' %}
+                                            <div class="px-3">
+                                                <img src="{{ asset('/images/verification-img.png') }}" class="img-fluid" alt="">
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end mb-4">
+                            <a href="{{ path('admin_message_index') }}" class="btn btn-danger w-sm">Annuler</a>
+                            <a href="{{ path('admin_message_edit', {'message':message.id}) }}) }}" class="btn btn-success w-sm">Modifier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,12 @@
+<form
+    method="post"
+    action="{{ path('admin_user_delete', {'user': user.id}) }}"
+    onsubmit="return confirm('Voulez-vous supprimer le parent: {{ user.firstName }} {{ user.lastName }}?');"
+>
+    <input
+        type="hidden"
+        name="_token"
+        value="{{ csrf_token('admin_user_delete_' ~ user.id) }}"
+    >
+    <button class="dropdown-item remove-item-btn"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Supprimer</button>
+</form>

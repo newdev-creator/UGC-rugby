@@ -1,0 +1,18 @@
+<div class="col-xxl-3">
+    <div class="card mt-n5">
+        <div class="card-body p-4">
+            <div class="text-center">
+                <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
+                    {% if user.userPictureName %}
+                        <img src="{{ asset('/uploads/images/user_pictures/' ~ user.userPictureName) }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image mb-2  shadow" alt="user-profile-image">
+                    {% else %}
+                        <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image mb-2  shadow" alt="user-profile-image">
+                    {% endif %}
+                    {{ form_start(settings_user_form, {'attr': {'class': 'settings_user_form'}}) }}
+                    {{ form_widget(settings_user_form.userPictureFile) }}
+                </div>
+                <h5 class="fs-16 mb-1">{{ user.getIdentity }}</h5>
+            </div>
+        </div>
+    </div>
+</div>

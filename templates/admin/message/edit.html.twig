@@ -1,0 +1,25 @@
+{{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Modifier un message'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                {{ include('partials/page-title.html.twig', {pagetitle: 'Administration', title: 'Modifier un message'}) }}
+                {{ include('admin/message/_form.html.twig', {'button_label': 'Modifier'}) }}
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
+</body>
+</html>

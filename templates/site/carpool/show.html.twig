@@ -1,0 +1,94 @@
+{{ include('partials/main.html.twig') }}
+<head>
+    {{ include('partials/title-meta.html.twig', {title: 'Covoiturage'}) }}
+    {{ include('partials/head-css.html.twig') }}
+</head>
+<body>
+<div id="layout-wrapper">
+    {{ include('partials/menu.html.twig') }}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mt-n4 mx-n4">
+                            <div class="bg-soft-primary">
+                                <div class="card-body pb-0 px-4">
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <div class="row align-items-center g-3">
+                                                <div class="col-md-auto">
+                                                    <div class="avatar-md">
+                                                        <div class="avatar-title bg-white rounded-circle">
+                                                            {% for user in carpool.users %}
+                                                                {% if user.userPictureName %}
+                                                                    <img src="{{ asset('/uploads/images/user_pictures/' ~ user.userPictureName) }}" alt="Photo {{ user.getIdentity }}" class="avatar-xs">
+                                                                {% else %}
+                                                                    <img src="{{ asset('/images/users/user-dummy-img.jpg') }}}" alt="" class="avatar-xs">
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div>
+                                                        <h4 class="fw-bold">
+                                                            Covoiturage -
+                                                            {% for user in carpool.users %}
+                                                                {{   user.getIdentity }}
+                                                            {% endfor %}
+                                                        </h4>
+                                                        <div class="hstack gap-3 flex-wrap">
+                                                            <div><i class="ri-building-line align-bottom me-1"></i>Lieu du rendez-vous: <span class="fw-medium">{{ carpool.address }} {{ carpool.postalCode }} {{ carpool.city }}</span></div>
+                                                            <div class="vr"></div>
+                                                            <div>Date du rendez-vous : <span class="fw-medium">{{ carpool.date|date('d/m/Y à H:i') }}</span></div>
+                                                            <div class="vr"></div>
+                                                            <div>Nombre de places : <span class="fw-medium">{{ carpool.nbPlace }}</span></div>
+                                                            <div class="vr"></div>
+                                                            <div>Statut :</div>
+                                                            {% if carpool.child|length == carpool.nbPlace %}
+                                                                <span class="badge rounded-pill bg-danger fs-12">Complet</span>
+                                                            {% else %}
+                                                                <span class="badge rounded-pill bg-success fs-12">Disponible</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="tab-content text-muted">
+                            <div class="tab-pane fade show active" id="project-overview" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-xl-9 col-lg-8">
+                                        {% include ('site/carpool/_partials/_comment.html.twig') %}
+                                        {% include ('site/carpool/_partials/_registration.html.twig') %}
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4">
+                                        {% include ('site/carpool/_partials/_registered_children.html.twig') %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('partials/footer.html.twig') }}
+    </div>
+</div>
+{{ include('partials/vendor-scripts.html.twig') }}
+{% block javascripts %}
+    <script src="{{ asset('/js/pages/project-overview.init.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ asset('/js/app.js') }}"></script>
+{% endblock %}
+</body>
+</html>
