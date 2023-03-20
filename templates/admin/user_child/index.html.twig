@@ -32,7 +32,6 @@
                                     </thead>
                                     <tbody>
                                     {% for child in user_children %}
-                                        {% dump(child) %}
                                         <tr>
                                             <td>{{ child.id }}</td>
                                             <td>{{ child.firstName }} {{ child.lastName }}</td>
