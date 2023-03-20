@@ -15,21 +15,12 @@
                     </div>
                 </div>
                 <div class="row">
+
                     {% include "site/user/settings/_partials/_picture.html.twig" %}
                     <!--end col-->
                     <div class="col-xxl-9">
-                        <div class="col-12">
-                            {% for label, messages in app.flashes %}
-                                {% for message in messages %}
-                                    <div class="alert alert-{{ label }} shadow d-flex justify-content-between mb-2 z-99" role="alert">
-                                        <strong>
-                                            {{ message }}
-                                        </strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                        </div>
+                        {# TODO: positionner le add flash #}
+                        {% include ('partials/_flash_message.html.twig') %}
                         <div class="card mt-xxl-n5">
                             <div class="card-header">
                                 <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">

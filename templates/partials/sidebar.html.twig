@@ -3,7 +3,7 @@
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
-        <a href="/" class="logo logo-dark">
+        <a href="{{ path('app_home') }}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ asset('/images/logo-sm.png') }}" alt="" height="22">
             </span>
@@ -12,7 +12,7 @@
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="/" class="logo logo-light">
+        <a href="{{ path('app_home') }}" class="logo logo-light">
             <span class="logo-sm">
                 <img src="{{ asset('/images/logo-sm.png') }}" alt="" height="22">
             </span>
@@ -35,7 +35,7 @@
                         <i class="mdi mdi-speedometer"></i> <span>Evénements</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {# <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ path('carpool_index') }}">
                         <i class="mdi mdi-speedometer"></i> <span>Covoiturage</span>
                     </a>
@@ -44,7 +44,7 @@
                     <a class="nav-link menu-link" href="#">
                         <i class="mdi mdi-speedometer"></i> <span>Contact</span>
                     </a>
-                </li>
+                </li> #}
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
