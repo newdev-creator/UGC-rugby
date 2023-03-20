@@ -5,6 +5,7 @@ namespace App\Controller\site;
 use App\Data\SearchData;
 use App\Form\SearchType;
 use App\Repository\EventRepository;
+use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class HomeController extends AbstractController
     public function index(
         EventRepository $er,
         Request $request,
+        MessageRepository $messageRepository,
     ): Response
     {
         $data = new SearchData();
@@ -34,7 +36,8 @@ class HomeController extends AbstractController
 
         return $this->render('site/home/index.html.twig', [
             'events' => $events,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'messages' => $messageRepository->findAll(),
         ]);
     }
 }
