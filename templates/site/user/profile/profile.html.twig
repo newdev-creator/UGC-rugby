@@ -10,20 +10,6 @@
 		{{ include('partials/menu.html.twig') }}
 			<div class="main-content"> <div class="page-content">
 				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12">
-							{% for label, messages in app.flashes %}
-								{% for message in messages %}
-									<div class="alert alert-{{ label }} shadow d-flex justify-content-between mb-2 z-99" role="alert">
-										<strong>
-											{{ message }}
-										</strong>
-										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-									</div>
-								{% endfor %}
-							{% endfor %}
-						</div>
-					</div>
 					<div class="profile-foreground position-relative mx-n4 mt-n4">
 						<div class="profile-wid-bg">
 							<img src="/images/profile-bg.jpg" alt="" class="profile-wid-img"/>
@@ -59,6 +45,7 @@
 							<div class="tab-content pt-4 text-muted">
 								<div class="tab-pane active" id="overview-tab" role="tabpanel">
 									<div class="row">
+										{% include ('partials/_flash_message.html.twig') %}
 										<div class="col-xxl-3">
 											{% include "site/user/profile/_partials/_info.html.twig" %}
 											{% include "site/user/profile/_partials/_children.html.twig" %}

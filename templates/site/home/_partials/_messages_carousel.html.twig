@@ -10,7 +10,6 @@
             {% set interval = 10000 %}
             {% set is_first_iteration = 1 %}
             {% for message in messages %}
-                {% dump(message) %}
                 <div class="carousel-item{% if is_first_iteration %} active{% endif %}" data-bs-interval="{{ interval }}">
                     {% if message.color == 'danger' %}
                         <div class="alert alert-danger border-0 rounded-top rounded-0 m-0 d-flex align-items-center" role="alert">

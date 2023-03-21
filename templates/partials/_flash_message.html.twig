@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-12">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} shadow d-flex justify-content-between" role="alert">
+                    <strong> {{ message }} </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
