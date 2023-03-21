@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class Settings_userType extends AbstractType
@@ -64,11 +65,21 @@ class Settings_userType extends AbstractType
               ]
             ])
             ->add('userPictureFile', VichImageType::class, [
+                'help' => 'Formats acceptés : jpg, jpeg, png. Taille maximale : 5Mo',
                 'required' => false,
                 'allow_delete' => false,
                 'download_uri' => false,
                 'image_uri' => false,
                 'asset_helper' => false,
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '5000k',
+                        'mimeTypes' => [
+                            'image/jpeg', 'image/png', 'image/jpg'
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un document image valide (jpg, jpeg, png)',
+                    ])
+                ],
             ])
         ;
     }

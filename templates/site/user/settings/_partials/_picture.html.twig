@@ -8,8 +8,9 @@
                     {% else %}
                         <img src="{{ asset('/images/users/user-dummy-img.jpg') }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image mb-2  shadow" alt="user-profile-image">
                     {% endif %}
-                    {{ form_start(settings_user_form, {'attr': {'class': 'settings_user_form'}}) }}
+                    {{ form_start(settings_user_form, {'attr': {'class': 'settings_user_form '}}) }}
                     {{ form_widget(settings_user_form.userPictureFile) }}
+                    <p class="text-muted mt-2">* La photo ne doit pas dépasser 2Mo.</p>
                 </div>
                 <h5 class="fs-16 mb-1">{{ user.getIdentity }}</h5>
             </div>

@@ -52,7 +52,7 @@ class User_UserChildType extends AbstractType
                 ]
             ])
             ->add('childPictureFile', VichImageType::class, [
-                'help' => 'Formats acceptés : jpg, jpeg, png. Taille maximale : 5Mo',
+                'help' => 'Formats acceptés : jpg, jpeg, png. Taille maximale : 2Mo',
                 'label' => 'Photo',
                 'required' => false,
                 'allow_delete' => false,
