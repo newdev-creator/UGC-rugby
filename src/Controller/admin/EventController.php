@@ -50,6 +50,12 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $categories = $form->get('categories')->getData();
+
+            foreach ($categories as $category) {
+                $event->addCategory($category);
+            }
+
             $eventRepository->save($event, true);
             $this->addFlash('success', 'L\'événement a bien été créé');
             return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
@@ -80,6 +86,11 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $categories = $form->get('categories')->getData();
+
+            foreach ($categories as $category) {
+                $event->addCategory($category);
+            }
             $eventRepository->save($event, true);
             $this->addFlash('success', "L'événement {$event->getTitle()} a bien été modifié");
             return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);

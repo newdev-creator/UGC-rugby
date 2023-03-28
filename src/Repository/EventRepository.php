@@ -95,7 +95,8 @@ class EventRepository extends ServiceEntityRepository
             ->select('c', 'e')
             ->join('e.categories', 'c')
             ->andWhere('e.isActive = :isActive')
-            ->setParameter('isActive', 1);
+            ->setParameter('isActive', 1)
+            ->orderBy('e.date', 'DESC');
 
         // Search by title
         if (!empty($search->q)) {
@@ -108,7 +109,8 @@ class EventRepository extends ServiceEntityRepository
         if (!empty($search->categories)) {
             $query = $query
                 ->andWhere('c.id IN (:categories)')
-                ->setParameter('categories', $search->categories);
+                ->setParameter('categories', $search->categories)
+                ->orderBy('e.date', 'DESC');
         }
         $query = $query->getQuery();
         return $this->paginator->paginate(
