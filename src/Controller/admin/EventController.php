@@ -2,6 +2,7 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Category;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Helpers\ConnectedUserByRoles;
@@ -56,6 +57,7 @@ class EventController extends AbstractController
                 $event->addCategory($category);
             }
 
+
             $eventRepository->save($event, true);
             $this->addFlash('success', 'L\'événement a bien été créé');
             return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
@@ -87,11 +89,11 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $categories = $form->get('categories')->getData();
-
             foreach ($categories as $category) {
                 $event->addCategory($category);
             }
-            $eventRepository->save($event, true);
+
+            $this->em->flush();
             $this->addFlash('success', "L'événement {$event->getTitle()} a bien été modifié");
             return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
         }

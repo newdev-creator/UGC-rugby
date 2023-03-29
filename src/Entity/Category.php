@@ -31,7 +31,7 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: UserChild::class)]
     private Collection $child;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'categories')]
     private Collection $event;
 
     public function __construct()

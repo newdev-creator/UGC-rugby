@@ -69,7 +69,7 @@ class Event
     #[ORM\Column]
     private ?int $isActive = 1;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'event')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'event')]
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Carpool::class)]

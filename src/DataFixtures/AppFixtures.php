@@ -155,12 +155,12 @@ class AppFixtures extends Fixture
             $carpool->addChild($child);
         }
 
-        // CATEGORY - EVENTS
+        // EVENT - CATEGORY
         for ($i = 0; $i < 100; $i++) {
-            $category = $categoryList[array_rand($categoryList)];
             $event = $eventList[array_rand($eventList)];
-            $category->addEvent($event);
+            $category = $categoryList[array_rand($categoryList)];
             $event->addCategory($category);
+            $category->addEvent($event);
         }
 
         // MESSAGES
