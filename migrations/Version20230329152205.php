@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230316102325 extends AbstractMigration
+final class Version20230329152205 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,8 +23,8 @@ final class Version20230316102325 extends AbstractMigration
         $this->addSql('CREATE TABLE carpool (id INT AUTO_INCREMENT NOT NULL, event_id INT DEFAULT NULL, status INT NOT NULL, date DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', address VARCHAR(255) NOT NULL, postal_code VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, comment LONGTEXT DEFAULT NULL, nb_place INT NOT NULL, added_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', is_active INT NOT NULL, INDEX IDX_E95D90CC71F7E88B (event_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE carpool_user_child (carpool_id INT NOT NULL, user_child_id INT NOT NULL, INDEX IDX_D6A0F13C9A6F0DAE (carpool_id), INDEX IDX_D6A0F13C3DEF261B (user_child_id), PRIMARY KEY(carpool_id, user_child_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, added_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', is_active INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE category_event (category_id INT NOT NULL, event_id INT NOT NULL, INDEX IDX_D39D45EE12469DE2 (category_id), INDEX IDX_D39D45EE71F7E88B (event_id), PRIMARY KEY(category_id, event_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE event (id INT AUTO_INCREMENT NOT NULL, status INT NOT NULL, title VARCHAR(255) NOT NULL, date DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', address VARCHAR(255) NOT NULL, postal_code VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, nb_minus INT NOT NULL, nb_registrant INT DEFAULT NULL, added_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', is_active INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE event_category (event_id INT NOT NULL, category_id INT NOT NULL, INDEX IDX_40A0F01171F7E88B (event_id), INDEX IDX_40A0F01112469DE2 (category_id), PRIMARY KEY(event_id, category_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE event_user_child (event_id INT NOT NULL, user_child_id INT NOT NULL, INDEX IDX_989F765E71F7E88B (event_id), INDEX IDX_989F765E3DEF261B (user_child_id), PRIMARY KEY(event_id, user_child_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE message (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, color VARCHAR(255) NOT NULL, start_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', end_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', added_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', is_active INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE reset_password_request (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', expires_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_7CE748AA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -35,8 +35,8 @@ final class Version20230316102325 extends AbstractMigration
         $this->addSql('ALTER TABLE carpool ADD CONSTRAINT FK_E95D90CC71F7E88B FOREIGN KEY (event_id) REFERENCES event (id)');
         $this->addSql('ALTER TABLE carpool_user_child ADD CONSTRAINT FK_D6A0F13C9A6F0DAE FOREIGN KEY (carpool_id) REFERENCES carpool (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE carpool_user_child ADD CONSTRAINT FK_D6A0F13C3DEF261B FOREIGN KEY (user_child_id) REFERENCES user_child (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE category_event ADD CONSTRAINT FK_D39D45EE12469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE category_event ADD CONSTRAINT FK_D39D45EE71F7E88B FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE event_category ADD CONSTRAINT FK_40A0F01171F7E88B FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE event_category ADD CONSTRAINT FK_40A0F01112469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE event_user_child ADD CONSTRAINT FK_989F765E71F7E88B FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE event_user_child ADD CONSTRAINT FK_989F765E3DEF261B FOREIGN KEY (user_child_id) REFERENCES user_child (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
@@ -52,8 +52,8 @@ final class Version20230316102325 extends AbstractMigration
         $this->addSql('ALTER TABLE carpool DROP FOREIGN KEY FK_E95D90CC71F7E88B');
         $this->addSql('ALTER TABLE carpool_user_child DROP FOREIGN KEY FK_D6A0F13C9A6F0DAE');
         $this->addSql('ALTER TABLE carpool_user_child DROP FOREIGN KEY FK_D6A0F13C3DEF261B');
-        $this->addSql('ALTER TABLE category_event DROP FOREIGN KEY FK_D39D45EE12469DE2');
-        $this->addSql('ALTER TABLE category_event DROP FOREIGN KEY FK_D39D45EE71F7E88B');
+        $this->addSql('ALTER TABLE event_category DROP FOREIGN KEY FK_40A0F01171F7E88B');
+        $this->addSql('ALTER TABLE event_category DROP FOREIGN KEY FK_40A0F01112469DE2');
         $this->addSql('ALTER TABLE event_user_child DROP FOREIGN KEY FK_989F765E71F7E88B');
         $this->addSql('ALTER TABLE event_user_child DROP FOREIGN KEY FK_989F765E3DEF261B');
         $this->addSql('ALTER TABLE reset_password_request DROP FOREIGN KEY FK_7CE748AA76ED395');
@@ -64,8 +64,8 @@ final class Version20230316102325 extends AbstractMigration
         $this->addSql('DROP TABLE carpool');
         $this->addSql('DROP TABLE carpool_user_child');
         $this->addSql('DROP TABLE category');
-        $this->addSql('DROP TABLE category_event');
         $this->addSql('DROP TABLE event');
+        $this->addSql('DROP TABLE event_category');
         $this->addSql('DROP TABLE event_user_child');
         $this->addSql('DROP TABLE message');
         $this->addSql('DROP TABLE reset_password_request');
