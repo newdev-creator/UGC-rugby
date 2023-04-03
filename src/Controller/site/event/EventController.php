@@ -34,11 +34,16 @@ class EventController extends AbstractController
         if ($formSubscribeEvent->isSubmitted() && $formSubscribeEvent->isValid()) {
             $children = $formSubscribeEvent->get('child')->getData();
             foreach ( $children as $child ) {
-                $event->addChild($child);
-                $event->setNbRegistrant($event->getNbRegistrant() + 1);
+                if (!$event->getChild()->contains($child)) {
+                    $event->addChild($child);
+                    $event->setNbRegistrant($event->getNbRegistrant() + 1);
+                    $this->addFlash('success', 'L\'enfant '.$child->getFirstName().' est inscrit à cet événement.');
+                } else {
+                    $this->addFlash('warning', 'L\'enfant '.$child->getFirstName().' est déjà inscrit à cet événement.');
+                }
             }
             $this->em->flush();
-            $this->addFlash('success', 'Vous êtes inscrit à l\'événement');
+            
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
         }
 
@@ -52,7 +57,7 @@ class EventController extends AbstractController
                 $carpool->removeChild($child);
             }
             $this->em->flush();
-            $this->addFlash('success', 'Vous avez été désinscrit de l\'événement');
+            $this->addFlash('success', 'L\'enfant '.$child->getFirstName().' est désinscrit de cet événement.');
             return $this->redirectToRoute('event_show', ['event' => $event->getId()]);
         }
 
