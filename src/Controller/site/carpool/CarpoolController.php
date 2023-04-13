@@ -41,10 +41,14 @@ class CarpoolController extends AbstractController
         if ($formSubscribeCarpool->isSubmitted() && $formSubscribeCarpool->isValid()) {
             $children = $formSubscribeCarpool->get('child')->getData();
             foreach ( $children as $child ) {
-                $carpool->addChild($child);
+                if (!$carpool->getChild()->contains($child)) {
+                    $carpool->addChild($child);
+                    $this->addFlash('success', 'L\'enfant '.$child->getFirstName().' est inscrit à ce covoiturage.');
+                } else {
+                    $this->addFlash('warning', 'L\'enfant '.$child->getFirstName().' est déjà inscrit à ce covoiturage.');
+                }
             }
             $this->em->flush();
-            $this->addFlash('success', 'Vous êtes inscrit au covoiturage');
             return $this->redirectToRoute('carpool_show', ['carpool' => $carpool->getId()]);
         }
 
